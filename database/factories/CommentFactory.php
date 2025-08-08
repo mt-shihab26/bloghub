@@ -23,7 +23,7 @@ class CommentFactory extends Factory
         return [
             'user_id' => User::inRandomOrder()->id,
             'post_id' => Post::inRandomOrder()->id,
-            'comment_id' => fake()->optional() && Comment::inRandomOrder()->id,
+            'comment_id' => fake()->optional() ? Comment::inRandomOrder()->id : null,
             'content' => fake()->paragraph(),
             'status' => fake()->randomElement(CommentStatus::values()),
         ];

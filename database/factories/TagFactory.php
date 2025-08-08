@@ -17,10 +17,12 @@ class TagFactory extends Factory
      */
     public function definition(): array
     {
+        $name = fake()->unique()->word();
+
         return [
             'user_id' => User::inRandomOrder()->first()?->id,
-            'name' => fake()->unique()->word(),
-            'slug' => fn ($tag) => str()->slug($tag->name),
+            'name' => $name,
+            'slug' => str()->slug($name),
         ];
     }
 }

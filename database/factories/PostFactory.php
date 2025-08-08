@@ -20,13 +20,15 @@ class PostFactory extends Factory
      */
     public function definition(): array
     {
+        $title = fake()->unique()->sentence();
+
         return [
             'user_id' => User::inRandomOrder()->first()?->id,
-            'image_id' => fake()->optional() && Image::inRandomOrder()->first()?->id,
-            'category_id' => fake()->optional() && Category::inRandomOrder()->first()?->id,
-            'title' => fake()->unique()->sentence(),
-            'slug' => fn ($post) => str()->slug($post->title),
-            'content' => fake()->paragraphs(mt_rand(3, 7), true),
+            'image_id' => fake()->optional() ? Image::inRandomOrder()->first()?->id : null,
+            'category_id' => fake()->optional() ? Category::inRandomOrder()->first()?->id : null,
+            'title' => $title,
+            'slug' => str()->slug($title),
+            'content' => fake()->paragraphs(),
             'excerpt' => fake()->paragraph(),
             'status' => fake()->randomElement(PostStatus::values()),
             'published_at' => fake()->dateTimeBetween('-1 year', 'now'),
