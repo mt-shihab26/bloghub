@@ -7,14 +7,17 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/admin')->middleware(['auth', 'verified'])->group(function () {
     Route::redirect('/', '/admin/dashboard')->name('admin');
 
-    Route::get('/dashboard', fn () => inertia('admin/dashboard'))->name('dashboard');
+    Route::prefix('/dashboard')->group(function () {
+        Route::get('/', fn () => inertia('admin/dashboard'))->name('admin.dashboard');
+    });
 
-    Route::redirect('/settings', '/admin/settings/profile')->name('admin.settings');
-
-    Route::get('/settings/profile', [ProfileController::class, 'edit'])->name('admin.settings.profile.edit');
-    Route::patch('/settings/profile', [ProfileController::class, 'update'])->name('admin.settings.profile.update');
-    Route::delete('/settings/profile', [ProfileController::class, 'destroy'])->name('admin.settings.profile.destroy');
-    Route::get('/settings/password', [PasswordController::class, 'edit'])->name('admin.settings.password.edit');
-    Route::put('/settings/password', [PasswordController::class, 'update'])->middleware('throttle:6,1')->name('admin.settings.password.update');
-    Route::get('/settings/appearance', fn () => inertia('admin/settings/appearance'))->name('admin.settings.appearance');
+    Route::prefix('/settings')->group(function () {
+        Route::redirect('/', '/admin/settings/profile')->name('admin.settings');
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('admin.settings.profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('admin.settings.profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('admin.settings.profile.destroy');
+        Route::get('/password', [PasswordController::class, 'edit'])->name('admin.settings.password.edit');
+        Route::put('/password', [PasswordController::class, 'update'])->middleware('throttle:6,1')->name('admin.settings.password.update');
+        Route::get('/appearance', fn () => inertia('admin/settings/appearance'))->name('admin.settings.appearance');
+    });
 });
