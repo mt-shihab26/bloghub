@@ -41,7 +41,7 @@ jobs:
         run: php artisan key:generate
 
       - name: TypeScript Tests
-        run: bun run test
+        run: LARAVEL_BYPASS_ENV_CHECK=1 bun run test
 
       - name: PHP Tests
         run: composer run-script test
