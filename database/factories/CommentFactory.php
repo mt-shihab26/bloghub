@@ -21,9 +21,9 @@ class CommentFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::inRandomOrder()->id,
-            'post_id' => Post::inRandomOrder()->id,
-            'comment_id' => fake()->optional() ? Comment::inRandomOrder()->id : null,
+            'user_id' => User::inRandomOrder()->first()?->id,
+            'post_id' => Post::inRandomOrder()->first()?->id,
+            'comment_id' => fake()->optional() ? Comment::inRandomOrder()->first()?->id : null,
             'content' => fake()->paragraph(),
             'status' => fake()->randomElement(CommentStatus::values()),
         ];

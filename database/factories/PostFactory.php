@@ -28,7 +28,7 @@ class PostFactory extends Factory
             'category_id' => fake()->optional() ? Category::inRandomOrder()->first()?->id : null,
             'title' => $title,
             'slug' => str()->slug($title),
-            'content' => fake()->paragraphs(),
+            'content' => implode("\n\n", fake()->paragraphs()),
             'excerpt' => fake()->paragraph(),
             'status' => fake()->randomElement(PostStatus::values()),
             'published_at' => fake()->dateTimeBetween('-1 year', 'now'),
