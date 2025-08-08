@@ -9,12 +9,12 @@ Route::prefix('/admin')->middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/dashboard', fn () => inertia('admin/dashboard'))->name('dashboard');
 
-    Route::redirect('settings', '/admin/settings/profile')->name('admin.settings');
+    Route::redirect('/settings', '/admin/settings/profile')->name('admin.settings');
 
-    Route::get('settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('settings/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('settings/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('settings/password', [PasswordController::class, 'edit'])->name('password.edit');
-    Route::put('settings/password', [PasswordController::class, 'update'])->middleware('throttle:6,1')->name('password.update');
-    Route::get('settings/appearance', fn () => inertia('admin/settings/appearance'))->name('appearance');
+    Route::get('/settings/profile', [ProfileController::class, 'edit'])->name('admin.settings.profile.edit');
+    Route::patch('/settings/profile', [ProfileController::class, 'update'])->name('admin.settings.profile.update');
+    Route::delete('/settings/profile', [ProfileController::class, 'destroy'])->name('admin.settings.profile.destroy');
+    Route::get('/settings/password', [PasswordController::class, 'edit'])->name('admin.settings.password.edit');
+    Route::put('/settings/password', [PasswordController::class, 'update'])->middleware('throttle:6,1')->name('admin.settings.password.update');
+    Route::get('/settings/appearance', fn () => inertia('admin/settings/appearance'))->name('admin.settings.appearance');
 });
