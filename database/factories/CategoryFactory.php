@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,11 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'user_id' => User::inRandomOrder()->first()?->id,
+            'category_id' => fake()->optional() && Category::inRandomOrder()->first()?->id,
+            'name' => fake()->unique()->words(mt_rand(1, 3), true),
+            'slug' => fn ($category) => str()->slug($category->name),
+            'description' => fake()->optional()->sentence(),
         ];
     }
 }

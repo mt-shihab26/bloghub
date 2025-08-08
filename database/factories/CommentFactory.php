@@ -2,6 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Enums\CommentStatus;
+use App\Models\Comment;
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +21,11 @@ class CommentFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'user_id' => User::inRandomOrder()->id,
+            'post_id' => Post::inRandomOrder()->id,
+            'comment_id' => fake()->optional() && Comment::inRandomOrder()->id,
+            'content' => fake()->paragraph(),
+            'status' => fake()->randomElement(CommentStatus::values()),
         ];
     }
 }
