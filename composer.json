@@ -17,6 +17,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
+        "larastan/larastan": "^3.6",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.18",
         "laravel/sail": "^1.41",
@@ -65,12 +66,15 @@
         "dev": [
             "php artisan serve"
         ],
+        "format": [
+            "vendor/bin/pint"
+        ],
+        "lint": [
+            "./vendor/bin/phpstan analyse --memory-limit=2G"
+        ],
         "test": [
             "@php artisan config:clear --ansi",
             "@php artisan test"
-        ],
-        "format": [
-            "vendor/bin/pint"
         ]
     },
     "extra": {

@@ -33,6 +33,9 @@ jobs:
       - name: Run PHP Formatter
         run: composer run-script format
 
+      - name: Run PHP Lint
+        run: composer run-script lint
+
       - name: Run TypeScript Format
         run: bun run format
 
