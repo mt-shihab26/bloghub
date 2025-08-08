@@ -1,6 +1,7 @@
 <?php
 
-use App\Enums\Status;
+use App\Enums\PostStatus;
+use App\Models\Category;
 use App\Models\Image;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -16,15 +17,15 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->uuid('id')->primary();
-
-            $table->foreignIdFor(User::class);
-            $table->foreignIdFor(Image::class);
+            $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
+            $table->foreignIdFor(Image::class)->nullable()->constrained()->onDelete('set null');
+            $table->foreignIdFor(Category::class)->nullable()->constrained()->onDelete('set null');
 
             $table->string('title');
             $table->string('slug');
             $table->text('content');
             $table->text('excerpt');
-            $table->string('status')->default(Status::DRAFT->value);
+            $table->string('status')->default(PostStatus::DRAFT->value);
             $table->timestamp('published_at');
 
             $table->timestamps();
