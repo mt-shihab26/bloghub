@@ -19,6 +19,7 @@ export type TUser = {
     id: TId;
     image_id?: TId | null;
 
+    username: string;
     role: TUserRole;
     name: string;
     email: string;

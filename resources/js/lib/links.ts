@@ -4,6 +4,10 @@ export const authorLink = (user: TUser): string => {
     return route('site.authors.profile', { user });
 };
 
+export const profileMeLink = (): string => {
+    return route('site.profile.me');
+};
+
 export const profileWriteLink = (): string => {
     return route('site.profile.write');
 };

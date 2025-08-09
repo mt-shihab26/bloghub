@@ -17,6 +17,7 @@ Route::prefix('/posts')->group(function () {
 });
 
 Route::prefix('/profile')->group(function () {
+    Route::get('/me', fn () => redirect()->route('site.authors.profile', request()->user()))->name('site.profile.me');
     Route::get('/write', [HomeController::class, 'show'])->name('site.profile.write');
     Route::get('/settings', [HomeController::class, 'show'])->name('site.profile.settings');
 });
