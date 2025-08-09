@@ -1,7 +1,15 @@
 import type { TCategory, TImage, TPost, TTag, TUser } from '@/types/models';
 
 export const authorLink = (user: TUser): string => {
-    return route('site.authors.show', { user });
+    return route('site.authors.profile', { user });
+};
+
+export const profileWriteLink = (): string => {
+    return route('site.profile.write');
+};
+
+export const profileSettingsLink = (): string => {
+    return route('site.profile.settings');
 };
 
 export const postLink = (user: TUser, post: TPost, extra?: string): string => {
