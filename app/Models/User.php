@@ -7,6 +7,8 @@ namespace App\Models;
 use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -21,6 +23,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
+        'username',
         'role',
         'name',
         'email',
@@ -54,7 +57,7 @@ class User extends Authenticatable
     /**
      * Get all images uploaded by the user.
      */
-    public function images()
+    public function images(): HasMany
     {
         return $this->hasMany(Image::class);
     }
@@ -62,7 +65,7 @@ class User extends Authenticatable
     /**
      * Get the categories created by the user.
      */
-    public function categories()
+    public function categories(): HasMany
     {
         return $this->hasMany(Category::class);
     }
@@ -70,7 +73,7 @@ class User extends Authenticatable
     /**
      * Get the tags created by the user.
      */
-    public function tags()
+    public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
     }

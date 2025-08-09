@@ -6,6 +6,8 @@ use App\Enums\PostStatus;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Post extends Model
 {
@@ -45,7 +47,7 @@ class Post extends Model
     /**
      * Get the image associated with the post.
      */
-    public function image()
+    public function image(): BelongsTo
     {
         return $this->belongsTo(Image::class);
     }
@@ -53,7 +55,7 @@ class Post extends Model
     /**
      * Get the category of the post.
      */
-    public function category()
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
@@ -61,7 +63,7 @@ class Post extends Model
     /**
      * Get the user that owns the post.
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -69,7 +71,7 @@ class Post extends Model
     /**
      * The tags associated with this post.
      */
-    public function tags()
+    public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
     }

@@ -6,6 +6,8 @@ use App\Enums\CommentStatus;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Comment extends Model
 {
@@ -40,7 +42,7 @@ class Comment extends Model
     /**
      * The user who made the comment.
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -48,7 +50,7 @@ class Comment extends Model
     /**
      * The post this comment belongs to.
      */
-    public function post()
+    public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class);
     }
@@ -56,7 +58,7 @@ class Comment extends Model
     /**
      * The parent comment (if this is a reply).
      */
-    public function comment()
+    public function comment(): BelongsTo
     {
         return $this->belongsTo(Comment::class);
     }
@@ -64,7 +66,7 @@ class Comment extends Model
     /**
      * Replies (child comments) to this comment.
      */
-    public function comments()
+    public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }

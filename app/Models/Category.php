@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
@@ -27,7 +29,7 @@ class Category extends Model
     /**
      * Get the user who owns/created this category.
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -35,7 +37,7 @@ class Category extends Model
     /**
      * Get the parent category.
      */
-    public function category()
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
@@ -43,7 +45,7 @@ class Category extends Model
     /**
      * Get the child categories.
      */
-    public function categories()
+    public function categories(): HasMany
     {
         return $this->hasMany(Category::class);
     }
