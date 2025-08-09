@@ -10,7 +10,8 @@ const categories = [
     {
         name: 'Web Development',
         slug: 'web-development',
-        description: 'Everything about building modern web applications, from frontend frameworks to backend technologies.',
+        description:
+            'Everything about building modern web applications, from frontend frameworks to backend technologies.',
         color: 'bg-blue-100 text-blue-800 border-blue-200',
         icon: '💻',
         totalPosts: 156,
@@ -115,7 +116,8 @@ export default function CategoriesPage() {
 
     const filteredCategories = categories.filter(
         (category) =>
-            category.name.toLowerCase().includes(searchQuery.toLowerCase()) || category.description.toLowerCase().includes(searchQuery.toLowerCase()),
+            category.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            category.description.toLowerCase().includes(searchQuery.toLowerCase()),
     );
 
     const trendingCategories = categories.filter((cat) => cat.trending);
@@ -145,7 +147,9 @@ export default function CategoriesPage() {
                 {/* Page Header */}
                 <div className="mb-8">
                     <h1 className="mb-4 text-4xl font-bold">Explore Categories</h1>
-                    <p className="mb-6 text-xl text-muted-foreground">Discover content organized by topics that interest you most</p>
+                    <p className="mb-6 text-xl text-muted-foreground">
+                        Discover content organized by topics that interest you most
+                    </p>
 
                     {/* Search */}
                     <div className="relative max-w-md">
@@ -178,7 +182,10 @@ export default function CategoriesPage() {
                                                 <span className="text-2xl">{category.icon}</span>
                                                 <div>
                                                     <CardTitle className="text-lg">
-                                                        <Link href={`/category/${category.slug}`} className="hover:underline">
+                                                        <Link
+                                                            href={`/category/${category.slug}`}
+                                                            className="hover:underline"
+                                                        >
                                                             {category.name}
                                                         </Link>
                                                     </CardTitle>
@@ -210,7 +217,9 @@ export default function CategoriesPage() {
 
                 {/* All Categories */}
                 <div className="mb-8">
-                    <h2 className="mb-6 text-2xl font-bold">{searchQuery ? `Search Results (${filteredCategories.length})` : 'All Categories'}</h2>
+                    <h2 className="mb-6 text-2xl font-bold">
+                        {searchQuery ? `Search Results (${filteredCategories.length})` : 'All Categories'}
+                    </h2>
                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                         {filteredCategories.map((category) => (
                             <Card key={category.slug} className="transition-all duration-200 hover:shadow-lg">
@@ -220,7 +229,10 @@ export default function CategoriesPage() {
                                             <span className="text-3xl">{category.icon}</span>
                                             <div>
                                                 <CardTitle className="mb-2 text-xl">
-                                                    <Link href={`/category/${category.slug}`} className="hover:underline">
+                                                    <Link
+                                                        href={`/category/${category.slug}`}
+                                                        className="hover:underline"
+                                                    >
                                                         {category.name}
                                                     </Link>
                                                 </CardTitle>
@@ -256,7 +268,9 @@ export default function CategoriesPage() {
                                         </div>
                                         <div className="flex items-center space-x-2">
                                             <Calendar className="h-4 w-4" />
-                                            <span className="font-medium text-green-600">{category.weeklyGrowth} this week</span>
+                                            <span className="font-medium text-green-600">
+                                                {category.weeklyGrowth} this week
+                                            </span>
                                         </div>
                                     </div>
                                     <div className="mt-4">
@@ -276,7 +290,9 @@ export default function CategoriesPage() {
                 {searchQuery && filteredCategories.length === 0 && (
                     <div className="py-12 text-center">
                         <h3 className="mb-2 text-xl font-semibold">No categories found</h3>
-                        <p className="text-muted-foreground">Try searching with different keywords or browse all categories above.</p>
+                        <p className="text-muted-foreground">
+                            Try searching with different keywords or browse all categories above.
+                        </p>
                     </div>
                 )}
             </div>

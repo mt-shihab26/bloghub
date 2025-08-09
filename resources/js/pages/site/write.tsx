@@ -90,7 +90,9 @@ export default function WritePage() {
                                     <Label>Featured Image</Label>
                                     <div className="rounded-lg border-2 border-dashed border-muted-foreground/25 p-8 text-center">
                                         <ImageIcon className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
-                                        <p className="mb-4 text-muted-foreground">Drag and drop an image, or click to browse</p>
+                                        <p className="mb-4 text-muted-foreground">
+                                            Drag and drop an image, or click to browse
+                                        </p>
                                         <Button variant="outline">Choose Image</Button>
                                     </div>
                                 </div>
@@ -115,9 +117,13 @@ export default function WritePage() {
                                         <Label>Preview</Label>
                                         <div className="prose min-h-[400px] max-w-none rounded-lg border p-4">
                                             {content ? (
-                                                <div dangerouslySetInnerHTML={{ __html: content.replace(/\n/g, '<br>') }} />
+                                                <div
+                                                    dangerouslySetInnerHTML={{ __html: content.replace(/\n/g, '<br>') }}
+                                                />
                                             ) : (
-                                                <p className="text-muted-foreground">Start writing to see a preview...</p>
+                                                <p className="text-muted-foreground">
+                                                    Start writing to see a preview...
+                                                </p>
                                             )}
                                         </div>
                                     </TabsContent>
@@ -170,9 +176,16 @@ export default function WritePage() {
                                     {tags.length > 0 && (
                                         <div className="mt-2 flex flex-wrap gap-2">
                                             {tags.map((tag) => (
-                                                <Badge key={tag} variant="secondary" className="flex items-center gap-1">
+                                                <Badge
+                                                    key={tag}
+                                                    variant="secondary"
+                                                    className="flex items-center gap-1"
+                                                >
                                                     {tag}
-                                                    <X className="h-3 w-3 cursor-pointer" onClick={() => removeTag(tag)} />
+                                                    <X
+                                                        className="h-3 w-3 cursor-pointer"
+                                                        onClick={() => removeTag(tag)}
+                                                    />
                                                 </Badge>
                                             ))}
                                         </div>
@@ -182,7 +195,9 @@ export default function WritePage() {
                                 <div className="border-t pt-4">
                                     <div className="flex items-center justify-between text-sm">
                                         <span>Status:</span>
-                                        <Badge variant={isDraft ? 'secondary' : 'default'}>{isDraft ? 'Draft' : 'Published'}</Badge>
+                                        <Badge variant={isDraft ? 'secondary' : 'default'}>
+                                            {isDraft ? 'Draft' : 'Published'}
+                                        </Badge>
                                     </div>
                                 </div>
                             </CardContent>
@@ -196,7 +211,9 @@ export default function WritePage() {
                             <CardContent className="space-y-3 text-sm">
                                 <div>
                                     <h4 className="mb-1 font-medium">Use a compelling title</h4>
-                                    <p className="text-muted-foreground">Make it clear and engaging to attract readers</p>
+                                    <p className="text-muted-foreground">
+                                        Make it clear and engaging to attract readers
+                                    </p>
                                 </div>
                                 <div>
                                     <h4 className="mb-1 font-medium">Add relevant tags</h4>
@@ -204,7 +221,9 @@ export default function WritePage() {
                                 </div>
                                 <div>
                                     <h4 className="mb-1 font-medium">Include code examples</h4>
-                                    <p className="text-muted-foreground">Use markdown code blocks for better readability</p>
+                                    <p className="text-muted-foreground">
+                                        Use markdown code blocks for better readability
+                                    </p>
                                 </div>
                                 <div>
                                     <h4 className="mb-1 font-medium">Engage with comments</h4>

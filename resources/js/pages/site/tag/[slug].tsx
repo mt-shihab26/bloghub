@@ -175,7 +175,9 @@ export default function TagPage({ params }: { params: { slug: string } }) {
                             <div className="flex flex-col items-start justify-between space-y-4 md:flex-row md:items-center md:space-y-0">
                                 <div className="flex-1">
                                     <div className="mb-4 flex items-center space-x-3">
-                                        <div className={`h-12 w-12 rounded-lg ${tag.color} flex items-center justify-center`}>
+                                        <div
+                                            className={`h-12 w-12 rounded-lg ${tag.color} flex items-center justify-center`}
+                                        >
                                             <Hash className="h-6 w-6 text-white" />
                                         </div>
                                         <div>
@@ -189,7 +191,10 @@ export default function TagPage({ params }: { params: { slug: string } }) {
                                     </div>
                                     <p className="mb-4 text-lg text-muted-foreground">{tag.description}</p>
                                 </div>
-                                <Button onClick={() => setIsFollowing(!isFollowing)} variant={isFollowing ? 'outline' : 'default'}>
+                                <Button
+                                    onClick={() => setIsFollowing(!isFollowing)}
+                                    variant={isFollowing ? 'outline' : 'default'}
+                                >
                                     {isFollowing ? 'Following' : 'Follow Tag'}
                                 </Button>
                             </div>
@@ -250,13 +255,20 @@ export default function TagPage({ params }: { params: { slug: string } }) {
                                                         <AvatarImage src={post.author.avatar || '/placeholder.svg'} />
                                                         <AvatarFallback>{post.author.name[0]}</AvatarFallback>
                                                     </Avatar>
-                                                    <Link href={`/author/${post.author.username}`} className="text-sm font-medium hover:underline">
+                                                    <Link
+                                                        href={`/author/${post.author.username}`}
+                                                        className="text-sm font-medium hover:underline"
+                                                    >
                                                         {post.author.name}
                                                     </Link>
                                                     <span className="text-sm text-muted-foreground">•</span>
-                                                    <span className="text-sm text-muted-foreground">{post.publishedAt}</span>
+                                                    <span className="text-sm text-muted-foreground">
+                                                        {post.publishedAt}
+                                                    </span>
                                                     <span className="text-sm text-muted-foreground">•</span>
-                                                    <Link href={`/category/${post.category.toLowerCase().replace(/\s+/g, '-')}`}>
+                                                    <Link
+                                                        href={`/category/${post.category.toLowerCase().replace(/\s+/g, '-')}`}
+                                                    >
                                                         <Badge variant="outline" className="text-xs hover:bg-muted">
                                                             {post.category}
                                                         </Badge>
@@ -291,7 +303,9 @@ export default function TagPage({ params }: { params: { slug: string } }) {
                                                             variant="ghost"
                                                             size="sm"
                                                             onClick={() => handleBookmark(post.id)}
-                                                            className={bookmarkedPosts.has(post.id) ? 'text-blue-500' : ''}
+                                                            className={
+                                                                bookmarkedPosts.has(post.id) ? 'text-blue-500' : ''
+                                                            }
                                                         >
                                                             <Bookmark className="h-4 w-4" />
                                                         </Button>
@@ -305,7 +319,11 @@ export default function TagPage({ params }: { params: { slug: string } }) {
                                                     {post.tags.map((postTag) => (
                                                         <Link key={postTag} href={`/tag/${postTag.toLowerCase()}`}>
                                                             <Badge
-                                                                variant={postTag.toLowerCase() === tag.name.toLowerCase() ? 'default' : 'secondary'}
+                                                                variant={
+                                                                    postTag.toLowerCase() === tag.name.toLowerCase()
+                                                                        ? 'default'
+                                                                        : 'secondary'
+                                                                }
                                                                 className="text-xs transition-colors hover:bg-primary hover:text-primary-foreground"
                                                             >
                                                                 #{postTag}
@@ -386,7 +404,10 @@ export default function TagPage({ params }: { params: { slug: string } }) {
                                                 <AvatarFallback>{post.author.name[0]}</AvatarFallback>
                                             </Avatar>
                                             <div className="flex-1">
-                                                <Link href={`/author/${post.author.username}`} className="font-medium hover:underline">
+                                                <Link
+                                                    href={`/author/${post.author.username}`}
+                                                    className="font-medium hover:underline"
+                                                >
                                                     {post.author.name}
                                                 </Link>
                                                 <p className="text-sm text-muted-foreground">@{post.author.username}</p>

@@ -87,7 +87,8 @@ const comments = [
             avatar: '/man-database-engineer.png',
             username: 'davidkim',
         },
-        content: 'Edge computing is definitely the future. The performance improvements are noticeable, especially for global applications.',
+        content:
+            'Edge computing is definitely the future. The performance improvements are noticeable, especially for global applications.',
         publishedAt: '6 hours ago',
         likes: 15,
         replies: [],
@@ -154,7 +155,10 @@ export default function BlogPost({ params }: { params: { id: string } }) {
                                 <AvatarFallback>{blogPost.author.name[0]}</AvatarFallback>
                             </Avatar>
                             <div>
-                                <Link href={`/author/${blogPost.author.username}`} className="font-semibold hover:underline">
+                                <Link
+                                    href={`/author/${blogPost.author.username}`}
+                                    className="font-semibold hover:underline"
+                                >
                                     {blogPost.author.name}
                                 </Link>
                                 <div className="flex items-center space-x-2 text-sm text-muted-foreground">
@@ -191,7 +195,11 @@ export default function BlogPost({ params }: { params: { id: string } }) {
                 {/* Article Actions */}
                 <div className="flex items-center justify-between border-y py-6">
                     <div className="flex items-center space-x-4">
-                        <Button variant="ghost" onClick={() => setIsLiked(!isLiked)} className={isLiked ? 'text-red-500' : ''}>
+                        <Button
+                            variant="ghost"
+                            onClick={() => setIsLiked(!isLiked)}
+                            className={isLiked ? 'text-red-500' : ''}
+                        >
                             <Heart className="mr-2 h-5 w-5" />
                             {blogPost.likes + (isLiked ? 1 : 0)}
                         </Button>
@@ -201,7 +209,11 @@ export default function BlogPost({ params }: { params: { id: string } }) {
                                 {blogPost.comments}
                             </Link>
                         </Button>
-                        <Button variant="ghost" onClick={() => setIsBookmarked(!isBookmarked)} className={isBookmarked ? 'text-blue-500' : ''}>
+                        <Button
+                            variant="ghost"
+                            onClick={() => setIsBookmarked(!isBookmarked)}
+                            className={isBookmarked ? 'text-blue-500' : ''}
+                        >
                             <Bookmark className="mr-2 h-5 w-5" />
                             {isBookmarked ? 'Saved' : 'Save'}
                         </Button>
@@ -269,10 +281,15 @@ export default function BlogPost({ params }: { params: { id: string } }) {
                                             </Avatar>
                                             <div className="flex-1">
                                                 <div className="mb-2 flex items-center space-x-2">
-                                                    <Link href={`/author/${comment.author.username}`} className="font-semibold hover:underline">
+                                                    <Link
+                                                        href={`/author/${comment.author.username}`}
+                                                        className="font-semibold hover:underline"
+                                                    >
                                                         {comment.author.name}
                                                     </Link>
-                                                    <span className="text-sm text-muted-foreground">{comment.publishedAt}</span>
+                                                    <span className="text-sm text-muted-foreground">
+                                                        {comment.publishedAt}
+                                                    </span>
                                                 </div>
                                                 <p className="mb-4">{comment.content}</p>
                                                 <div className="flex items-center space-x-4">
@@ -313,14 +330,18 @@ export default function BlogPost({ params }: { params: { id: string } }) {
                                                             >
                                                                 {reply.author.name}
                                                             </Link>
-                                                            <span className="text-xs text-muted-foreground">{reply.publishedAt}</span>
+                                                            <span className="text-xs text-muted-foreground">
+                                                                {reply.publishedAt}
+                                                            </span>
                                                         </div>
                                                         <p className="mb-2 text-sm">{reply.content}</p>
                                                         <Button
                                                             variant="ghost"
                                                             size="sm"
                                                             onClick={() => handleCommentLike(reply.id)}
-                                                            className={likedComments.has(reply.id) ? 'text-red-500' : ''}
+                                                            className={
+                                                                likedComments.has(reply.id) ? 'text-red-500' : ''
+                                                            }
                                                         >
                                                             <ThumbsUp className="mr-1 h-3 w-3" />
                                                             {reply.likes + (likedComments.has(reply.id) ? 1 : 0)}

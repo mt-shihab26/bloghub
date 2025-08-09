@@ -46,7 +46,8 @@ export const recommendedBlogs = [
     {
         id: 3,
         title: "The Art of Technical Writing: A Developer's Guide",
-        excerpt: 'Master the skills needed to write clear, engaging technical content that developers actually want to read...',
+        excerpt:
+            'Master the skills needed to write clear, engaging technical content that developers actually want to read...',
         author: {
             name: 'Emily Rodriguez',
             avatar: '/woman-writer.png',

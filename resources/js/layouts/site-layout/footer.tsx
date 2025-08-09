@@ -24,8 +24,8 @@ export const Footer = ({ className }: { className: string }) => {
                             BlogHub
                         </Link>
                         <p className="mb-6 max-w-md text-muted-foreground">
-                            A community-driven platform where developers, designers, and tech enthusiasts share knowledge, insights, and experiences
-                            to help each other grow.
+                            A community-driven platform where developers, designers, and tech enthusiasts share
+                            knowledge, insights, and experiences to help each other grow.
                         </p>
 
                         {/* Newsletter Signup */}
@@ -35,7 +35,9 @@ export const Footer = ({ className }: { className: string }) => {
                                 <Input placeholder="Enter your email" type="email" className="flex-1" />
                                 <Button>Subscribe</Button>
                             </div>
-                            <p className="text-xs text-muted-foreground">Get weekly updates on trending posts and new features.</p>
+                            <p className="text-xs text-muted-foreground">
+                                Get weekly updates on trending posts and new features.
+                            </p>
                         </div>
                     </div>
 
@@ -44,27 +46,42 @@ export const Footer = ({ className }: { className: string }) => {
                         <h4 className="mb-4 font-semibold">Explore</h4>
                         <ul className="space-y-3 text-sm">
                             <li>
-                                <Link href="/" className="text-muted-foreground transition-colors hover:text-foreground">
+                                <Link
+                                    href="/"
+                                    className="text-muted-foreground transition-colors hover:text-foreground"
+                                >
                                     Home
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/categories" className="text-muted-foreground transition-colors hover:text-foreground">
+                                <Link
+                                    href="/categories"
+                                    className="text-muted-foreground transition-colors hover:text-foreground"
+                                >
                                     Categories
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/tags" className="text-muted-foreground transition-colors hover:text-foreground">
+                                <Link
+                                    href="/tags"
+                                    className="text-muted-foreground transition-colors hover:text-foreground"
+                                >
                                     Tags
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/trending" className="text-muted-foreground transition-colors hover:text-foreground">
+                                <Link
+                                    href="/trending"
+                                    className="text-muted-foreground transition-colors hover:text-foreground"
+                                >
                                     Trending
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/authors" className="text-muted-foreground transition-colors hover:text-foreground">
+                                <Link
+                                    href="/authors"
+                                    className="text-muted-foreground transition-colors hover:text-foreground"
+                                >
                                     Top Authors
                                 </Link>
                             </li>
@@ -76,27 +93,42 @@ export const Footer = ({ className }: { className: string }) => {
                         <h4 className="mb-4 font-semibold">Resources</h4>
                         <ul className="space-y-3 text-sm">
                             <li>
-                                <Link href="/write" className="text-muted-foreground transition-colors hover:text-foreground">
+                                <Link
+                                    href="/write"
+                                    className="text-muted-foreground transition-colors hover:text-foreground"
+                                >
                                     Write a Post
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/guidelines" className="text-muted-foreground transition-colors hover:text-foreground">
+                                <Link
+                                    href="/guidelines"
+                                    className="text-muted-foreground transition-colors hover:text-foreground"
+                                >
                                     Writing Guidelines
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/help" className="text-muted-foreground transition-colors hover:text-foreground">
+                                <Link
+                                    href="/help"
+                                    className="text-muted-foreground transition-colors hover:text-foreground"
+                                >
                                     Help Center
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/api" className="text-muted-foreground transition-colors hover:text-foreground">
+                                <Link
+                                    href="/api"
+                                    className="text-muted-foreground transition-colors hover:text-foreground"
+                                >
                                     API Documentation
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/markdown" className="text-muted-foreground transition-colors hover:text-foreground">
+                                <Link
+                                    href="/markdown"
+                                    className="text-muted-foreground transition-colors hover:text-foreground"
+                                >
                                     Markdown Guide
                                 </Link>
                             </li>
@@ -108,27 +140,42 @@ export const Footer = ({ className }: { className: string }) => {
                         <h4 className="mb-4 font-semibold">Company</h4>
                         <ul className="space-y-3 text-sm">
                             <li>
-                                <Link href="/about" className="text-muted-foreground transition-colors hover:text-foreground">
+                                <Link
+                                    href="/about"
+                                    className="text-muted-foreground transition-colors hover:text-foreground"
+                                >
                                     About Us
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/careers" className="text-muted-foreground transition-colors hover:text-foreground">
+                                <Link
+                                    href="/careers"
+                                    className="text-muted-foreground transition-colors hover:text-foreground"
+                                >
                                     Careers
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/contact" className="text-muted-foreground transition-colors hover:text-foreground">
+                                <Link
+                                    href="/contact"
+                                    className="text-muted-foreground transition-colors hover:text-foreground"
+                                >
                                     Contact
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/privacy" className="text-muted-foreground transition-colors hover:text-foreground">
+                                <Link
+                                    href="/privacy"
+                                    className="text-muted-foreground transition-colors hover:text-foreground"
+                                >
                                     Privacy Policy
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/terms" className="text-muted-foreground transition-colors hover:text-foreground">
+                                <Link
+                                    href="/terms"
+                                    className="text-muted-foreground transition-colors hover:text-foreground"
+                                >
                                     Terms of Service
                                 </Link>
                             </li>
@@ -165,7 +212,11 @@ export const Footer = ({ className }: { className: string }) => {
                                 </Link>
                             </Button>
                             <Button variant="ghost" size="sm" asChild>
-                                <Link href="https://linkedin.com/company/bloghub" target="_blank" rel="noopener noreferrer">
+                                <Link
+                                    href="https://linkedin.com/company/bloghub"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
                                     <Linkedin className="h-4 w-4" />
                                     <span className="sr-only">LinkedIn</span>
                                 </Link>

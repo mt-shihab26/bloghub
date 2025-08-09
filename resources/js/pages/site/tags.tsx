@@ -199,7 +199,12 @@ export default function TagsPage() {
                     {/* Search */}
                     <div className="relative max-w-md">
                         <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
-                        <Input placeholder="Search tags..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-10" />
+                        <Input
+                            placeholder="Search tags..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="pl-10"
+                        />
                     </div>
                 </div>
 
@@ -216,17 +221,23 @@ export default function TagsPage() {
                                     <Card className="cursor-pointer border-2 border-red-200 transition-all duration-200 hover:shadow-lg">
                                         <CardContent className="p-4">
                                             <div className="flex items-center space-x-3">
-                                                <div className={`h-10 w-10 rounded-lg ${tag.color} flex items-center justify-center`}>
+                                                <div
+                                                    className={`h-10 w-10 rounded-lg ${tag.color} flex items-center justify-center`}
+                                                >
                                                     <Hash className="h-5 w-5 text-white" />
                                                 </div>
                                                 <div>
                                                     <div className="flex items-center space-x-2">
                                                         <h3 className="font-semibold">#{tag.name}</h3>
-                                                        <Badge className="bg-red-100 text-xs text-red-800">Trending</Badge>
+                                                        <Badge className="bg-red-100 text-xs text-red-800">
+                                                            Trending
+                                                        </Badge>
                                                     </div>
                                                     <div className="flex items-center space-x-3 text-sm text-muted-foreground">
                                                         <span>{tag.totalPosts} posts</span>
-                                                        <span className="font-medium text-green-600">{tag.weeklyGrowth}</span>
+                                                        <span className="font-medium text-green-600">
+                                                            {tag.weeklyGrowth}
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -251,7 +262,9 @@ export default function TagsPage() {
                                     <CardHeader className="pb-3">
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center space-x-3">
-                                                <div className={`h-12 w-12 rounded-lg ${tag.color} flex items-center justify-center`}>
+                                                <div
+                                                    className={`h-12 w-12 rounded-lg ${tag.color} flex items-center justify-center`}
+                                                >
                                                     <Hash className="h-6 w-6 text-white" />
                                                 </div>
                                                 <div>
@@ -287,7 +300,9 @@ export default function TagsPage() {
                                                     {tag.followers} followers
                                                 </span>
                                             </div>
-                                            <span className="font-medium text-green-600">{tag.weeklyGrowth} this week</span>
+                                            <span className="font-medium text-green-600">
+                                                {tag.weeklyGrowth} this week
+                                            </span>
                                         </div>
                                     </CardContent>
                                 </Card>
@@ -298,14 +313,18 @@ export default function TagsPage() {
 
                 {/* All Tags */}
                 <div className="mb-8">
-                    <h2 className="mb-6 text-2xl font-bold">{searchQuery ? `Search Results (${filteredTags.length})` : 'All Tags'}</h2>
+                    <h2 className="mb-6 text-2xl font-bold">
+                        {searchQuery ? `Search Results (${filteredTags.length})` : 'All Tags'}
+                    </h2>
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                         {filteredTags.map((tag) => (
                             <Card key={tag.slug} className="transition-all duration-200 hover:shadow-lg">
                                 <CardContent className="p-4">
                                     <div className="mb-3 flex items-center justify-between">
                                         <div className="flex items-center space-x-3">
-                                            <div className={`h-10 w-10 rounded-lg ${tag.color} flex items-center justify-center`}>
+                                            <div
+                                                className={`h-10 w-10 rounded-lg ${tag.color} flex items-center justify-center`}
+                                            >
                                                 <Hash className="h-5 w-5 text-white" />
                                             </div>
                                             <div>
@@ -314,7 +333,11 @@ export default function TagsPage() {
                                                         #{tag.name}
                                                     </Link>
                                                 </h3>
-                                                {tag.trending && <Badge className="mt-1 bg-red-100 text-xs text-red-800">Trending</Badge>}
+                                                {tag.trending && (
+                                                    <Badge className="mt-1 bg-red-100 text-xs text-red-800">
+                                                        Trending
+                                                    </Badge>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
@@ -346,7 +369,9 @@ export default function TagsPage() {
                     <div className="py-12 text-center">
                         <Hash className="mx-auto mb-4 h-16 w-16 text-muted-foreground" />
                         <h3 className="mb-2 text-xl font-semibold">No tags found</h3>
-                        <p className="text-muted-foreground">Try searching with different keywords or browse all tags above.</p>
+                        <p className="text-muted-foreground">
+                            Try searching with different keywords or browse all tags above.
+                        </p>
                     </div>
                 )}
             </div>

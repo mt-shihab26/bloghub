@@ -25,7 +25,10 @@ export const PopularTags = () => {
                         'Best Practices',
                     ].map((tag) => (
                         <Link key={tag} href={`/tag/${tag.toLowerCase()}`}>
-                            <Badge variant="outline" className="cursor-pointer transition-colors hover:bg-primary hover:text-primary-foreground">
+                            <Badge
+                                variant="outline"
+                                className="cursor-pointer transition-colors hover:bg-primary hover:text-primary-foreground"
+                            >
                                 #{tag}
                             </Badge>
                         </Link>

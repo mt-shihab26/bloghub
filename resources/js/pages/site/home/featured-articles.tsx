@@ -24,7 +24,13 @@ export const FeaturedArticles = ({ posts }: { posts: TPost[] }) => {
         <section className="mb-8 overflow-hidden rounded-lg border">
             <div className="relative">
                 <a href={postLink(post.user, post)}>
-                    <img src={imageLink(post.image)} alt={post.title} width={800} height={300} className="h-64 w-full rounded-t-lg object-cover" />
+                    <img
+                        src={imageLink(post.image)}
+                        alt={post.title}
+                        width={800}
+                        height={300}
+                        className="h-64 w-full rounded-t-lg object-cover"
+                    />
                 </a>
                 <Badge className="absolute top-4 left-4 bg-primary">{categoryName(post.category)}</Badge>
                 <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 space-x-2">

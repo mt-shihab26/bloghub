@@ -133,7 +133,12 @@ export default function AuthorProfile({ params }: { params: { username: string }
                                         </div>
                                         <div className="flex items-center">
                                             <LinkIcon className="mr-1 h-4 w-4" />
-                                            <a href={authorData.website} className="hover:underline" target="_blank" rel="noopener noreferrer">
+                                            <a
+                                                href={authorData.website}
+                                                className="hover:underline"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
                                                 sarahchen.dev
                                             </a>
                                         </div>
@@ -141,11 +146,15 @@ export default function AuthorProfile({ params }: { params: { username: string }
                                     <div className="mb-4 flex items-center space-x-6">
                                         <div className="flex items-center">
                                             <Users className="mr-1 h-4 w-4" />
-                                            <span className="font-semibold">{authorData.followers.toLocaleString()}</span>
+                                            <span className="font-semibold">
+                                                {authorData.followers.toLocaleString()}
+                                            </span>
                                             <span className="ml-1 text-muted-foreground">followers</span>
                                         </div>
                                         <div className="flex items-center">
-                                            <span className="font-semibold">{authorData.following.toLocaleString()}</span>
+                                            <span className="font-semibold">
+                                                {authorData.following.toLocaleString()}
+                                            </span>
                                             <span className="ml-1 text-muted-foreground">following</span>
                                         </div>
                                         <div className="flex items-center">
@@ -155,13 +164,18 @@ export default function AuthorProfile({ params }: { params: { username: string }
                                         </div>
                                         <div className="flex items-center">
                                             <Heart className="mr-1 h-4 w-4" />
-                                            <span className="font-semibold">{authorData.totalLikes.toLocaleString()}</span>
+                                            <span className="font-semibold">
+                                                {authorData.totalLikes.toLocaleString()}
+                                            </span>
                                             <span className="ml-1 text-muted-foreground">likes</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="flex space-x-2">
-                                    <Button onClick={() => setIsFollowing(!isFollowing)} variant={isFollowing ? 'outline' : 'default'}>
+                                    <Button
+                                        onClick={() => setIsFollowing(!isFollowing)}
+                                        variant={isFollowing ? 'outline' : 'default'}
+                                    >
                                         {isFollowing ? 'Following' : 'Follow'}
                                     </Button>
                                     <Button variant="outline">Message</Button>
@@ -292,12 +306,16 @@ export default function AuthorProfile({ params }: { params: { username: string }
                                 <div className="space-y-4">
                                     <div className="flex items-center space-x-3">
                                         <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                                        <span className="text-sm">Published "The Future of Web Development: What's Coming in 2024"</span>
+                                        <span className="text-sm">
+                                            Published "The Future of Web Development: What's Coming in 2024"
+                                        </span>
                                         <span className="text-xs text-muted-foreground">2 hours ago</span>
                                     </div>
                                     <div className="flex items-center space-x-3">
                                         <div className="h-2 w-2 rounded-full bg-blue-500"></div>
-                                        <span className="text-sm">Liked "Understanding Database Design Patterns" by David Kim</span>
+                                        <span className="text-sm">
+                                            Liked "Understanding Database Design Patterns" by David Kim
+                                        </span>
                                         <span className="text-xs text-muted-foreground">1 day ago</span>
                                     </div>
                                     <div className="flex items-center space-x-3">
@@ -307,7 +325,9 @@ export default function AuthorProfile({ params }: { params: { username: string }
                                     </div>
                                     <div className="flex items-center space-x-3">
                                         <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                                        <span className="text-sm">Published "Building Responsive Layouts with CSS Grid"</span>
+                                        <span className="text-sm">
+                                            Published "Building Responsive Layouts with CSS Grid"
+                                        </span>
                                         <span className="text-xs text-muted-foreground">3 days ago</span>
                                     </div>
                                 </div>

@@ -12,7 +12,8 @@ import { useState } from 'react';
 const categoryData = {
     'web-development': {
         name: 'Web Development',
-        description: 'Everything about building modern web applications, from frontend frameworks to backend technologies.',
+        description:
+            'Everything about building modern web applications, from frontend frameworks to backend technologies.',
         color: 'bg-blue-100 text-blue-800',
         totalPosts: 45,
         followers: 1234,
@@ -179,7 +180,10 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
                                     </div>
                                     <p className="mb-4 text-lg text-muted-foreground">{category.description}</p>
                                 </div>
-                                <Button onClick={() => setIsFollowing(!isFollowing)} variant={isFollowing ? 'outline' : 'default'}>
+                                <Button
+                                    onClick={() => setIsFollowing(!isFollowing)}
+                                    variant={isFollowing ? 'outline' : 'default'}
+                                >
                                     {isFollowing ? 'Following' : 'Follow Category'}
                                 </Button>
                             </div>
@@ -226,7 +230,9 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
                                         height={300}
                                         className="h-64 w-full object-cover"
                                     />
-                                    <Badge className="absolute top-4 left-4 bg-primary">Featured in {category.name}</Badge>
+                                    <Badge className="absolute top-4 left-4 bg-primary">
+                                        Featured in {category.name}
+                                    </Badge>
                                 </div>
                                 <CardHeader>
                                     <div className="mb-2 flex items-center space-x-2">
@@ -234,11 +240,16 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
                                             <AvatarImage src={categoryPosts[0].author.avatar || '/placeholder.svg'} />
                                             <AvatarFallback>{categoryPosts[0].author.name[0]}</AvatarFallback>
                                         </Avatar>
-                                        <Link href={`/author/${categoryPosts[0].author.username}`} className="text-sm font-medium hover:underline">
+                                        <Link
+                                            href={`/author/${categoryPosts[0].author.username}`}
+                                            className="text-sm font-medium hover:underline"
+                                        >
                                             {categoryPosts[0].author.name}
                                         </Link>
                                         <span className="text-sm text-muted-foreground">•</span>
-                                        <span className="text-sm text-muted-foreground">{categoryPosts[0].publishedAt}</span>
+                                        <span className="text-sm text-muted-foreground">
+                                            {categoryPosts[0].publishedAt}
+                                        </span>
                                     </div>
                                     <CardTitle className="mb-2 text-2xl">
                                         <Link href={`/blog/${categoryPosts[0].id}`} className="hover:underline">
@@ -269,7 +280,9 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
                                                 variant="ghost"
                                                 size="sm"
                                                 onClick={() => handleBookmark(categoryPosts[0].id)}
-                                                className={bookmarkedPosts.has(categoryPosts[0].id) ? 'text-blue-500' : ''}
+                                                className={
+                                                    bookmarkedPosts.has(categoryPosts[0].id) ? 'text-blue-500' : ''
+                                                }
                                             >
                                                 <Bookmark className="h-4 w-4" />
                                             </Button>
@@ -320,11 +333,16 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
                                                         <AvatarImage src={post.author.avatar || '/placeholder.svg'} />
                                                         <AvatarFallback>{post.author.name[0]}</AvatarFallback>
                                                     </Avatar>
-                                                    <Link href={`/author/${post.author.username}`} className="text-sm font-medium hover:underline">
+                                                    <Link
+                                                        href={`/author/${post.author.username}`}
+                                                        className="text-sm font-medium hover:underline"
+                                                    >
                                                         {post.author.name}
                                                     </Link>
                                                     <span className="text-sm text-muted-foreground">•</span>
-                                                    <span className="text-sm text-muted-foreground">{post.publishedAt}</span>
+                                                    <span className="text-sm text-muted-foreground">
+                                                        {post.publishedAt}
+                                                    </span>
                                                 </div>
                                                 <CardTitle className="mb-2 text-xl">
                                                     <Link href={`/blog/${post.id}`} className="hover:underline">
@@ -355,7 +373,9 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
                                                             variant="ghost"
                                                             size="sm"
                                                             onClick={() => handleBookmark(post.id)}
-                                                            className={bookmarkedPosts.has(post.id) ? 'text-blue-500' : ''}
+                                                            className={
+                                                                bookmarkedPosts.has(post.id) ? 'text-blue-500' : ''
+                                                            }
                                                         >
                                                             <Bookmark className="h-4 w-4" />
                                                         </Button>
@@ -417,7 +437,16 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
                             </CardHeader>
                             <CardContent>
                                 <div className="flex flex-wrap gap-2">
-                                    {['React', 'JavaScript', 'CSS', 'HTML', 'Next.js', 'TypeScript', 'Node.js', 'API'].map((tag) => (
+                                    {[
+                                        'React',
+                                        'JavaScript',
+                                        'CSS',
+                                        'HTML',
+                                        'Next.js',
+                                        'TypeScript',
+                                        'Node.js',
+                                        'API',
+                                    ].map((tag) => (
                                         <Link key={tag} href={`/tag/${tag.toLowerCase()}`}>
                                             <Badge
                                                 variant="outline"
@@ -445,7 +474,10 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
                                                 <AvatarFallback>{post.author.name[0]}</AvatarFallback>
                                             </Avatar>
                                             <div className="flex-1">
-                                                <Link href={`/author/${post.author.username}`} className="font-medium hover:underline">
+                                                <Link
+                                                    href={`/author/${post.author.username}`}
+                                                    className="font-medium hover:underline"
+                                                >
                                                     {post.author.name}
                                                 </Link>
                                                 <p className="text-sm text-muted-foreground">@{post.author.username}</p>

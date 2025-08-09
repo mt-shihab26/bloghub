@@ -17,7 +17,13 @@ export const Article = ({ post }: { post: TPost }) => {
             <div className="flex flex-col md:flex-row">
                 <div className="md:w-1/3">
                     <Link href={postLink(post.user, post)}>
-                        <img src={imageLink(post.image)} alt={post.title} width={300} height={200} className="h-48 w-full object-cover md:h-full" />
+                        <img
+                            src={imageLink(post.image)}
+                            alt={post.title}
+                            width={300}
+                            height={200}
+                            className="h-48 w-full object-cover md:h-full"
+                        />
                     </Link>
                 </div>
                 <div className="p-4 md:w-2/3">
