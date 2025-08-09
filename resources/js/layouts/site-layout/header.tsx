@@ -14,7 +14,7 @@ import { Profile } from './profile';
 
 export const Header = ({ className }: { className: string }) => {
     const { name, auth } = usePage<TPublicPage>().props;
-    const { user } = auth;
+    const { user, image } = auth;
 
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -57,7 +57,7 @@ export const Header = ({ className }: { className: string }) => {
                                         </Link>
                                     </Button>
                                 )}
-                                <Profile user={user} />
+                                <Profile user={user} image={image} />
                             </>
                         ) : (
                             <>

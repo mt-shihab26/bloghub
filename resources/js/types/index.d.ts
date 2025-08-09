@@ -1,10 +1,10 @@
 import type { Config } from 'ziggy-js';
-import type { TUser } from './models';
+import type { TImage, TUser } from './models';
 
 export type TPublicPage = {
     name: string;
     quote: { message: string; author: string };
-    auth: { user?: TUser };
+    auth: { user?: TUser; image?: TImage };
     ziggy: Config & { location: string };
     sidebarOpen: boolean;
 };
@@ -12,7 +12,7 @@ export type TPublicPage = {
 export type TAuthPage = {
     name: string;
     quote: { message: string; author: string };
-    auth: { user: TUser };
+    auth: { user: TUser; image?: TImage };
     ziggy: Config & { location: string };
     sidebarOpen: boolean;
 };

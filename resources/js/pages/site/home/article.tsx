@@ -1,4 +1,4 @@
-import type { TPost } from '@/types/models';
+import type { THomePost } from '@/types/site';
 
 import { formatInitials, formatTimeAgo } from '@/lib/format';
 import { authorLink, imageLink, postComments, postLikes, postLink, tagLink } from '@/lib/links';
@@ -11,7 +11,7 @@ import { Link } from '@inertiajs/react';
 import { BookmarkIcon, Clock, HeartIcon, MessageCircleIcon } from 'lucide-react';
 import { IconButton } from './icon-button';
 
-export const Article = ({ post }: { post: TPost }) => {
+export const Article = ({ post }: { post: THomePost }) => {
     return (
         <div key={post.id} className="overflow-hidden rounded-lg border">
             <div className="flex flex-col md:flex-row">

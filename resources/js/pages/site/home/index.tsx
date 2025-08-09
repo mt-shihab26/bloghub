@@ -1,5 +1,5 @@
-import type { TTag, TUser } from '@/types/models';
-import type { THomeCategory, THomePost } from '@/types/site';
+import type { TTag } from '@/types/models';
+import type { THomeCategory, THomePost, THomeUser } from '@/types/site';
 
 import { SiteLayout } from '@/layouts/site-layout';
 import { Categories } from './categories';
@@ -17,7 +17,7 @@ const Index = ({
 }: {
     posts: THomePost[];
     categories: THomeCategory[];
-    users: TUser[];
+    users: THomeUser[];
     tags: TTag[];
 }) => {
     return (

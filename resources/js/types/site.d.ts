@@ -16,3 +16,7 @@ export type THomePost = TPost & {
 export type THomeCategory = TCategory & {
     posts_count?: number | null;
 };
+
+export type THomeUser = TUser & {
+    image?: TImage | null;
+};

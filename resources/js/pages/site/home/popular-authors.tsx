@@ -1,4 +1,4 @@
-import type { TUser } from '@/types/models';
+import type { THomeUser } from '@/types/site';
 
 import { formatInitials } from '@/lib/format';
 import { authorLink, imageLink } from '@/lib/links';
@@ -6,7 +6,7 @@ import { authorLink, imageLink } from '@/lib/links';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Link } from '@inertiajs/react';
 
-export const PopularAuthors = ({ users }: { users: TUser[] }) => {
+export const PopularAuthors = ({ users }: { users: THomeUser[] }) => {
     return (
         <div className="overflow-hidden rounded-lg border p-5">
             <h2 className="mb-4 text-lg font-semibold">Popular Authors</h2>
