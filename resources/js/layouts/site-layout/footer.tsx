@@ -1,10 +1,12 @@
+import { cn } from '@/lib/utils';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Link } from '@inertiajs/react';
 import { ArrowUp, Facebook, Github, Heart, Instagram, Linkedin, Rss, Twitter, Youtube } from 'lucide-react';
 
-export const Footer = () => {
+export const Footer = ({ className }: { className: string }) => {
     const currentYear = new Date().getFullYear();
 
     const scrollToTop = () => {
@@ -12,8 +14,8 @@ export const Footer = () => {
     };
 
     return (
-        <footer className="mt-16 border-t bg-muted/30">
-            <div className="container mx-auto px-4 py-12">
+        <footer className={cn('border-t bg-muted/30', className)}>
+            <div className="container mx-auto px-4">
                 {/* Main Footer Content */}
                 <div className="mb-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5">
                     {/* Brand Section */}

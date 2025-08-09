@@ -13,7 +13,7 @@ const Index = ({ posts }: { posts: TPost[] }) => {
     return (
         <SiteLayout title="Home">
             {/* Full viewport height grid container */}
-            <div className="grid h-[calc(100vh-4rem)] grid-cols-1 gap-8 lg:grid-cols-5">
+            <div className="grid h-full grid-cols-1 gap-8 lg:grid-cols-5">
                 {/* Left Sidebar: scrollable */}
                 <aside className="scrollbar-hide h-full space-y-6 overflow-y-auto lg:col-span-1">
                     <TrendingTopics />
