@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class NewsletterController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -62,37 +62,5 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //
-    }
-
-    /**
-     * Toggle like on a post by the authenticated user.
-     */
-    public function toggleLike(Request $request, Post $post)
-    {
-        $user = $request->user();
-
-        if ($post->likes()->where('user_id', $user->id)->exists()) {
-            $post->likes()->detach($user->id);
-        } else {
-            $post->likes()->attach($user->id);
-        }
-
-        return redirect()->route('home');
-    }
-
-    /**
-     * Toggle bookmark on a post by the authenticated user.
-     */
-    public function toggleBookmark(Request $request, Post $post)
-    {
-        $user = $request->user();
-
-        if ($post->bookmarks()->where('user_id', $user->id)->exists()) {
-            $post->bookmarks()->detach($user->id);
-        } else {
-            $post->bookmarks()->attach($user->id);
-        }
-
-        return redirect()->route('home');
     }
 }

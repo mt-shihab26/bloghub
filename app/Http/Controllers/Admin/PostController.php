@@ -63,36 +63,4 @@ class PostController extends Controller
     {
         //
     }
-
-    /**
-     * Toggle like on a post by the authenticated user.
-     */
-    public function toggleLike(Request $request, Post $post)
-    {
-        $user = $request->user();
-
-        if ($post->likes()->where('user_id', $user->id)->exists()) {
-            $post->likes()->detach($user->id);
-        } else {
-            $post->likes()->attach($user->id);
-        }
-
-        return redirect()->route('home');
-    }
-
-    /**
-     * Toggle bookmark on a post by the authenticated user.
-     */
-    public function toggleBookmark(Request $request, Post $post)
-    {
-        $user = $request->user();
-
-        if ($post->bookmarks()->where('user_id', $user->id)->exists()) {
-            $post->bookmarks()->detach($user->id);
-        } else {
-            $post->bookmarks()->attach($user->id);
-        }
-
-        return redirect()->route('home');
-    }
 }
