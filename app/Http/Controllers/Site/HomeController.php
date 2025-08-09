@@ -58,6 +58,6 @@ class HomeController extends Controller
      */
     public function show(User $user, Post $post)
     {
-        return inertia('site/home/index');
+        return inertia('site/show/index');
     }
 }

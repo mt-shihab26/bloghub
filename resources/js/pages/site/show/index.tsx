@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -5,7 +7,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { Link } from '@inertiajs/react';
 import { Bookmark, Calendar, Clock, Heart, MessageCircle, Reply, Share2, ThumbsUp } from 'lucide-react';
-import { useState } from 'react';
 
 // Mock blog post data
 const blogPost = {

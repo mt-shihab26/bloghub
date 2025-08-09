@@ -89,6 +89,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the posts created by the user.
+     */
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    /**
      * The posts liked by the user.
      */
     public function likes(): BelongsToMany
