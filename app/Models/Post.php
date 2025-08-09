@@ -83,4 +83,12 @@ class Post extends Model
     {
         return $this->belongsToMany(User::class, 'post_user_likes')->withTimestamps();
     }
+
+    /**
+     * The users who bookmarked this post.
+     */
+    public function bookmarks(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'post_user_bookmarks')->withTimestamps();
+    }
 }

@@ -66,8 +66,8 @@ export const FeaturedArticles = ({ posts }: { posts: TPost[] }) => {
                         <Button
                             variant="ghost"
                             size="sm"
-                            className={cn('cursor-pointer', { 'text-red-500': post.likes_by_user })}
-                            onClick={() => router.post(route('site.authors.posts.like', post))}
+                            className={cn('cursor-pointer', { 'text-red-500': post.like_by_user })}
+                            onClick={() => router.post(route('site.posts.like', post))}
                         >
                             <Heart className="mr-1 h-4 w-4" />
                             {postLikes(post)}
@@ -77,7 +77,12 @@ export const FeaturedArticles = ({ posts }: { posts: TPost[] }) => {
                                 <MessageCircle className="mr-1 h-4 w-4" />0
                             </Link>
                         </Button>
-                        <Button variant="ghost" size="sm" className={cn({ 'text-blue-500': post.bookmark_by_user })}>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => router.post(route('site.posts.bookmark', post))}
+                            className={cn({ 'text-blue-500': post.bookmark_by_user })}
+                        >
                             <Bookmark className="h-4 w-4" />
                         </Button>
                     </div>

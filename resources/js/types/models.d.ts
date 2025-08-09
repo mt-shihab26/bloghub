@@ -81,6 +81,6 @@ export type TPost = {
     tags?: TTag[];
 
     likes_count?: number;
-    likes_by_user?: boolean;
+    like_by_user?: boolean;
     bookmark_by_user?: boolean;
 };

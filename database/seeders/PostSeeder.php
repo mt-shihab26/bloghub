@@ -22,7 +22,7 @@ class PostSeeder extends Seeder
                 $post->tags()->attach($tags);
 
                 $userIds = User::inRandomOrder()->take(rand(0, 10))->pluck('id'); // 0-10 random likers
-                $post->likedByUsers()->attach($userIds);
+                $post->likes()->attach($userIds);
             });
     }
 }
