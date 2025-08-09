@@ -4,13 +4,21 @@ import { Head } from '@inertiajs/react';
 import { Footer } from './footer';
 import { Header } from './header';
 
-export const SiteLayout = ({ children, title }: { children: ReactNode; title: string }) => {
+export const SiteLayout = ({
+    children,
+    title,
+    footer = true,
+}: {
+    children: ReactNode;
+    title: string;
+    footer?: boolean;
+}) => {
     return (
-        <div className="min-h-screen bg-background">
+        <div className="flex flex-col bg-background">
             <Head title={title} />
-            <Header className="h-18" />
-            <div className="container mx-auto h-[calc(100vh-35rem)] px-4 py-8">{children}</div>
-            <Footer className="h-110" />
+            <Header className="h-[4.5rem]" />
+            <main className="container mx-auto h-[calc(100vh-4.5rem)] px-4 pt-8">{children}</main>
+            {footer && <Footer className="min-h-[27.5rem]" />}
         </div>
     );
 };

@@ -11,7 +11,7 @@ import { TrendingTopics } from './trending-topics';
 
 const Index = ({ posts }: { posts: TPost[] }) => {
     return (
-        <SiteLayout title="Home">
+        <SiteLayout title="Home" footer={false}>
             {/* Full viewport height grid container */}
             <div className="grid h-full grid-cols-1 gap-8 lg:grid-cols-5">
                 {/* Left Sidebar: scrollable */}
