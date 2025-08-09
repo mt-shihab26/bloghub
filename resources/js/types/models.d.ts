@@ -79,4 +79,8 @@ export type TPost = {
     image?: TImage | null;
     category?: TCategory | null;
     tags?: TTag[];
+
+    likes_count?: number;
+    likes_by_user?: boolean;
+    bookmark_by_user?: boolean;
 };

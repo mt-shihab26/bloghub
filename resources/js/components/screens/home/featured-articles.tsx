@@ -1,8 +1,8 @@
 import type { TPost } from '@/types/models';
 
 import { formatInitials, formatTimeAgo } from '@/lib/format';
-import { authorLink, categoryName, imageLink, postLink } from '@/lib/format2';
-import { cn } from '@/lib/utils';
+import { authorLink, categoryName, imageLink, postLikes, postLink } from '@/lib/format2';
+import { cn, readingTime } from '@/lib/utils';
 import { useState } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -63,21 +63,22 @@ export const FeaturedArticles = ({ posts }: { posts: TPost[] }) => {
             <div className="px-4 pb-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
-                        <Button variant="ghost" size="sm" className={'text-red-500'}>
-                            <Heart className="mr-1 h-4 w-4" />0
+                        <Button variant="ghost" size="sm" className={cn({ 'text-red-500': post.likes_by_user })}>
+                            <Heart className="mr-1 h-4 w-4" />
+                            {postLikes(post)}
                         </Button>
                         <Button variant="ghost" size="sm" asChild>
                             <Link href={postLink(post.user, post, '#comments')}>
                                 <MessageCircle className="mr-1 h-4 w-4" />0
                             </Link>
                         </Button>
-                        <Button variant="ghost" size="sm" className={'text-blue-500'}>
+                        <Button variant="ghost" size="sm" className={cn({ 'text-blue-500': post.bookmark_by_user })}>
                             <Bookmark className="h-4 w-4" />
                         </Button>
                     </div>
                     <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                         <Clock className="h-4 w-4" />
-                        <span>2</span>
+                        <span>{readingTime(post.content)}</span>
                     </div>
                 </div>
                 {post.tags && (

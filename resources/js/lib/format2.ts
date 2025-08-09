@@ -19,6 +19,10 @@ export const imageLink = (image: TImage | null | undefined): string => {
     return image?.name;
 };
 
-export const categoryName = (category: TCategory | null | undefined) => {
+export const categoryName = (category: TCategory | null | undefined): string => {
     return category?.name || 'Uncategorized';
+};
+
+export const postLikes = (post: TPost | null | undefined): number => {
+    return post?.likes_count || 0;
 };
