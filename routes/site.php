@@ -26,5 +26,9 @@ Route::prefix('/profile')->group(function () {
     Route::get('/settings', [HomeController::class, 'show'])->name('site.profile.settings');
 });
 
+Route::prefix('/newsletter')->group(function () {
+    Route::get('/subscribe', [HomeController::class, 'show'])->name('site.newsletter.subscribe');
+});
+
 Route::get('/{user:username}', [HomeController::class, 'show'])->name('site.authors.profile');
 Route::get('/{user:username}/{post:slug}', [HomeController::class, 'show'])->name('site.authors.posts.show');
