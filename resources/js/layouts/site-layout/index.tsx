@@ -8,9 +8,9 @@ export const SiteLayout = ({ children, title }: { children: ReactNode; title: st
     return (
         <div className="min-h-screen bg-background">
             <Head title={title} />
-            <Header />
+            <Header className="h-18" />
             <div className="container mx-auto h-[calc(100vh-35rem)] px-4 py-8">{children}</div>
-            <Footer className="h-100" />
+            <Footer className="h-110" />
         </div>
     );
 };
