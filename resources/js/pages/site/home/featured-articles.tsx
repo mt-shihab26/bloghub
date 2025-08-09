@@ -1,7 +1,7 @@
 import type { TPost } from '@/types/models';
 
 import { formatInitials, formatTimeAgo } from '@/lib/format';
-import { authorLink, categoryName, imageLink, postComments, postLikes, postLink, tagLink } from '@/lib/format2';
+import { authorLink, categoryName, imageLink, postComments, postLikes, postLink, tagLink } from '@/lib/links';
 import { cn, readingTime } from '@/lib/utils';
 import { useState } from 'react';
 

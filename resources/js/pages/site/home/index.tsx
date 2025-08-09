@@ -23,7 +23,7 @@ const Index = ({ posts }: { posts: TPost[] }) => {
                 {/* Main Content: scrollable */}
                 <main className="scrollbar-hide h-full overflow-y-auto lg:col-span-3">
                     <FeaturedArticles posts={posts} />
-                    <RecommendedArticles />
+                    <RecommendedArticles posts={posts} />
                 </main>
 
                 {/* Right Sidebar: scrollable */}
