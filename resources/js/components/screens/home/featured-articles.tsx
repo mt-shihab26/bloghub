@@ -1,15 +1,15 @@
 import type { TPost } from '@/types/models';
 
 import { formatInitials, formatTimeAgo } from '@/lib/format';
-import { authorLink, categoryName, imageLink, postLikes, postLink } from '@/lib/format2';
+import { authorLink, categoryName, imageLink, postComments, postLikes, postLink, tagLink } from '@/lib/format2';
 import { cn, readingTime } from '@/lib/utils';
 import { useState } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Link, router } from '@inertiajs/react';
-import { Bookmark, Clock, Heart, MessageCircle } from 'lucide-react';
+import { BookmarkIcon, Clock, HeartIcon, MessageCircleIcon } from 'lucide-react';
+import { IconButton } from './icon-button';
 
 export const FeaturedArticles = ({ posts }: { posts: TPost[] }) => {
     const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -63,28 +63,28 @@ export const FeaturedArticles = ({ posts }: { posts: TPost[] }) => {
             <div className="px-4 pb-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
-                        <Button
-                            variant="ghost"
-                            size="sm"
-                            className={cn('cursor-pointer', { 'text-red-500': post.like_by_user })}
+                        <IconButton
+                            active={post.liked_by_user}
+                            icon={HeartIcon}
+                            activeColorClass="text-red-500"
                             onClick={() => router.post(route('site.posts.like', post))}
                         >
-                            <Heart className="mr-1 h-4 w-4" />
                             {postLikes(post)}
-                        </Button>
-                        <Button variant="ghost" size="sm" asChild>
-                            <Link href={postLink(post.user, post, '#comments')}>
-                                <MessageCircle className="mr-1 h-4 w-4" />0
-                            </Link>
-                        </Button>
-                        <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => router.post(route('site.posts.bookmark', post))}
-                            className={cn({ 'text-blue-500': post.bookmark_by_user })}
+                        </IconButton>
+                        <IconButton
+                            active={post.commented_by_user}
+                            icon={MessageCircleIcon}
+                            activeColorClass="text-primary"
+                            href={postLink(post.user, post, '#comments')}
                         >
-                            <Bookmark className="h-4 w-4" />
-                        </Button>
+                            {postComments(post)}
+                        </IconButton>
+                        <IconButton
+                            active={post.bookmarked_by_user}
+                            icon={BookmarkIcon}
+                            activeColorClass="text-blue-500"
+                            onClick={() => router.post(route('site.posts.bookmark', post))}
+                        />
                     </div>
                     <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                         <Clock className="h-4 w-4" />
@@ -94,9 +94,11 @@ export const FeaturedArticles = ({ posts }: { posts: TPost[] }) => {
                 {post.tags && (
                     <div className="mt-4 flex flex-wrap gap-2">
                         {post.tags.map((tag) => (
-                            <Badge key={tag.slug} variant="secondary">
-                                {tag.name}
-                            </Badge>
+                            <Link key={tag.slug} href={tagLink(tag)}>
+                                <Badge variant="secondary" className="cursor-pointer hover:underline">
+                                    {tag.name}
+                                </Badge>
+                            </Link>
                         ))}
                     </div>
                 )}

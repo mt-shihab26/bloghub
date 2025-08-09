@@ -1,4 +1,4 @@
-import type { TCategory, TImage, TPost, TUser } from '@/types/models';
+import type { TCategory, TImage, TPost, TTag, TUser } from '@/types/models';
 
 export const authorLink = (user: TUser): string => {
     return route('site.authors.show', { user });
@@ -25,4 +25,16 @@ export const categoryName = (category: TCategory | null | undefined): string => 
 
 export const postLikes = (post: TPost | null | undefined): number => {
     return post?.likes_count || 0;
+};
+
+export const postComments = (post: TPost | null | undefined): number => {
+    return post?.comments_count || 0;
+};
+
+export const tagLink = (tag: TTag, extra?: string): string => {
+    const link = route('site.tags.show', { tag });
+    if (!extra) {
+        return link;
+    }
+    return `${link}${extra}`;
 };

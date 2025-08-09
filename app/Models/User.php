@@ -93,4 +93,12 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Post::class, 'post_user_bookmarks')->withTimestamps();
     }
+
+    /**
+     * The comments made by the user.
+     */
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

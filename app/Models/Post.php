@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Post extends Model
 {
@@ -90,5 +91,13 @@ class Post extends Model
     public function bookmarks(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'post_user_bookmarks')->withTimestamps();
+    }
+
+    /**
+     * The comments for this post.
+     */
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
     }
 }

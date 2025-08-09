@@ -21,9 +21,11 @@ class HomeController extends Controller
             ->with('image')
             ->with('category')
             ->with('tags')
-            ->withCount('likes', 'likes')
-            ->withExists(['likes as like_by_user' => fn ($q) => $q->where('user_id', $userId)])
-            ->withExists(['bookmarks as bookmark_by_user' => fn ($q) => $q->where('user_id', $userId)])
+            ->withCount('likes')
+            ->withCount('comments')
+            ->withExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $userId)])
+            ->withExists(['comments as commented_by_user' => fn ($q) => $q->where('user_id', $userId)])
+            ->withExists(['bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $userId)])
             ->limit(10)
             ->get();
 
@@ -38,37 +40,5 @@ class HomeController extends Controller
     public function show(User $user, Post $post)
     {
         return inertia('site/home/show');
-    }
-
-    /**
-     * Toggle like on a post by the authenticated user.
-     */
-    public function toggleLike(Request $request, Post $post)
-    {
-        $user = $request->user();
-
-        if ($post->likes()->where('user_id', $user->id)->exists()) {
-            $post->likes()->detach($user->id);
-        } else {
-            $post->likes()->attach($user->id);
-        }
-
-        return redirect()->route('home');
-    }
-
-    /**
-     * Toggle bookmark on a post by the authenticated user.
-     */
-    public function toggleBookmark(Request $request, Post $post)
-    {
-        $user = $request->user();
-
-        if ($post->bookmarks()->where('user_id', $user->id)->exists()) {
-            $post->bookmarks()->detach($user->id);
-        } else {
-            $post->bookmarks()->attach($user->id);
-        }
-
-        return redirect()->route('home');
     }
 }
