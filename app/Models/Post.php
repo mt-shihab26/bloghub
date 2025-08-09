@@ -75,4 +75,12 @@ class Post extends Model
     {
         return $this->belongsToMany(Tag::class);
     }
+
+    /**
+     * The users who liked this post.
+     */
+    public function likedByUsers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'post_user_likes')->withTimestamps();
+    }
 }
