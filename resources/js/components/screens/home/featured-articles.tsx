@@ -58,7 +58,7 @@ export const FeaturedArticles = ({ posts }: { posts: TPost[] }) => {
             <div className="p-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
-                        <Button variant="ghost" size="sm" className={true ? 'text-red-500' : ''}>
+                        <Button variant="ghost" size="sm" className={'text-red-500'}>
                             <Heart className="mr-1 h-4 w-4" />0
                         </Button>
                         <Button variant="ghost" size="sm" asChild>
@@ -66,7 +66,7 @@ export const FeaturedArticles = ({ posts }: { posts: TPost[] }) => {
                                 <MessageCircle className="mr-1 h-4 w-4" />0
                             </Link>
                         </Button>
-                        <Button variant="ghost" size="sm" className={true ? 'text-blue-500' : ''}>
+                        <Button variant="ghost" size="sm" className={'text-blue-500'}>
                             <Bookmark className="h-4 w-4" />
                         </Button>
                     </div>
