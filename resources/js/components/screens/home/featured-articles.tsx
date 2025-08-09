@@ -1,12 +1,12 @@
 import type { TPost } from '@/types/models';
 
 import { formatInitials } from '@/lib/format';
+import { postLink } from '@/lib/links';
 import { useState } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Link } from '@inertiajs/react';
 import { Bookmark, Clock, Heart, MessageCircle } from 'lucide-react';
 
@@ -19,12 +19,12 @@ export const FeaturedArticles = ({ posts }: { posts: TPost[] }) => {
     }
 
     return (
-        <Card className="mb-8 overflow-hidden">
+        <section className="mb-8 overflow-hidden rounded-lg border border-gray-200">
             <div className="relative">
-                <img src={post.image?.name || '/placeholder.svg'} alt={post.title} width={800} height={300} className="h-64 w-full object-cover" />
+                <a href={postLink(post.user, post)}>
+                    <img src={post.image?.name} alt={post.title} width={800} height={300} className="h-64 w-full rounded-t-lg object-cover" />
+                </a>
                 <Badge className="absolute top-4 left-4 bg-primary">Featured</Badge>
-
-                {/* Pagination dots */}
                 <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 space-x-2">
                     {posts.map((_, idx) => (
                         <button
@@ -36,8 +36,7 @@ export const FeaturedArticles = ({ posts }: { posts: TPost[] }) => {
                     ))}
                 </div>
             </div>
-
-            <CardHeader>
+            <header className="p-4">
                 <div className="mb-2 flex items-center space-x-2">
                     <Avatar className="h-8 w-8">
                         <AvatarImage src={''} />
@@ -47,16 +46,16 @@ export const FeaturedArticles = ({ posts }: { posts: TPost[] }) => {
                         {post.user.name}
                     </Link>
                     <span className="text-sm text-muted-foreground">•</span>
-                    <span className="text-sm text-muted-foreground">{post.published_at}</span>
+                    <time className="text-sm text-muted-foreground">{post.published_at}</time>
                 </div>
-                <CardTitle className="mb-2 text-2xl">
+                <h2 className="mb-2 text-2xl font-semibold">
                     <Link href={`/blog/${post.id}`} className="hover:underline">
                         {post.title}
                     </Link>
-                </CardTitle>
-                <CardDescription className="text-base">{post.excerpt}</CardDescription>
-            </CardHeader>
-            <CardContent>
+                </h2>
+                <p className="text-base text-muted-foreground">{post.excerpt}</p>
+            </header>
+            <div className="p-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
                         <Button variant="ghost" size="sm" className={true ? 'text-red-500' : ''}>
@@ -83,7 +82,7 @@ export const FeaturedArticles = ({ posts }: { posts: TPost[] }) => {
                         </Badge>
                     ))}
                 </div>
-            </CardContent>
-        </Card>
+            </div>
+        </section>
     );
 };
