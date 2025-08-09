@@ -5,10 +5,10 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { type NavItem } from '@/types';
+import { TNavItem } from '@/types/admin';
 import { Link, usePage } from '@inertiajs/react';
 
-export function NavMain({ items = [] }: { items: NavItem[] }) {
+export function NavMain({ items = [] }: { items: TNavItem[] }) {
     const page = usePage();
     return (
         <SidebarGroup className="px-2 py-0">

@@ -4,17 +4,17 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
-import { UserInfo } from '@/components/user-info';
+
+import type { TUser } from '@/types/models';
+
 import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
-import { type User } from '@/types';
-import { Link, router } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
+
+import { UserInfo } from '@/components/user-info';
+import { Link } from '@inertiajs/react';
 import { LogOut, Settings } from 'lucide-react';
 
-interface UserMenuContentProps {
-    user: User;
-}
-
-export function UserMenuContent({ user }: UserMenuContentProps) {
+export function UserMenuContent({ user }: { user: TUser }) {
     const cleanup = useMobileNavigation();
 
     const handleLogout = () => {

@@ -12,15 +12,16 @@ import {
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { UserMenuContent } from '@/components/user-menu-content';
-import { useInitials } from '@/hooks/use-initials';
+import { formatInitials } from '@/lib/format';
 import { cn } from '@/lib/utils';
-import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
+import type { TAuthPage } from '@/types';
+import type { TBreadcrumbItem, TNavItem } from '@/types/admin';
 import { Link, usePage } from '@inertiajs/react';
 import { BookOpen, Folder, LayoutGrid, Menu, Search } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
 
-const mainNavItems: NavItem[] = [
+const mainNavItems: TNavItem[] = [
     {
         title: 'Dashboard',
         href: '/dashboard',
@@ -28,7 +29,7 @@ const mainNavItems: NavItem[] = [
     },
 ];
 
-const rightNavItems: NavItem[] = [
+const rightNavItems: TNavItem[] = [
     {
         title: 'Repository',
         href: 'https://github.com/laravel/react-starter-kit',
@@ -44,13 +45,12 @@ const rightNavItems: NavItem[] = [
 const activeItemStyles = 'text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100';
 
 interface AppHeaderProps {
-    breadcrumbs?: BreadcrumbItem[];
+    breadcrumbs?: TBreadcrumbItem[];
 }
 
 export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
-    const page = usePage<SharedData>();
+    const page = usePage<TAuthPage>();
     const { auth } = page.props;
-    const getInitials = useInitials();
     return (
         <>
             <div className="border-b border-sidebar-border/80">
@@ -175,7 +175,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                     <Avatar className="size-8 overflow-hidden rounded-full">
                                         <AvatarImage src={auth.user.avatar} alt={auth.user.name} />
                                         <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
-                                            {getInitials(auth.user.name)}
+                                            {formatInitials(auth.user.name)}
                                         </AvatarFallback>
                                     </Avatar>
                                 </Button>

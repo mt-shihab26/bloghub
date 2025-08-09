@@ -1,4 +1,7 @@
+import type { TAuthPage } from '@/types';
+
 import { cn } from '@/lib/utils';
+import { usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -7,6 +10,8 @@ import { Link } from '@inertiajs/react';
 import { Search } from 'lucide-react';
 
 export const Header = ({ className }: { className: string }) => {
+    const { user } = usePage<TAuthPage>().props.auth;
+
     const [searchQuery, setSearchQuery] = useState('');
 
     return (
@@ -40,7 +45,7 @@ export const Header = ({ className }: { className: string }) => {
                             <Link href="/login">Sign In</Link>
                         </Button>
                         <Button asChild>
-                            <Link href="/signup">Get Started</Link>
+                            <Link href="/signup">Sign Up</Link>
                         </Button>
                     </div>
                 </div>
