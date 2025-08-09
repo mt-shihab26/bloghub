@@ -1,13 +1,13 @@
 import type { TPost } from '@/types/models';
 
-import { Categories } from '@/components/screens/home/categories';
-import { FeaturedArticles } from '@/components/screens/home/featured-articles';
-import { NewsletterSignup } from '@/components/screens/home/newsletter-signup';
-import { PopularAuthors } from '@/components/screens/home/popular-authors';
-import { PopularTags } from '@/components/screens/home/popular-tags';
-import { RecommendedArticles } from '@/components/screens/home/recommended-articles';
-import { TrendingTopics } from '@/components/screens/home/trending-topics';
 import { SiteLayout } from '@/layouts/site-layout';
+import { Categories } from './categories';
+import { FeaturedArticles } from './featured-articles';
+import { NewsletterSignup } from './newsletter-signup';
+import { PopularAuthors } from './popular-authors';
+import { PopularTags } from './popular-tags';
+import { RecommendedArticles } from './recommended-articles';
+import { TrendingTopics } from './trending-topics';
 
 const Index = ({ posts }: { posts: TPost[] }) => {
     return (

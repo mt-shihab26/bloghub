@@ -21,7 +21,7 @@ export const FeaturedArticles = ({ posts }: { posts: TPost[] }) => {
     }
 
     return (
-        <section className="mb-8 overflow-hidden rounded-lg border border-gray-200">
+        <section className="mb-8 overflow-hidden rounded-lg border">
             <div className="relative">
                 <a href={postLink(post.user, post)}>
                     <img src={imageLink(post.image)} alt={post.title} width={800} height={300} className="h-64 w-full rounded-t-lg object-cover" />
