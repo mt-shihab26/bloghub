@@ -1,7 +1,7 @@
 import type { TPost } from '@/types/models';
 
 import { formatInitials, formatTimeAgo } from '@/lib/format';
-import { authorLink, imageLink, postLink } from '@/lib/links';
+import { authorLink, categoryName, imageLink, postLink } from '@/lib/format2';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 
@@ -26,7 +26,7 @@ export const FeaturedArticles = ({ posts }: { posts: TPost[] }) => {
                 <a href={postLink(post.user, post)}>
                     <img src={imageLink(post.image)} alt={post.title} width={800} height={300} className="h-64 w-full rounded-t-lg object-cover" />
                 </a>
-                <Badge className="absolute top-4 left-4 bg-primary">Featured</Badge>
+                <Badge className="absolute top-4 left-4 bg-primary">{categoryName(post.category)}</Badge>
                 <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 space-x-2">
                     {posts.map((_, index) => (
                         <button
@@ -54,20 +54,20 @@ export const FeaturedArticles = ({ posts }: { posts: TPost[] }) => {
                     <time className="text-sm text-muted-foreground">{formatTimeAgo(post.published_at)}</time>
                 </div>
                 <h2 className="mb-2 text-2xl font-semibold">
-                    <Link href={`/blog/${post.id}`} className="hover:underline">
+                    <Link href={postLink(post.user, post)} className="hover:underline">
                         {post.title}
                     </Link>
                 </h2>
                 <p className="text-base text-muted-foreground">{post.excerpt}</p>
             </header>
-            <div className="p-4">
+            <div className="px-4 pb-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
                         <Button variant="ghost" size="sm" className={'text-red-500'}>
                             <Heart className="mr-1 h-4 w-4" />0
                         </Button>
                         <Button variant="ghost" size="sm" asChild>
-                            <Link href={`/blog/${post.id}#comments`}>
+                            <Link href={postLink(post.user, post, '#comments')}>
                                 <MessageCircle className="mr-1 h-4 w-4" />0
                             </Link>
                         </Button>
@@ -80,13 +80,15 @@ export const FeaturedArticles = ({ posts }: { posts: TPost[] }) => {
                         <span>2</span>
                     </div>
                 </div>
-                <div className="mt-4 flex flex-wrap gap-2">
-                    {post.tags?.map((tag) => (
-                        <Badge key={tag.slug} variant="secondary">
-                            {tag.name}
-                        </Badge>
-                    ))}
-                </div>
+                {post.tags && (
+                    <div className="mt-4 flex flex-wrap gap-2">
+                        {post.tags.map((tag) => (
+                            <Badge key={tag.slug} variant="secondary">
+                                {tag.name}
+                            </Badge>
+                        ))}
+                    </div>
+                )}
             </div>
         </section>
     );
