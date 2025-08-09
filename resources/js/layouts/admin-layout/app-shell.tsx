@@ -1,6 +1,8 @@
-import { SidebarProvider } from '@/components/ui/sidebar';
-import { TAuthPage } from '@/types';
+import type { TAuthPage } from '@/types';
+
 import { usePage } from '@inertiajs/react';
+
+import { SidebarProvider } from '@/components/ui/sidebar';
 
 interface AppShellProps {
     children: React.ReactNode;

@@ -1,11 +1,11 @@
+import type { TBreadcrumbItem } from '@/types/admin';
+
+import { AdminLayout } from '@/layouts/admin-layout';
 import { Head } from '@inertiajs/react';
 
-import AppearanceTabs from '@/components/appearance-tabs';
-import HeadingSmall from '@/components/heading-small';
-import { type TBreadcrumbItem } from '@/types/admin';
-
-import AppLayout from '@/layouts/app-layout';
-import SettingsLayout from '@/layouts/settings/layout';
+import HeadingSmall from '@/components/elements/heading-small';
+import AppearanceTabs from './appearance-tabs';
+import SettingsLayout from './layout';
 
 const breadcrumbs: TBreadcrumbItem[] = [
     {
@@ -16,7 +16,7 @@ const breadcrumbs: TBreadcrumbItem[] = [
 
 export default function Appearance() {
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <AdminLayout breadcrumbs={breadcrumbs}>
             <Head title="Appearance settings" />
 
             <SettingsLayout>
@@ -25,6 +25,6 @@ export default function Appearance() {
                     <AppearanceTabs />
                 </div>
             </SettingsLayout>
-        </AppLayout>
+        </AdminLayout>
     );
 }

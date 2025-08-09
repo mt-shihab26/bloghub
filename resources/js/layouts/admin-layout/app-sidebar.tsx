@@ -1,6 +1,3 @@
-import { NavFooter } from '@/components/nav-footer';
-import { NavMain } from '@/components/nav-main';
-import { NavUser } from '@/components/nav-user';
 import {
     Sidebar,
     SidebarContent,
@@ -10,9 +7,16 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+
 import type { TNavItem } from '@/types/admin';
+
 import { Link } from '@inertiajs/react';
 import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+
+import { NavFooter } from './nav-footer';
+import { NavMain } from './nav-main';
+import { NavUser } from './nav-user';
+
 import AppLogo from './app-logo';
 
 const mainNavItems: TNavItem[] = [

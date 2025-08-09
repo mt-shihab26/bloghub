@@ -1,11 +1,11 @@
-import InputError from '@/components/input-error';
-import AppLayout from '@/layouts/app-layout';
-import SettingsLayout from '@/layouts/settings/layout';
+import InputError from '@/components/elements/input-error';
+import { AdminLayout } from '@/layouts/admin-layout';
 import { Transition } from '@headlessui/react';
 import { Head, useForm } from '@inertiajs/react';
 import { FormEventHandler, useRef } from 'react';
+import SettingsLayout from './layout';
 
-import HeadingSmall from '@/components/heading-small';
+import HeadingSmall from '@/components/elements/heading-small';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -49,7 +49,7 @@ export default function Password() {
     };
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <AdminLayout breadcrumbs={breadcrumbs}>
             <Head title="Password settings" />
 
             <SettingsLayout>
@@ -126,6 +126,6 @@ export default function Password() {
                     </form>
                 </div>
             </SettingsLayout>
-        </AppLayout>
+        </AdminLayout>
     );
 }

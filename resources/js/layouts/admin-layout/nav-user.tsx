@@ -1,11 +1,11 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar';
-import { UserInfo } from '@/components/user-info';
-import { UserMenuContent } from '@/components/user-menu-content';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { UserMenuContent } from '@/layouts/admin-layout/user-menu-content';
 import { type TAuthPage } from '@/types';
 import { usePage } from '@inertiajs/react';
 import { ChevronsUpDown } from 'lucide-react';
+import { UserInfo } from './user-info';
 
 export function NavUser() {
     const { auth } = usePage<TAuthPage>().props;

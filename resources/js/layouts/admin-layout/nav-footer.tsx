@@ -1,4 +1,3 @@
-import { Icon } from '@/components/icon';
 import {
     SidebarGroup,
     SidebarGroupContent,
@@ -8,6 +7,7 @@ import {
 } from '@/components/ui/sidebar';
 import { TNavItem } from '@/types/admin';
 import { type ComponentPropsWithoutRef } from 'react';
+import { Icon } from './icon';
 
 export function NavFooter({
     items,

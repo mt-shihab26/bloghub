@@ -1,26 +1,27 @@
-import { Breadcrumbs } from '@/components/breadcrumbs';
-import { Icon } from '@/components/icon';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import {
-    NavigationMenu,
-    NavigationMenuItem,
-    NavigationMenuList,
-    navigationMenuTriggerStyle,
-} from '@/components/ui/navigation-menu';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { UserMenuContent } from '@/components/user-menu-content';
+import type { TAuthPage } from '@/types';
+import type { TBreadcrumbItem, TNavItem } from '@/types/admin';
+
+import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu';
 import { formatInitials } from '@/lib/format';
 import { imageLink } from '@/lib/links';
 import { cn } from '@/lib/utils';
-import type { TAuthPage } from '@/types';
-import type { TBreadcrumbItem, TNavItem } from '@/types/admin';
-import { Link, usePage } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
+
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from '@/components/ui/navigation-menu';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Link } from '@inertiajs/react';
 import { BookOpen, Folder, LayoutGrid, Menu, Search } from 'lucide-react';
+
+import { Breadcrumbs } from './breadcrumbs';
+import { Icon } from './icon';
+import { UserMenuContent } from './user-menu-content';
+
+import AppLogoIcon from '@/components/elements/app-logo-icon';
 import AppLogo from './app-logo';
-import AppLogoIcon from './app-logo-icon';
 
 const mainNavItems: TNavItem[] = [
     {

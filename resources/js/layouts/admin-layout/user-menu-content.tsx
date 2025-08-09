@@ -10,9 +10,9 @@ import type { TUser } from '@/types/models';
 import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
 import { router } from '@inertiajs/react';
 
-import { UserInfo } from '@/components/user-info';
 import { Link } from '@inertiajs/react';
 import { LogOut, Settings } from 'lucide-react';
+import { UserInfo } from './user-info';
 
 export function UserMenuContent({ user }: { user: TUser }) {
     const cleanup = useMobileNavigation();

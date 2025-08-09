@@ -1,7 +1,11 @@
-import AppLogoIcon from '@/components/app-logo-icon';
-import { type TAuthPage } from '@/types';
-import { Link, usePage } from '@inertiajs/react';
-import { type PropsWithChildren } from 'react';
+import type { TAuthPage } from '@/types';
+import type { PropsWithChildren } from 'react';
+
+import { usePage } from '@inertiajs/react';
+
+import { Link } from '@inertiajs/react';
+
+import AppLogoIcon from '@/components/elements/app-logo-icon';
 
 interface AuthLayoutProps {
     title?: string;
