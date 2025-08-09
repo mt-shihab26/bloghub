@@ -12,18 +12,26 @@ import { SiteLayout } from '@/layouts/site-layout';
 const Index = ({ posts }: { posts: TPost[] }) => {
     return (
         <SiteLayout title="Home">
-            <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
-                <div className="lg:col-span-3">
-                    <FeaturedArticles posts={posts} />
-                    <RecommendedArticles />
-                </div>
-                <div className="space-y-6">
+            {/* Full viewport height grid container */}
+            <div className="grid h-[calc(100vh-4rem)] grid-cols-1 gap-8 lg:grid-cols-5">
+                {/* Left Sidebar: scrollable */}
+                <aside className="scrollbar-hide h-full space-y-6 overflow-y-auto lg:col-span-1">
                     <TrendingTopics />
                     <PopularAuthors />
+                </aside>
+
+                {/* Main Content: scrollable */}
+                <main className="scrollbar-hide h-full overflow-y-auto lg:col-span-3">
+                    <FeaturedArticles posts={posts} />
+                    <RecommendedArticles />
+                </main>
+
+                {/* Right Sidebar: scrollable */}
+                <aside className="scrollbar-hide h-full space-y-6 overflow-y-auto lg:col-span-1">
                     <Categories />
                     <PopularTags />
                     <NewsletterSignup />
-                </div>
+                </aside>
             </div>
         </SiteLayout>
     );
