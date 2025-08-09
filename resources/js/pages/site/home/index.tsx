@@ -1,4 +1,4 @@
-import type { TPost } from '@/types/models';
+import type { TPost, TUser } from '@/types/models';
 
 import { SiteLayout } from '@/layouts/site-layout';
 import { Categories } from './categories';
@@ -9,7 +9,7 @@ import { PopularTags } from './popular-tags';
 import { RecommendedArticles } from './recommended-articles';
 import { TrendingTopics } from './trending-topics';
 
-const Index = ({ posts }: { posts: TPost[] }) => {
+const Index = ({ posts, popularAuthors }: { posts: TPost[]; popularAuthors: TUser[] }) => {
     return (
         <SiteLayout title="Home" footer={false}>
             {/* Full viewport height grid container */}
@@ -17,7 +17,7 @@ const Index = ({ posts }: { posts: TPost[] }) => {
                 {/* Left Sidebar: scrollable */}
                 <aside className="scrollbar-hide h-full space-y-6 overflow-y-auto lg:col-span-1">
                     <TrendingTopics />
-                    <PopularAuthors />
+                    <PopularAuthors users={popularAuthors} />
                 </aside>
 
                 {/* Main Content: scrollable */}

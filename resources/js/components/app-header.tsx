@@ -13,6 +13,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { UserMenuContent } from '@/components/user-menu-content';
 import { formatInitials } from '@/lib/format';
+import { imageLink } from '@/lib/links';
 import { cn } from '@/lib/utils';
 import type { TAuthPage } from '@/types';
 import type { TBreadcrumbItem, TNavItem } from '@/types/admin';
@@ -173,7 +174,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                             <DropdownMenuTrigger asChild>
                                 <Button variant="ghost" className="size-10 rounded-full p-1">
                                     <Avatar className="size-8 overflow-hidden rounded-full">
-                                        <AvatarImage src={auth.user.avatar} alt={auth.user.name} />
+                                        <AvatarImage src={imageLink(auth.user.image)} alt={auth.user.name} />
                                         <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
                                             {formatInitials(auth.user.name)}
                                         </AvatarFallback>

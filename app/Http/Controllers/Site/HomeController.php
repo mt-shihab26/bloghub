@@ -29,8 +29,14 @@ class HomeController extends Controller
             ->limit(10)
             ->get();
 
+        $popularAuthors = User::query()
+            ->with('image')
+            ->limit(10)
+            ->get();
+
         return inertia('site/home/index', [
             'posts' => $posts,
+            'popularAuthors' => $popularAuthors,
         ]);
     }
 
