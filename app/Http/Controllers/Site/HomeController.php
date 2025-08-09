@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Post;
+use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -29,14 +31,24 @@ class HomeController extends Controller
             ->limit(10)
             ->get();
 
-        $popularAuthors = User::query()
+        $users = User::query()
             ->with('image')
+            ->limit(10)
+            ->get();
+
+        $categories = Category::query()
+            ->limit(10)
+            ->get();
+
+        $tags = Tag::query()
             ->limit(10)
             ->get();
 
         return inertia('site/home/index', [
             'posts' => $posts,
-            'popularAuthors' => $popularAuthors,
+            'users' => $users,
+            'categories' => $categories,
+            'tags' => $tags,
         ]);
     }
 

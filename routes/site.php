@@ -7,13 +7,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::prefix('/tags')->group(function () {
-    Route::get('/{tag:slug}', [TagController::class, 'show'])->name('site.tags.show');
+Route::prefix('/categories')->group(function () {
+    Route::get('/{category:slug}', [TagController::class, 'show'])->name('site.categories.show');
 });
 
 Route::prefix('/posts')->group(function () {
     Route::post('/{post}/like', [PostController::class, 'toggleLike'])->middleware('auth')->name('site.posts.like');
     Route::post('/{post}/bookmark', [PostController::class, 'toggleBookmark'])->middleware('auth')->name('site.posts.bookmark');
+});
+
+Route::prefix('/tags')->group(function () {
+    Route::get('/{tag:slug}', [TagController::class, 'show'])->name('site.tags.show');
 });
 
 Route::prefix('/profile')->group(function () {

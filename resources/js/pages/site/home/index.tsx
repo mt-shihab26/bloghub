@@ -1,4 +1,4 @@
-import type { TPost, TUser } from '@/types/models';
+import type { TCategory, TPost, TTag, TUser } from '@/types/models';
 
 import { SiteLayout } from '@/layouts/site-layout';
 import { Categories } from './categories';
@@ -9,7 +9,17 @@ import { PopularTags } from './popular-tags';
 import { RecommendedArticles } from './recommended-articles';
 import { TrendingTopics } from './trending-topics';
 
-const Index = ({ posts, popularAuthors }: { posts: TPost[]; popularAuthors: TUser[] }) => {
+const Index = ({
+    posts,
+    users,
+    categories,
+    tags,
+}: {
+    posts: TPost[];
+    users: TUser[];
+    categories: TCategory[];
+    tags: TTag[];
+}) => {
     return (
         <SiteLayout title="Home" footer={false}>
             {/* Full viewport height grid container */}
@@ -17,7 +27,7 @@ const Index = ({ posts, popularAuthors }: { posts: TPost[]; popularAuthors: TUse
                 {/* Left Sidebar: scrollable */}
                 <aside className="scrollbar-hide h-full space-y-6 overflow-y-auto lg:col-span-1">
                     <TrendingTopics />
-                    <PopularAuthors users={popularAuthors} />
+                    <PopularAuthors users={users} />
                 </aside>
 
                 {/* Main Content: scrollable */}
@@ -28,7 +38,7 @@ const Index = ({ posts, popularAuthors }: { posts: TPost[]; popularAuthors: TUse
 
                 {/* Right Sidebar: scrollable */}
                 <aside className="scrollbar-hide h-full space-y-6 overflow-y-auto lg:col-span-1">
-                    <Categories />
+                    <Categories categories={categories} />
                     <PopularTags />
                     <NewsletterSignup />
                 </aside>

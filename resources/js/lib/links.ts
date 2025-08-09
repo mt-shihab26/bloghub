@@ -43,6 +43,14 @@ export const postComments = (post: TPost | null | undefined): number => {
     return post?.comments_count || 0;
 };
 
+export const categoryLink = (category: TCategory, extra?: string): string => {
+    const link = route('site.categories.show', { category });
+    if (!extra) {
+        return link;
+    }
+    return `${link}${extra}`;
+};
+
 export const tagLink = (tag: TTag, extra?: string): string => {
     const link = route('site.tags.show', { tag });
     if (!extra) {
