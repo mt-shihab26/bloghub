@@ -24,7 +24,7 @@ class PostFactory extends Factory
 
         return [
             'user_id' => User::inRandomOrder()->first()?->id,
-            'image_id' => fake()->optional() ? Image::inRandomOrder()->first()?->id : null,
+            'image_id' => fake()->optional() ? Image::factory() : null,
             'category_id' => fake()->optional() ? Category::inRandomOrder()->first()?->id : null,
             'title' => $title,
             'slug' => str()->slug($title),
