@@ -19,7 +19,7 @@ class ImageFactory extends Factory
     {
         return [
             'user_id' => User::inRandomOrder()->first()?->id,
-            'name' => fake()->imageUrl(),
+            'name' => 'https://picsum.photos/seed/picsum/200/300',
             'alt' => fake()->sentence(3),
             'memtype' => 'image/jpeg',
         ];

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
+use App\Models\Post;
 
 class HomeController extends Controller
 {
@@ -11,6 +12,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return inertia('site/home/index');
+        $posts = Post::query()
+            ->with('user')
+            ->with('image')
+            ->with('category')
+            ->with('tags')
+            ->limit(10)
+            ->get();
+
+        return inertia('site/home/index', [
+            'posts' => $posts,
+        ]);
     }
 }
