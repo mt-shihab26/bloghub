@@ -17,9 +17,11 @@ class ImageFactory extends Factory
      */
     public function definition(): array
     {
+        $seed = rand(100, 999);
+
         return [
             'user_id' => User::inRandomOrder()->first()?->id,
-            'name' => 'https://picsum.photos/seed/picsum/200/300',
+            'name' => "https://picsum.photos/200/300?random=$seed",
             'alt' => fake()->sentence(3),
             'memtype' => 'image/jpeg',
         ];
