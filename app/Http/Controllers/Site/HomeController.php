@@ -31,13 +31,13 @@ class HomeController extends Controller
             ->limit(10)
             ->get();
 
-        $users = User::query()
-            ->with('image')
+        $categories = Category::query()
+            ->withCount('posts')
             ->limit(10)
             ->get();
 
-        $categories = Category::query()
-            ->withCount('posts')
+        $users = User::query()
+            ->with('image')
             ->limit(10)
             ->get();
 
@@ -47,8 +47,8 @@ class HomeController extends Controller
 
         return inertia('site/home/index', [
             'posts' => $posts,
-            'users' => $users,
             'categories' => $categories,
+            'users' => $users,
             'tags' => $tags,
         ]);
     }
@@ -58,6 +58,9 @@ class HomeController extends Controller
      */
     public function show(User $user, Post $post)
     {
-        return inertia('site/show/index');
+        return inertia('site/show/index', [
+            'user' => $user,
+            'post' => $post,
+        ]);
     }
 }

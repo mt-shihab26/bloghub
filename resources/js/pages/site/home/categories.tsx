@@ -1,11 +1,11 @@
-import type { TCategory } from '@/types/models';
+import type { THomeCategory } from '@/types/site';
 
 import { categoryLink } from '@/lib/links';
 
 import { Badge } from '@/components/ui/badge';
 import { Link } from '@inertiajs/react';
 
-export const Categories = ({ categories }: { categories: TCategory[] }) => {
+export const Categories = ({ categories }: { categories: THomeCategory[] }) => {
     return (
         <div className="overflow-hidden rounded-lg border p-5">
             <h2 className="mb-4 text-lg font-semibold">Categories</h2>

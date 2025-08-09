@@ -1,4 +1,4 @@
-import type { TPost } from '@/types/models';
+import type { THomePost } from '@/types/site';
 
 import { formatInitials, formatTimeAgo } from '@/lib/format';
 import { authorLink, categoryName, imageLink, postComments, postLikes, postLink, tagLink } from '@/lib/links';
@@ -11,7 +11,7 @@ import { Link, router } from '@inertiajs/react';
 import { BookmarkIcon, Clock, HeartIcon, MessageCircleIcon } from 'lucide-react';
 import { IconButton } from './icon-button';
 
-export const FeaturedArticles = ({ posts }: { posts: TPost[] }) => {
+export const FeaturedArticles = ({ posts }: { posts: THomePost[] }) => {
     const [currentIndex, setCurrentIndex] = useState<number>(0);
 
     const post = posts[currentIndex];

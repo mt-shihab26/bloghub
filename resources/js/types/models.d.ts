@@ -11,8 +11,6 @@ export type TImage = {
 
     created_at: string;
     updated_at: string;
-
-    user?: TUser | null;
 };
 
 export type TUser = {
@@ -27,8 +25,6 @@ export type TUser = {
 
     created_at: string;
     updated_at: string;
-
-    image?: TImage | null;
 };
 
 export type TCategory = {
@@ -42,10 +38,6 @@ export type TCategory = {
 
     created_at: string;
     updated_at: string;
-
-    user?: TUser | null;
-    category?: TCategory | null;
-    posts_count?: number | null;
 };
 
 export type TTag = {
@@ -57,8 +49,6 @@ export type TTag = {
 
     created_at: string;
     updated_at: string;
-
-    user?: TUser | null;
 };
 
 export type TPost = {
@@ -76,15 +66,4 @@ export type TPost = {
 
     created_at: string;
     updated_at: string;
-
-    user: TUser;
-    image?: TImage | null;
-    category?: TCategory | null;
-    tags?: TTag[];
-
-    likes_count?: number;
-    comments_count?: number;
-    liked_by_user?: boolean;
-    commented_by_user?: boolean;
-    bookmarked_by_user?: boolean;
 };

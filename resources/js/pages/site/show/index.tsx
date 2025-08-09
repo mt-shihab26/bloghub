@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { SiteLayout } from '@/layouts/site-layout';
+import { TPost, TUser } from '@/types/models';
 import { Link } from '@inertiajs/react';
 import { Bookmark, Calendar, Clock, Heart, MessageCircle, Reply, Share2, ThumbsUp } from 'lucide-react';
 
@@ -96,7 +97,7 @@ const comments = [
     },
 ];
 
-const Show = () => {
+const Show = ({ user, post }: { user: TUser; post: TPost }) => {
     const [isLiked, setIsLiked] = useState(false);
     const [isBookmarked, setIsBookmarked] = useState(false);
     const [isFollowing, setIsFollowing] = useState(false);
