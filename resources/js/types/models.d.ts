@@ -45,6 +45,7 @@ export type TCategory = {
 
     user?: TUser | null;
     category?: TCategory | null;
+    posts_count?: number | null;
 };
 
 export type TTag = {

@@ -37,6 +37,7 @@ class HomeController extends Controller
             ->get();
 
         $categories = Category::query()
+            ->withCount('posts')
             ->limit(10)
             ->get();
 
