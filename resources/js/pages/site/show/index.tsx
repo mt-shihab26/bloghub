@@ -5,10 +5,10 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
+import { SiteLayout } from '@/layouts/site-layout';
 import { Link } from '@inertiajs/react';
 import { Bookmark, Calendar, Clock, Heart, MessageCircle, Reply, Share2, ThumbsUp } from 'lucide-react';
 
-// Mock blog post data
 const blogPost = {
     id: 1,
     title: "The Future of Web Development: What's Coming in 2024",
@@ -96,7 +96,7 @@ const comments = [
     },
 ];
 
-export default function BlogPost({ params }: { params: { id: string } }) {
+const Show = () => {
     const [isLiked, setIsLiked] = useState(false);
     const [isBookmarked, setIsBookmarked] = useState(false);
     const [isFollowing, setIsFollowing] = useState(false);
@@ -116,27 +116,8 @@ export default function BlogPost({ params }: { params: { id: string } }) {
     };
 
     return (
-        <div className="min-h-screen bg-background">
-            {/* Header */}
-            <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-                <div className="container mx-auto px-4 py-4">
-                    <div className="flex items-center justify-between">
-                        <Link href="/" className="text-2xl font-bold text-primary">
-                            BlogHub
-                        </Link>
-                        <div className="flex items-center space-x-4">
-                            <Button variant="ghost" asChild>
-                                <Link href="/write">Write</Link>
-                            </Button>
-                            <Button variant="outline" asChild>
-                                <Link href="/login">Sign In</Link>
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            <div className="container mx-auto max-w-4xl px-4 py-8">
+        <SiteLayout title="Hello">
+            <div className="container mx-auto h-full max-w-4xl px-4 py-8">
                 {/* Article Header */}
                 <div className="mb-8">
                     <div className="mb-4 flex flex-wrap gap-2">
@@ -358,6 +339,8 @@ export default function BlogPost({ params }: { params: { id: string } }) {
                     </div>
                 </div>
             </div>
-        </div>
+        </SiteLayout>
     );
-}
+};
+
+export default Show;

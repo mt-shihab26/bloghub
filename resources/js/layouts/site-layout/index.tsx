@@ -17,7 +17,7 @@ export const SiteLayout = ({
         <div className="flex flex-col bg-background">
             <Head title={title} />
             <Header className="h-[4.5rem]" />
-            <main className="container mx-auto h-[calc(100vh-4.5rem)] px-4 pt-8">{children}</main>
+            <main className="container mx-auto px-4 py-8">{children}</main>
             {footer && <Footer className="min-h-[27.5rem]" />}
         </div>
     );
