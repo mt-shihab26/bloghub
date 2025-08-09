@@ -1,7 +1,8 @@
 import type { TPost } from '@/types/models';
 
-import { formatInitials } from '@/lib/format';
-import { postLink } from '@/lib/links';
+import { formatInitials, formatTimeAgo } from '@/lib/format';
+import { authorLink, imageLink, postLink } from '@/lib/links';
+import { cn } from '@/lib/utils';
 import { useState } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -11,7 +12,8 @@ import { Link } from '@inertiajs/react';
 import { Bookmark, Clock, Heart, MessageCircle } from 'lucide-react';
 
 export const FeaturedArticles = ({ posts }: { posts: TPost[] }) => {
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState<number>(0);
+
     const post = posts[currentIndex];
 
     if (!post) {
@@ -22,16 +24,19 @@ export const FeaturedArticles = ({ posts }: { posts: TPost[] }) => {
         <section className="mb-8 overflow-hidden rounded-lg border border-gray-200">
             <div className="relative">
                 <a href={postLink(post.user, post)}>
-                    <img src={post.image?.name} alt={post.title} width={800} height={300} className="h-64 w-full rounded-t-lg object-cover" />
+                    <img src={imageLink(post.image)} alt={post.title} width={800} height={300} className="h-64 w-full rounded-t-lg object-cover" />
                 </a>
                 <Badge className="absolute top-4 left-4 bg-primary">Featured</Badge>
                 <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 space-x-2">
-                    {posts.map((_, idx) => (
+                    {posts.map((_, index) => (
                         <button
-                            key={idx}
-                            className={`h-3 w-3 rounded-full transition-colors ${idx === currentIndex ? 'bg-primary' : 'bg-muted'}`}
-                            onClick={() => setCurrentIndex(idx)}
-                            aria-label={`Show featured post ${idx + 1}`}
+                            key={index}
+                            onClick={() => setCurrentIndex(index)}
+                            aria-label={`Show featured post ${index + 1}`}
+                            className={cn(
+                                'h-3 w-3 cursor-pointer rounded-full transition-colors',
+                                index === currentIndex ? 'bg-primary' : 'bg-muted',
+                            )}
                         />
                     ))}
                 </div>
@@ -39,14 +44,14 @@ export const FeaturedArticles = ({ posts }: { posts: TPost[] }) => {
             <header className="p-4">
                 <div className="mb-2 flex items-center space-x-2">
                     <Avatar className="h-8 w-8">
-                        <AvatarImage src={''} />
+                        <AvatarImage src={imageLink(post.user.image)} />
                         <AvatarFallback>{formatInitials(post.user.name)}</AvatarFallback>
                     </Avatar>
-                    <Link href={`/author/${post.user.id}`} className="text-sm font-medium hover:underline">
+                    <Link href={authorLink(post.user)} className="text-sm font-medium hover:underline">
                         {post.user.name}
                     </Link>
                     <span className="text-sm text-muted-foreground">•</span>
-                    <time className="text-sm text-muted-foreground">{post.published_at}</time>
+                    <time className="text-sm text-muted-foreground">{formatTimeAgo(post.published_at)}</time>
                 </div>
                 <h2 className="mb-2 text-2xl font-semibold">
                     <Link href={`/blog/${post.id}`} className="hover:underline">
@@ -76,7 +81,7 @@ export const FeaturedArticles = ({ posts }: { posts: TPost[] }) => {
                     </div>
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2">
-                    {post.tags.map((tag) => (
+                    {post.tags?.map((tag) => (
                         <Badge key={tag.slug} variant="secondary">
                             {tag.name}
                         </Badge>

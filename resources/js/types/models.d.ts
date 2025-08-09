@@ -1,24 +1,33 @@
 import type { TPostStatus, TUserRole } from './enums';
 import type { TId } from './utils';
 
+export type TImage = {
+    id: TId;
+    user_id?: TId | null;
+
+    name: string;
+    alt?: string | null;
+    memtype: string;
+
+    created_at: string;
+    updated_at: string;
+
+    user?: TUser | null;
+};
+
 export type TUser = {
     id: TId;
+    image_id?: TId | null;
+
     role: TUserRole;
     name: string;
     email: string;
     email_verified_at?: string | null;
-    created_at: string;
-    updated_at: string;
-};
 
-export type TImage = {
-    id: TId;
-    user_id?: TId | null;
-    name: string;
-    alt?: string | null;
-    memtype: string;
     created_at: string;
     updated_at: string;
+
+    image?: TImage | null;
 };
 
 export type TCategory = {
@@ -32,6 +41,9 @@ export type TCategory = {
 
     created_at: string;
     updated_at: string;
+
+    user?: TUser | null;
+    category?: TCategory | null;
 };
 
 export type TTag = {
@@ -43,6 +55,8 @@ export type TTag = {
 
     created_at: string;
     updated_at: string;
+
+    user?: TUser | null;
 };
 
 export type TPost = {
@@ -62,7 +76,7 @@ export type TPost = {
     updated_at: string;
 
     user: TUser;
-    image: TImage;
-    category: TCategory;
-    tags: TTag[];
+    image?: TImage | null;
+    category?: TCategory | null;
+    tags?: TTag[];
 };
