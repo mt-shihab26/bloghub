@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Link } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 import { Bookmark, Clock, Heart, MessageCircle } from 'lucide-react';
 
 export const FeaturedArticles = ({ posts }: { posts: TPost[] }) => {
@@ -63,7 +63,12 @@ export const FeaturedArticles = ({ posts }: { posts: TPost[] }) => {
             <div className="px-4 pb-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
-                        <Button variant="ghost" size="sm" className={cn({ 'text-red-500': post.likes_by_user })}>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className={cn('cursor-pointer', { 'text-red-500': post.likes_by_user })}
+                            onClick={() => router.post(route('site.authors.posts.like', post))}
+                        >
                             <Heart className="mr-1 h-4 w-4" />
                             {postLikes(post)}
                         </Button>

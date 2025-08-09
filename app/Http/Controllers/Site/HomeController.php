@@ -38,4 +38,20 @@ class HomeController extends Controller
     {
         return inertia('site/home/show');
     }
+
+    /**
+     * Toggle like on a post by the authenticated user.
+     */
+    public function toggleLike(Request $request, Post $post)
+    {
+        $user = $request->user();
+
+        if ($post->likes()->where('user_id', $user->id)->exists()) {
+            $post->likes()->detach($user->id);
+        } else {
+            $post->likes()->attach($user->id);
+        }
+
+        return redirect()->route('home');
+    }
 }
