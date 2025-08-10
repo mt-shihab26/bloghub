@@ -102,6 +102,19 @@ class Comment extends Model
      */
     private static function buildCommentHierarchy(mixed $comments): mixed
     {
-        return $comments;
+        $grouped = $comments->groupBy('comment_id');
+        $tree = $grouped->get(null, collect()); // Top-level comments (comment_id is null)
+
+        // Recursively build the tree
+        $buildTree = function ($parentComments) use ($grouped, &$buildTree) {
+            return $parentComments->map(function ($comment) use ($grouped, $buildTree) {
+                $childrenComments = $grouped->get($comment->id, collect());
+                $comment->comments = $buildTree($childrenComments);
+
+                return $comment;
+            });
+        };
+
+        return $buildTree($tree);
     }
 }
