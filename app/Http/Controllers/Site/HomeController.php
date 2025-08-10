@@ -59,21 +59,23 @@ class HomeController extends Controller
      */
     public function show(Request $request, User $user, Post $post)
     {
-        $userId = $request->user()?->id;
+        $authUserId = $request->user()?->id;
 
         $post->load(['image', 'tags'])
             ->loadCount('likes')
-            ->loadExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $userId)])
-            ->loadExists(['bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $userId)]);
+            ->loadExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $authUserId)])
+            ->loadExists(['bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $authUserId)]);
 
         $comments = Comment::recursive($post->id);
+
+        $followedByUser = $authUserId ? $user->followers()->where('user_id', $authUserId)->exists() : false;
 
         return inertia('site/show/index', [
             'post' => [
                 ...$post->toArray(),
                 'user' => $user->load('image'),
                 'comments' => $comments,
-                'followed_by_user' => false,
+                'followed_by_user' => $followedByUser,
             ],
         ]);
     }
