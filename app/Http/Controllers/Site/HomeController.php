@@ -95,6 +95,8 @@ class HomeController extends Controller
                 ->exists();
         }
 
+        // dd($post->toArray());
+
         return inertia('site/show/index', [
             'post' => array_merge(
                 $post->toArray(),

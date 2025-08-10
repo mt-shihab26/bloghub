@@ -17,21 +17,11 @@ class CommentSeeder extends Seeder
         $firstPost = Post::first();
 
         $parents = Comment::factory()
-            ->count(20)
+            ->count(5)
             ->create([
                 'comment_id' => null,
                 'post_id' => $firstPost?->id,
                 'user_id' => User::inRandomOrder()->first()?->id,
             ]);
-
-        Comment::factory()
-            ->count(30)
-            ->make()
-            ->each(function ($reply) use ($parents, $firstPost) {
-                $reply->user_id = User::inRandomOrder()->first()?->id;
-                $reply->comment_id = $parents->random()->id;
-                $reply->post_id = $firstPost?->id;
-                $reply->save();
-            });
     }
 }
