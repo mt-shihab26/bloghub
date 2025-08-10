@@ -1,25 +1,29 @@
 import type { TShowPost } from '@/types/site';
 
 import { formatInitials, formatTimeAgo } from '@/lib/format';
-import { authorLink, imageLink } from '@/lib/links';
+import { authorLink, imageLink, tagLink } from '@/lib/links';
+import { readingTime } from '@/lib/utils';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { readingTime } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
 import { Calendar, Clock } from 'lucide-react';
 
 export const Header = ({ post }: { post: TShowPost }) => {
     return (
         <div className="mb-8">
-            <div className="mb-4 flex flex-wrap gap-2">
-                {post.tags?.map((tag) => (
-                    <Badge key={tag.slug} variant="secondary">
-                        {tag.name}
-                    </Badge>
-                ))}
-            </div>
+            {post.tags && (
+                <div className="mt-4 flex flex-wrap gap-2">
+                    {post.tags.map((tag) => (
+                        <Link key={tag.slug} href={tagLink(tag)}>
+                            <Badge variant="secondary" className="cursor-pointer hover:underline">
+                                #{tag.name}
+                            </Badge>
+                        </Link>
+                    ))}
+                </div>
+            )}
             <h1 className="mb-6 text-4xl font-bold">{post.title}</h1>
 
             {/* Author Info */}

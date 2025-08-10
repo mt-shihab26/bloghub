@@ -102,7 +102,7 @@ export const FeaturedArticles = ({ posts }: { posts: THomePost[] }) => {
                         {post.tags.map((tag) => (
                             <Link key={tag.slug} href={tagLink(tag)}>
                                 <Badge variant="secondary" className="cursor-pointer hover:underline">
-                                    {tag.name}
+                                    #{tag.name}
                                 </Badge>
                             </Link>
                         ))}
