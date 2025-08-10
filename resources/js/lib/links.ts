@@ -1,4 +1,5 @@
 import type { TCategory, TImage, TPost, TTag, TUser } from '@/types/models';
+import { router } from '@inertiajs/react';
 
 export const authorLink = (user?: TUser | null): string => {
     if (!user) {
@@ -60,4 +61,10 @@ export const tagLink = (tag: TTag, extra?: string): string => {
         return link;
     }
     return `${link}${extra}`;
+};
+
+export const toogleFollowLink = (user: TUser): void => {
+    return router.patch(route('site.users.toggle-follow', user), undefined, {
+        preserveScroll: true,
+    });
 };

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('/users')->group(function () {
-    Route::post('/{user}/toggle-follow', [UserController::class, 'toggleFollow'])->middleware(['auth'])->name('site.users.toggle-follow');
+    Route::patch('/{user}/toggle-follow', [UserController::class, 'toggleFollow'])->middleware(['auth'])->name('site.users.toggle-follow');
 });
 
 Route::prefix('/categories')->group(function () {
