@@ -66,7 +66,7 @@ class HomeController extends Controller
             ->loadExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $userId)])
             ->loadExists(['bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $userId)]);
 
-        $comments = Comment::recursiveCommentsPost($post->id);
+        $comments = Comment::recursive($post->id);
 
         dd($comments);
 

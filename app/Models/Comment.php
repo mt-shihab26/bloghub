@@ -72,60 +72,59 @@ class Comment extends Model
     }
 
     /**
-     * Get nested comments for this specific comment (useful for loading replies).
+     * Get nested comments for this specific comment
+     *
+     * @return Comment[]
      */
-    public function recursiveComments(): array
+    public function replies(): array
     {
-        $allReplies = static::where('comment_id', $this->id)
+        $comments = self::where('comment_id', $this->id)
             ->with('user')
             ->orderBy('created_at', 'asc')
             ->get();
 
-        return static::buildCommentHierarchy($allReplies);
+        return self::buildCommentHierarchy($comments);
     }
 
     /**
      * Get nested comments for a post using efficient approach. Uses only 1 query instead of multiple nested joins.
+     *
+     * @return Comment[]
      */
-    public static function recursiveCommentsPost($postId): array
+    public static function recursive($postId): array
     {
-        // Single query to get ALL comments for the post
-        $allComments = static::where('post_id', $postId)
+        $comments = self::where('post_id', $postId)
             ->with('user')
             ->orderBy('created_at', 'asc')
             ->get();
 
-        // Build the nested structure in PHP
-        return static::buildCommentHierarchy($allComments);
+        return self::buildCommentHierarchy($comments);
     }
 
     /**
      * Build hierarchical comment structure from flat collection.
+     *
+     * @param  Comment[]  $comments
+     * @return Comment[]
      */
-    private static function buildCommentHierarchy($comments): array
+    private static function buildCommentHierarchy(array $comments): array
     {
-        $commentMap = [];
-        $rootComments = [];
+        $hierarchy = [];
+        $lookup = [];
 
-        // First pass: Create a map of all comments
         foreach ($comments as $comment) {
-            $comment->comments = [];
-            $commentMap[$comment->id] = $comment;
+            $lookup[$comment->id] = $comment;
+            $comment->replies = [];
         }
 
-        // Second pass: Build the hierarchy
         foreach ($comments as $comment) {
-            if ($comment->comment_id === null) {
-                // This is a root comment
-                $rootComments[] = $comment;
+            if ($comment->comment_id && isset($lookup[$comment->comment_id])) {
+                $lookup[$comment->comment_id]->replies[] = $comment;
             } else {
-                // This is a reply, add it to its parent
-                if (isset($commentMap[$comment->comment_id])) {
-                    $commentMap[$comment->comment_id]->comments[] = $comment;
-                }
+                $hierarchy[] = $comment;
             }
         }
 
-        return $rootComments;
+        return $hierarchy;
     }
 }
