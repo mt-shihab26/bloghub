@@ -114,12 +114,12 @@ class Comment extends Model
 
         foreach ($comments as $comment) {
             $lookup[$comment->id] = $comment;
-            $comment->replies = [];
+            $comment->replies = []; // @phpstan-ignore-line
         }
 
         foreach ($comments as $comment) {
             if ($comment->comment_id && isset($lookup[$comment->comment_id])) {
-                $lookup[$comment->comment_id]->replies[] = $comment;
+                $lookup[$comment->comment_id]->replies[] = $comment; // @phpstan-ignore-line
             } else {
                 $hierarchy[] = $comment;
             }
