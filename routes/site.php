@@ -6,9 +6,14 @@ use App\Http\Controllers\Site\NewsletterController;
 use App\Http\Controllers\Site\PostController;
 use App\Http\Controllers\Site\ProfileController;
 use App\Http\Controllers\Site\TagController;
+use App\Http\Controllers\Site\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::prefix('/users')->group(function () {
+    Route::post('/{user}/toggle-follow', [UserController::class, 'toggleFollow'])->middleware(['auth'])->name('site.users.toggle-follow');
+});
 
 Route::prefix('/categories')->group(function () {
     Route::get('/{category:slug}', [CategoryController::class, 'show'])->name('site.categories.show');

@@ -3,6 +3,7 @@ import type { TShowPost } from '@/types/site';
 import { formatInitials, formatTimeAgo } from '@/lib/format';
 import { authorLink, imageLink, tagLink } from '@/lib/links';
 import { readingTime } from '@/lib/utils';
+import { router } from '@inertiajs/react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -47,7 +48,11 @@ export const Header = ({ post }: { post: TShowPost }) => {
                     </div>
                 </div>
                 <div className="flex items-center space-x-2">
-                    <Button variant="outline" size="sm">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => router.post(route('site.users.toggle-follow', post.user))}
+                    >
                         {post.followed_by_user ? 'Following' : 'Follow'}
                     </Button>
                 </div>
