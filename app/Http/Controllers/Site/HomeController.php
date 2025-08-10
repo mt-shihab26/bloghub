@@ -61,8 +61,8 @@ class HomeController extends Controller
         $userId = $request->user()?->id;
 
         $post
-            ->load(['user.image', 'image', 'tags'])
-            ->loadCount(['likes', 'comments'])
+            ->load(['user.image', 'image', 'tags', 'comments'])
+            ->loadCount(['likes'])
             ->loadExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $userId)])
             ->loadExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $userId)]);
 

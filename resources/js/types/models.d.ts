@@ -1,4 +1,4 @@
-import type { TPostStatus, TUserRole } from './enums';
+import type { TCommentStatus, TPostStatus, TUserRole } from './enums';
 import type { TId } from './utils';
 
 export type TImage = {
@@ -64,6 +64,19 @@ export type TPost = {
     excerpt: string;
     status: TPostStatus;
     published_at: string;
+
+    created_at: string;
+    updated_at: string;
+};
+
+export type TComment = {
+    id: TId;
+    user_id?: TId | null;
+    post_id?: TId | null;
+    comment_id?: TId | null;
+
+    content: string;
+    status: TCommentStatus;
 
     created_at: string;
     updated_at: string;

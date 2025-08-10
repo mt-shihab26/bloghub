@@ -3,7 +3,11 @@ import { format, formatDistanceToNow } from 'date-fns';
 /**
  * Returns the initials from a full name.
  */
-export const formatInitials = (fullName: string): string => {
+export const formatInitials = (fullName?: string | null): string => {
+    if (!fullName) {
+        return '';
+    }
+
     const names = fullName.trim().split(' ');
 
     if (names.length === 0) return '';

@@ -1,6 +1,9 @@
 import type { TCategory, TImage, TPost, TTag, TUser } from '@/types/models';
 
-export const authorLink = (user: TUser): string => {
+export const authorLink = (user?: TUser | null): string => {
+    if (!user) {
+        return '';
+    }
     return route('site.authors.profile', { user });
 };
 
