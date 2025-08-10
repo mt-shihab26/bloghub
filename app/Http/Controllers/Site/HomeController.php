@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\User;
@@ -60,48 +61,22 @@ class HomeController extends Controller
     {
         $userId = $request->user()?->id;
 
-        $post->load([
-            'user.image',
-            'image',
-            'tags',
-            'comments' => function ($q) {
-                $q->with(['user.image'])
-                    // ->withCount('likes')
-                    // ->withExists([
-                    //     'likes as liked_by_user' => fn ($q2) => $q2->where('user_id', $userId),
-                    // ])
-                    ->with(['comments' => function ($q3) { // nested replies
-                        $q3->with(['user.image']);
-                        // ->withCount('likes')
-                        // ->withExists([
-                        //     'likes as liked_by_user' => fn ($q4) => $q4->where('user_id', $userId),
-                        // ])
-                    }]);
-            },
-        ]);
+        $post->load(['image', 'tags'])
+            ->loadCount('likes')
+            ->loadExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $userId)])
+            ->loadExists(['bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $userId)]);
 
-        $post->loadCount(['likes', 'comments']);
-        $post->loadExists([
-            'likes as liked_by_user' => fn ($q) => $q->where('user_id', $userId),
-            'bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $userId),
-        ]);
+        $comments = Comment::recursiveCommentsPost($post->id);
 
-        // Optional: check follow
-        $followedByUser = false;
-        if ($userId) {
-            $followedByUser = $post->user
-                ->followers()
-                ->where('follower_id', $userId)
-                ->exists();
-        }
-
-        // dd($post->toArray());
+        dd($comments);
 
         return inertia('site/show/index', [
-            'post' => array_merge(
-                $post->toArray(),
-                ['followed_by_user' => $followedByUser]
-            ),
+            'post' => [
+                ...$post->toArray(),
+                'user' => $user->load('image'),
+                'comments' => $comments,
+                'followed_by_user' => false,
+            ],
         ]);
     }
 }

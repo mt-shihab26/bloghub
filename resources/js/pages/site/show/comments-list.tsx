@@ -6,6 +6,7 @@ const RenderComments = ({ comment, depth }: { comment: TShowComment; depth: numb
     return (
         <div className="space-y-4">
             <CommentSingle comment={comment} />
+            <div>{depth}</div>
             <div className="pl-12">
                 {comment.comments?.map((comment) => (
                     <RenderComments key={comment.id} comment={comment} depth={depth + 1} />
@@ -16,6 +17,8 @@ const RenderComments = ({ comment, depth }: { comment: TShowComment; depth: numb
 };
 
 export const CommentsList = ({ post }: { post: TShowPost }) => {
+    console.log(post.comments);
+
     return (
         <div className="space-y-6">
             {post.comments?.map((comment) => (

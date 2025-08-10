@@ -9,19 +9,34 @@ use Illuminate\Database\Seeder;
 
 class CommentSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $firstPost = Post::first();
 
-        $parents = Comment::factory()
+        // First level (top-level comments linked to the post)
+        $currentLevel = Comment::factory()
             ->count(5)
             ->create([
                 'comment_id' => null,
                 'post_id' => $firstPost?->id,
                 'user_id' => User::inRandomOrder()->first()?->id,
             ]);
+
+        // Number of nested levels
+        $depth = 5;
+
+        for ($i = 0; $i < $depth; $i++) {
+            // Create replies with no post_id
+            $currentLevel = Comment::factory()
+                ->count(50)
+                ->make([
+                    'post_id' => $firstPost?->id,
+                    'user_id' => User::inRandomOrder()->first()?->id,
+                ])
+                ->each(function ($reply) use ($currentLevel) {
+                    $reply->comment_id = $currentLevel->random()->id;
+                    $reply->save();
+                });
+        }
     }
 }

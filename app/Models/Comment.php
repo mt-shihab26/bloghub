@@ -70,4 +70,62 @@ class Comment extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    /**
+     * Get nested comments for this specific comment (useful for loading replies).
+     */
+    public function recursiveComments(): array
+    {
+        $allReplies = static::where('comment_id', $this->id)
+            ->with('user')
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        return static::buildCommentHierarchy($allReplies);
+    }
+
+    /**
+     * Get nested comments for a post using efficient approach. Uses only 1 query instead of multiple nested joins.
+     */
+    public static function recursiveCommentsPost($postId): array
+    {
+        // Single query to get ALL comments for the post
+        $allComments = static::where('post_id', $postId)
+            ->with('user')
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        // Build the nested structure in PHP
+        return static::buildCommentHierarchy($allComments);
+    }
+
+    /**
+     * Build hierarchical comment structure from flat collection.
+     */
+    private static function buildCommentHierarchy($comments): array
+    {
+        $commentMap = [];
+        $rootComments = [];
+
+        // First pass: Create a map of all comments
+        foreach ($comments as $comment) {
+            $comment->comments = [];
+            $commentMap[$comment->id] = $comment;
+        }
+
+        // Second pass: Build the hierarchy
+        foreach ($comments as $comment) {
+            if ($comment->comment_id === null) {
+                // This is a root comment
+                $rootComments[] = $comment;
+            } else {
+                // This is a reply, add it to its parent
+                if (isset($commentMap[$comment->comment_id])) {
+                    $commentMap[$comment->comment_id]->comments[] = $comment;
+                }
+            }
+        }
+
+        return $rootComments;
+    }
 }
