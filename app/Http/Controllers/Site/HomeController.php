@@ -56,10 +56,17 @@ class HomeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user, Post $post)
+    public function show(Request $request, User $user, Post $post)
     {
+        $userId = $request->user()?->id;
+
+        $post
+            ->load(['user.image', 'image', 'tags'])
+            ->loadCount(['likes', 'comments'])
+            ->loadExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $userId)])
+            ->loadExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $userId)]);
+
         return inertia('site/show/index', [
-            'user' => $user,
             'post' => $post,
         ]);
     }

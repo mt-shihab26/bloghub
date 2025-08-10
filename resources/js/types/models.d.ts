@@ -22,6 +22,7 @@ export type TUser = {
     name: string;
     email: string;
     email_verified_at?: string | null;
+    bio?: string | null; //TODO
 
     created_at: string;
     updated_at: string;

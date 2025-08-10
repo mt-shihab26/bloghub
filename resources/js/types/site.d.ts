@@ -20,3 +20,16 @@ export type THomeCategory = TCategory & {
 export type THomeUser = TUser & {
     image?: TImage | null;
 };
+
+export type TShowPost = TPost & {
+    user: TUser & { image?: TImage | null };
+    image?: TImage | null;
+    tags?: TTag[];
+
+    likes_count: number;
+    liked_by_user: boolean;
+    comments_count: number;
+    bookmarked_by_user: boolean;
+
+    followed_by_user?: boolean; // TODO
+};
