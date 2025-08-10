@@ -60,14 +60,46 @@ class HomeController extends Controller
     {
         $userId = $request->user()?->id;
 
-        $post
-            ->load(['user.image', 'image', 'tags', 'comments'])
-            ->loadCount(['likes'])
-            ->loadExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $userId)])
-            ->loadExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $userId)]);
+        $post->load([
+            'user.image',
+            'image',
+            'tags',
+            'comments' => function ($q) {
+                $q->with(['user.image'])
+                    // ->withCount('likes')
+                    // ->withExists([
+                    //     'likes as liked_by_user' => fn ($q2) => $q2->where('user_id', $userId),
+                    // ])
+                    ->with(['comments' => function ($q3) { // nested replies
+                        $q3->with(['user.image']);
+                        // ->withCount('likes')
+                        // ->withExists([
+                        //     'likes as liked_by_user' => fn ($q4) => $q4->where('user_id', $userId),
+                        // ])
+                    }]);
+            },
+        ]);
+
+        $post->loadCount(['likes', 'comments']);
+        $post->loadExists([
+            'likes as liked_by_user' => fn ($q) => $q->where('user_id', $userId),
+            'bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $userId),
+        ]);
+
+        // Optional: check follow
+        $followedByUser = false;
+        if ($userId) {
+            $followedByUser = $post->user
+                ->followers()
+                ->where('follower_id', $userId)
+                ->exists();
+        }
 
         return inertia('site/show/index', [
-            'post' => $post,
+            'post' => array_merge(
+                $post->toArray(),
+                ['followed_by_user' => $followedByUser]
+            ),
         ]);
     }
 }
