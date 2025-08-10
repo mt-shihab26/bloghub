@@ -73,10 +73,8 @@ class Comment extends Model
 
     /**
      * Get nested comments for this specific comment
-     *
-     * @return Comment[]
      */
-    public function replies(): array
+    public function replies(): mixed
     {
         $comments = self::where('comment_id', $this->id)
             ->with('user')
@@ -88,10 +86,8 @@ class Comment extends Model
 
     /**
      * Get nested comments for a post using efficient approach. Uses only 1 query instead of multiple nested joins.
-     *
-     * @return Comment[]
      */
-    public static function recursive($postId): array
+    public static function recursive($postId): mixed
     {
         $comments = self::where('post_id', $postId)
             ->with('user')
@@ -103,28 +99,9 @@ class Comment extends Model
 
     /**
      * Build hierarchical comment structure from flat collection.
-     *
-     * @param  Comment[]  $comments
-     * @return Comment[]
      */
-    private static function buildCommentHierarchy(array $comments): array
+    private static function buildCommentHierarchy(mixed $comments): mixed
     {
-        $hierarchy = [];
-        $lookup = [];
-
-        foreach ($comments as $comment) {
-            $lookup[$comment->id] = $comment;
-            $comment->replies = []; // @phpstan-ignore-line
-        }
-
-        foreach ($comments as $comment) {
-            if ($comment->comment_id && isset($lookup[$comment->comment_id])) {
-                $lookup[$comment->comment_id]->replies[] = $comment; // @phpstan-ignore-line
-            } else {
-                $hierarchy[] = $comment;
-            }
-        }
-
-        return $hierarchy;
+        return $comments;
     }
 }

@@ -68,6 +68,8 @@ class HomeController extends Controller
 
         $comments = Comment::recursive($post->id);
 
+        dd($comments->toArray());
+
         return inertia('site/show/index', [
             'post' => [
                 ...$post->toArray(),
