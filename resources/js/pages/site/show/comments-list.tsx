@@ -6,7 +6,7 @@ const RenderComments = ({ comment, depth }: { comment: TShowComment; depth: numb
     return (
         <div className="space-y-4">
             <CommentSingle comment={comment} />
-            <div style={{ marginLeft: depth * 24 }}>
+            <div className="pl-12">
                 {comment.comments?.map((comment) => (
                     <RenderComments key={comment.id} comment={comment} depth={depth + 1} />
                 ))}
