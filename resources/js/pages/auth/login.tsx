@@ -1,45 +1,39 @@
-import { Head, useForm } from '@inertiajs/react';
-import { LoaderCircle } from 'lucide-react';
-import { FormEventHandler } from 'react';
+import { useForm } from '@inertiajs/react';
 
 import { InputError } from '@/components/elements/input-error';
-import TextLink from '@/components/elements/text-link';
+import { TextLink } from '@/components/elements/text-link';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import AuthLayout from '@/layouts/auth-layout';
+import { AuthLayout } from '@/layouts/auth-layout';
+import { Head } from '@inertiajs/react';
+import { LoaderCircle } from 'lucide-react';
 
-type LoginForm = {
-    email: string;
-    password: string;
-    remember: boolean;
-};
-
-interface LoginProps {
-    status?: string;
-    canResetPassword: boolean;
-}
-
-export default function Login({ status, canResetPassword }: LoginProps) {
-    const { data, setData, post, processing, errors, reset } = useForm<Required<LoginForm>>({
+const Login = ({ status, canResetPassword }: { status?: string; canResetPassword: boolean }) => {
+    const { data, setData, post, processing, errors, reset } = useForm<{
+        email: string;
+        password: string;
+        remember: boolean;
+    }>({
         email: '',
         password: '',
         remember: false,
     });
 
-    const submit: FormEventHandler = (e) => {
-        e.preventDefault();
-        post(route('login'), {
-            onFinish: () => reset('password'),
-        });
-    };
-
     return (
         <AuthLayout title="Log in to your account" description="Enter your email and password below to log in">
             <Head title="Log in" />
 
-            <form className="flex flex-col gap-6" onSubmit={submit}>
+            <form
+                className="flex flex-col gap-6"
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    post(route('login'), {
+                        onFinish: () => reset('password'),
+                    });
+                }}
+            >
                 <div className="grid gap-6">
                     <div className="grid gap-2">
                         <Label htmlFor="email">Email address</Label>
@@ -107,4 +101,6 @@ export default function Login({ status, canResetPassword }: LoginProps) {
             {status && <div className="mb-4 text-center text-sm font-medium text-green-600">{status}</div>}
         </AuthLayout>
     );
-}
+};
+
+export default Login;

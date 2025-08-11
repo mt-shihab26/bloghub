@@ -6,7 +6,7 @@ export const authorLink = (user?: TUser | null): string => {
     if (!user) {
         return '';
     }
-    return route('site.authors.profile', { user });
+    return route('site.profile.show', { user });
 };
 
 export const profileMeLink = (): string => {
@@ -22,7 +22,7 @@ export const profileSettingsLink = (): string => {
 };
 
 export const postLink = (user: TUser, post: TPost, extra?: string): string => {
-    const link = route('site.authors.posts.show', { user, post });
+    const link = route('site.home.show', { user, post });
     if (!extra) {
         return link;
     }

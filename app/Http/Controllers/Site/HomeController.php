@@ -17,16 +17,12 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $userId = $request->user()?->id;
-
         $posts = Post::query()
             ->with(['user', 'image', 'category', 'tags'])
             ->withCount(['likes', 'comments'])
-            ->withExists([
-                'likes as liked_by_user' => fn ($q) => $q->where('user_id', $userId),
-                'comments as commented_by_user' => fn ($q) => $q->where('user_id', $userId),
-                'bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $userId),
-            ])
+            ->withExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $request->user()?->id)])
+            ->withExists(['comments as commented_by_user' => fn ($q) => $q->where('user_id', $request->user()?->id)])
+            ->withExists(['bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $request->user()?->id)])
             ->limit(10)
             ->get();
 
@@ -44,7 +40,7 @@ class HomeController extends Controller
             ->limit(10)
             ->get();
 
-        return inertia('site/home/index', [
+        return inertia('site/home/index/index', [
             'posts' => $posts,
             'categories' => $categories,
             'users' => $users,
@@ -57,27 +53,26 @@ class HomeController extends Controller
      */
     public function show(Request $request, User $user, Post $post)
     {
-        $authUserId = $request->user()?->id;
-
         $post->load(['image', 'tags'])
             ->loadCount(['likes', 'comments'])
-            ->loadExists([
-                'likes as liked_by_user' => fn ($q) => $q->where('user_id', $authUserId),
-                'bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $authUserId),
-            ]);
+            ->loadExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $request->user()?->id)])
+            ->loadExists(['bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $request->user()?->id)]);
 
-        $comments = Comment::recursive(
-            postId: $post->id,
-            with: ['user.image'],
-            withCount: ['likes'],
-            withExists: [
-                'likes as liked_by_user' => fn ($q) => $q->where('user_id', $authUserId),
-            ]
-        );
+        $comments = Comment::query()
+            ->where('post_id', $post->id)
+            ->with(['user.image'])
+            ->withCount(['likes'])
+            ->withExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $request->user()?->id)])
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-        $followedByUser = $authUserId ? $user->followers()->where('user_id', $authUserId)->exists() : false;
+        $followedByUser = $user->followers()
+            ->where('user_id', $request->user()?->id)
+            ->exists();
 
-        return inertia('site/show/index', [
+        $comments = Comment::tree($comments);
+
+        return inertia('site/home/show/index', [
             'post' => [
                 ...$post->toArray(),
                 'user' => $user->load('image'),

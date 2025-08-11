@@ -81,37 +81,9 @@ class Comment extends Model
     }
 
     /**
-     * Get nested comments for this specific comment
-     */
-    public function replies(array $with = []): mixed
-    {
-        $comments = self::where('comment_id', $this->id)
-            ->with($with)
-            ->orderBy('created_at', 'asc')
-            ->get();
-
-        return self::buildCommentHierarchy($comments);
-    }
-
-    /**
-     * Get nested comments for a post using efficient approach. Uses only 1 query instead of multiple nested joins.
-     */
-    public static function recursive($postId, array $with = [], array $withCount = [], array $withExists = []): mixed
-    {
-        $comments = self::where('post_id', $postId)
-            ->with($with)
-            ->withCount($withCount)
-            ->withExists($withExists)
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        return self::buildCommentHierarchy($comments);
-    }
-
-    /**
      * Build hierarchical comment structure from flat collection.
      */
-    private static function buildCommentHierarchy(mixed $comments): mixed
+    public static function tree(mixed $comments): mixed
     {
         $grouped = $comments->groupBy('comment_id');
         $tree = $grouped->get(null, collect()); // Top-level comments (comment_id is null)

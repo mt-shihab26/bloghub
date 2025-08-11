@@ -14,7 +14,7 @@ export const Header = ({ post }: { post: TShowPost }) => {
     return (
         <div className="mb-8">
             {post.tags && (
-                <div className="mt-4 flex flex-wrap gap-2">
+                <div className="mt-4 mb-2 flex flex-wrap gap-2">
                     {post.tags.map((tag) => (
                         <Link key={tag.slug} href={tagLink(tag)}>
                             <Badge variant="secondary" className="cursor-pointer hover:underline">
@@ -25,7 +25,6 @@ export const Header = ({ post }: { post: TShowPost }) => {
                 </div>
             )}
             <h1 className="mb-6 text-4xl font-bold">{post.title}</h1>
-
             {/* Author Info */}
             <div className="mb-6 flex items-center justify-between">
                 <div className="flex items-center space-x-4">
