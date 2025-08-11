@@ -91,7 +91,7 @@ class Comment extends Model
     {
         $comments = self::where('post_id', $postId)
             ->with($with)
-            ->orderBy('created_at', 'asc')
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return self::buildCommentHierarchy($comments);

@@ -24,7 +24,7 @@ export const AddComment = ({ postId, commentId }: { postId: TId; commentId?: TId
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
-                        post(route('site.comments.store'), { preserveScroll: true });
+                        post(route('site.comments.store'), { preserveScroll: true, preserveState: false });
                     }}
                     className="space-y-4"
                 >
