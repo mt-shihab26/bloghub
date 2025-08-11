@@ -1,4 +1,4 @@
-import { TCategory, TComment, TImage, TPost, TTag, TUser } from './models';
+import type { TCategory, TComment, TImage, TPost, TTag, TUser } from './models';
 
 export type THomePost = TPost & {
     user: TUser & { image?: TImage | null };

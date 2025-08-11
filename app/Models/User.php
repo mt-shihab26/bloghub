@@ -106,6 +106,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Comments that this user has liked
+     */
+    public function likedComments(): BelongsToMany
+    {
+        return $this->belongsToMany(Comment::class, 'comment_user_likes')->withTimestamps();
+    }
+
+    /**
      * The posts bookmarked by the user.
      */
     public function bookmarks(): BelongsToMany
