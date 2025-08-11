@@ -16,9 +16,9 @@ export type TShowUser = TUser & {
     image?: TImage | null;
     posts: TShowPost[];
 
-    following_count: number; // TODO
-    followers_count: number; // TODO
-    likes_count: number; // TODO
+    following_count: number;
+    followers_count: number;
+    likes_count: number;
 
     followed_by_user: boolean;
 };

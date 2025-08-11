@@ -1,6 +1,6 @@
 import type { TShowUser } from '@/types/profile';
 
-import { formatInitials, formatTimeAgo } from '@/lib/format';
+import { formatHumanDate, formatInitials, formatTimeAgo } from '@/lib/format';
 import { imageLink, postLink, tagLink } from '@/lib/links';
 import { readingTime } from '@/lib/utils';
 
@@ -37,7 +37,7 @@ const Show = ({ user }: { user: TShowUser }) => {
                                         </div>
                                         <div className="flex items-center">
                                             <Calendar className="mr-1 h-4 w-4" />
-                                            Joined {user.created_at}
+                                            Joined {formatHumanDate(user.created_at)}
                                         </div>
                                         <div className="flex items-center">
                                             <LinkIcon className="mr-1 h-4 w-4" />

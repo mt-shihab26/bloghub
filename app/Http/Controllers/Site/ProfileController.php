@@ -36,8 +36,25 @@ class ProfileController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show(Request $request, User $user)
     {
+        $posts = $user->posts()
+            ->with(['image', 'tags'])
+            ->withExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $request->user()?->id)])
+            ->withExists(['comments as commented_by_user' => fn ($q) => $q->where('user_id', $request->user()?->id)])
+            ->withExists(['bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $request->user()?->id)])
+            ->get();
+
+        $user = [
+            ...$user->toArray(),
+            'image' => $user->image,
+            'posts' => $posts,
+            'following_count' => $user->following()->count(),
+            'followers_count' => $user->followers()->count(),
+            'likes_count' => $posts->sum(fn ($post) => $post->likes()->count()),
+            'followed_by_user' => $user->id == $request->user()?->id,
+        ];
+
         return inertia('site/profile/show/index', [
             'user' => $user,
         ]);
