@@ -5,7 +5,6 @@ import { useForm } from '@inertiajs/react';
 
 import { InputError } from '@/components/elements/input-error';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 
 export const CommentForm = ({ postId, commentId, comment }: { postId: TId; commentId?: TId; comment?: TComment }) => {
@@ -20,8 +19,8 @@ export const CommentForm = ({ postId, commentId, comment }: { postId: TId; comme
     });
 
     return (
-        <Card>
-            <CardContent className="pt-6">
+        <div className="overflow-hidden rounded-lg border">
+            <div className="px-6 pt-6 pb-6">
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
@@ -55,7 +54,7 @@ export const CommentForm = ({ postId, commentId, comment }: { postId: TId; comme
                         </Button>
                     </div>
                 </form>
-            </CardContent>
-        </Card>
+            </div>
+        </div>
     );
 };

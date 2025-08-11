@@ -9,7 +9,6 @@ import { useState } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { Link } from '@inertiajs/react';
 import { Edit, Reply, ThumbsUp } from 'lucide-react';
 import { CommentDelete } from './comment-delete';
@@ -26,8 +25,8 @@ export const CommentSingle = ({ postId, comment }: { postId: TId; comment: TShow
     return (
         <div className="space-y-4">
             {!isEditing && (
-                <Card>
-                    <CardContent className="pt-6">
+                <div className="overflow-hidden rounded-lg border">
+                    <div className="px-6 pt-6 pb-6">
                         <div className="flex items-start space-x-4">
                             <Avatar className="h-10 w-10">
                                 <AvatarImage src={imageLink(comment.user?.image)} />
@@ -69,8 +68,8 @@ export const CommentSingle = ({ postId, comment }: { postId: TId; comment: TShow
                                 </div>
                             </div>
                         </div>
-                    </CardContent>
-                </Card>
+                    </div>
+                </div>
             )}
             {isEditing && <CommentForm postId={postId} commentId={comment.id} comment={comment} />}
             {showReply && (
