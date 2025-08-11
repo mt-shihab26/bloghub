@@ -25,57 +25,54 @@ export const CommentSingle = ({ postId, comment }: { postId: TId; comment: TShow
 
     return (
         <div className="space-y-4">
-            <Card>
-                <CardContent className="pt-6">
-                    <div className="flex items-start space-x-4">
-                        <Avatar className="h-10 w-10">
-                            <AvatarImage src={imageLink(comment.user?.image)} />
-                            <AvatarFallback>{formatInitials(comment.user?.name)}</AvatarFallback>
-                        </Avatar>
-                        <div className="flex-1">
-                            <div className="mb-2 flex items-center justify-between">
-                                <div className="flex items-center space-x-2">
-                                    <Link href={authorLink(comment.user)} className="font-semibold hover:underline">
-                                        {comment.user?.name}
-                                    </Link>
-                                    <span className="text-sm text-muted-foreground">
-                                        {formatTimeAgo(comment.created_at)}
-                                    </span>
-                                </div>
-                                {isOwner && !isEditing && (
+            {!isEditing && (
+                <Card>
+                    <CardContent className="pt-6">
+                        <div className="flex items-start space-x-4">
+                            <Avatar className="h-10 w-10">
+                                <AvatarImage src={imageLink(comment.user?.image)} />
+                                <AvatarFallback>{formatInitials(comment.user?.name)}</AvatarFallback>
+                            </Avatar>
+                            <div className="flex-1">
+                                <div className="mb-2 flex items-center justify-between">
                                     <div className="flex items-center space-x-2">
-                                        <Button variant="ghost" size="sm" onClick={() => setIsEditing(true)}>
-                                            <Edit className="h-4 w-4" />
-                                        </Button>
-                                        <CommentDelete comment={comment} />
+                                        <Link href={authorLink(comment.user)} className="font-semibold hover:underline">
+                                            {comment.user?.name}
+                                        </Link>
+                                        <span className="text-sm text-muted-foreground">
+                                            {formatTimeAgo(comment.created_at)}
+                                        </span>
                                     </div>
-                                )}
+                                    {isOwner && (
+                                        <div className="flex items-center space-x-2">
+                                            <Button variant="ghost" size="sm" onClick={() => setIsEditing(true)}>
+                                                <Edit className="h-4 w-4" />
+                                            </Button>
+                                            <CommentDelete comment={comment} />
+                                        </div>
+                                    )}
+                                </div>
+                                <p className="mb-4">{comment.content}</p>
+                                <div className="flex items-center space-x-4">
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        className={comment.liked_by_user ? 'text-red-500' : ''}
+                                    >
+                                        <ThumbsUp className="mr-1 h-4 w-4" />
+                                        {comment.likes_count}
+                                    </Button>
+                                    <Button variant="ghost" size="sm" onClick={() => setShowReply((prev) => !prev)}>
+                                        <Reply className="mr-1 h-4 w-4" />
+                                        Reply
+                                    </Button>
+                                </div>
                             </div>
-                            {isEditing ? (
-                                <CommentForm postId={postId} commentId={comment.id} comment={comment} />
-                            ) : (
-                                <>
-                                    <p className="mb-4">{comment.content}</p>
-                                    <div className="flex items-center space-x-4">
-                                        <Button
-                                            variant="ghost"
-                                            size="sm"
-                                            className={comment.liked_by_user ? 'text-red-500' : ''}
-                                        >
-                                            <ThumbsUp className="mr-1 h-4 w-4" />
-                                            {comment.likes_count}
-                                        </Button>
-                                        <Button variant="ghost" size="sm" onClick={() => setShowReply((prev) => !prev)}>
-                                            <Reply className="mr-1 h-4 w-4" />
-                                            Reply
-                                        </Button>
-                                    </div>
-                                </>
-                            )}
                         </div>
-                    </div>
-                </CardContent>
-            </Card>
+                    </CardContent>
+                </Card>
+            )}
+            {isEditing && <CommentForm postId={postId} commentId={comment.id} comment={comment} />}
             {showReply && (
                 <div className="pl-12">
                     <CommentForm postId={postId} commentId={comment.id} />
