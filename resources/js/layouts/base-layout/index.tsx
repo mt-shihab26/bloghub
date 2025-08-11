@@ -6,7 +6,7 @@ import { usePage } from '@inertiajs/react';
 
 import { Toaster } from '@/components/ui/sonner';
 
-const toastErrors = () => {
+const useToastErrors = () => {
     const { errors } = usePage<TPublicPage>().props;
 
     for (const key in errors) {
@@ -20,7 +20,7 @@ const toastErrors = () => {
 };
 
 export const BaseLayout = ({ children }: { children: ReactNode }) => {
-    toastErrors();
+    useToastErrors();
 
     return (
         <>
