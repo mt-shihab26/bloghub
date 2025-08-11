@@ -8,7 +8,7 @@ import { Trash2Icon } from 'lucide-react';
 export const CommentDelete = ({ comment }: { comment: TComment }) => {
     const handleDelete = () => {
         if (confirm('Are you sure you want to delete this comment?')) {
-            router.delete(route('site.comments.destroy', comment));
+            router.delete(route('site.comments.destroy', comment), { preserveScroll: true });
         }
     };
 
