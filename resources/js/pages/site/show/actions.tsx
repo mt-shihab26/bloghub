@@ -3,7 +3,8 @@ import type { TShowPost } from '@/types/site';
 import { togglePostBookmark, togglePostLike } from '@/lib/links';
 
 import { Button } from '@/components/ui/button';
-import { BookmarkIcon, HeartIcon, MessageCircleIcon, Share2Icon } from 'lucide-react';
+import { BookmarkIcon, HeartIcon, MessageCircleIcon } from 'lucide-react';
+import { Share } from './share';
 
 export const Actions = ({ post }: { post: TShowPost }) => {
     return (
@@ -32,10 +33,7 @@ export const Actions = ({ post }: { post: TShowPost }) => {
                     {post.bookmarked_by_user ? 'Bookmarked' : 'Bookmark'}
                 </Button>
             </div>
-            <Button variant="ghost">
-                <Share2Icon className="mr-2 h-5 w-5" />
-                Share
-            </Button>
+            <Share post={post} />
         </div>
     );
 };

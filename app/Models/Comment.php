@@ -74,10 +74,10 @@ class Comment extends Model
     /**
      * Get nested comments for this specific comment
      */
-    public function replies(): mixed
+    public function replies(array $with = []): mixed
     {
         $comments = self::where('comment_id', $this->id)
-            ->with('user')
+            ->with($with)
             ->orderBy('created_at', 'asc')
             ->get();
 
@@ -87,10 +87,10 @@ class Comment extends Model
     /**
      * Get nested comments for a post using efficient approach. Uses only 1 query instead of multiple nested joins.
      */
-    public static function recursive($postId): mixed
+    public static function recursive($postId, array $with = []): mixed
     {
         $comments = self::where('post_id', $postId)
-            ->with('user')
+            ->with($with)
             ->orderBy('created_at', 'asc')
             ->get();
 

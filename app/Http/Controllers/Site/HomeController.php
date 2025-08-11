@@ -67,7 +67,7 @@ class HomeController extends Controller
             ->loadExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $authUserId)])
             ->loadExists(['bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $authUserId)]);
 
-        $comments = Comment::recursive($post->id);
+        $comments = Comment::recursive($post->id, with: ['user.image']);
 
         $followedByUser = $authUserId ? $user->followers()->where('user_id', $authUserId)->exists() : false;
 
