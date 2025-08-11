@@ -7,7 +7,7 @@ export const Comments = ({ post }: { post: TShowPost }) => {
     return (
         <div id="comments" className="space-y-6">
             <h2 className="text-2xl font-bold">Comments ({post.comments?.length})</h2>
-            <AddComment />
+            <AddComment postId={post.id} />
             <CommentsList post={post} />
         </div>
     );

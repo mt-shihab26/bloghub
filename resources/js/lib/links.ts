@@ -71,13 +71,13 @@ export const toggleFollowLink = (user: TUser): void => {
 };
 
 export const togglePostLike = (post: TPost): void => {
-    return router.post(route('site.posts.like', post), undefined, {
+    return router.patch(route('site.posts.like', post), undefined, {
         preserveScroll: true,
     });
 };
 
 export const togglePostBookmark = (post: TPost): void => {
-    return router.post(route('site.posts.bookmark', post), undefined, {
+    return router.patch(route('site.posts.bookmark', post), undefined, {
         preserveScroll: true,
     });
 };

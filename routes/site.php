@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Site\CategoryController;
+use App\Http\Controllers\Site\CommentController;
 use App\Http\Controllers\Site\HomeController;
 use App\Http\Controllers\Site\NewsletterController;
 use App\Http\Controllers\Site\PostController;
@@ -24,8 +25,12 @@ Route::prefix('/tags')->group(function () {
 });
 
 Route::prefix('/posts')->group(function () {
-    Route::post('/{post}/like', [PostController::class, 'toggleLike'])->middleware('auth')->name('site.posts.like');
-    Route::post('/{post}/bookmark', [PostController::class, 'toggleBookmark'])->middleware('auth')->name('site.posts.bookmark');
+    Route::patch('/{post}/like', [PostController::class, 'toggleLike'])->middleware('auth')->name('site.posts.like');
+    Route::patch('/{post}/bookmark', [PostController::class, 'toggleBookmark'])->middleware('auth')->name('site.posts.bookmark');
+});
+
+Route::prefix('/comments')->group(function () {
+    Route::post('/', [CommentController::class, 'store'])->middleware(['auth'])->name('site.comments.store');
 });
 
 Route::prefix('/profile')->group(function () {

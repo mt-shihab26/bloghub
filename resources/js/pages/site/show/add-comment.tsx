@@ -1,3 +1,5 @@
+import type { TId } from '@/types/utils';
+
 import { useForm } from '@inertiajs/react';
 
 import { InputError } from '@/components/elements/input-error';
@@ -5,11 +7,15 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 
-export const AddComment = () => {
-    const { data, setData, errors, post } = useForm<{
+export const AddComment = ({ postId, commentId }: { postId: TId; commentId?: TId }) => {
+    const { data, setData, errors, post, processing } = useForm<{
         content: string;
+        post_id: TId;
+        comment_id: TId | null;
     }>({
         content: '',
+        post_id: postId,
+        comment_id: commentId || null,
     });
 
     return (
@@ -18,7 +24,7 @@ export const AddComment = () => {
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
-                        post('site.users.store');
+                        post(route('site.comments.store'), { preserveScroll: true });
                     }}
                     className="space-y-4"
                 >
@@ -30,7 +36,7 @@ export const AddComment = () => {
                     />
                     <InputError message={errors.content} />
                     <div className="flex justify-end">
-                        <Button>Post Comment</Button>
+                        <Button disabled={processing}>{processing ? 'Posting...' : 'Post Comment'}</Button>
                     </div>
                 </form>
             </CardContent>
