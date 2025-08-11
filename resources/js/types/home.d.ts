@@ -4,7 +4,7 @@ export type TIndexPost = TPost & {
     user: TUser & { image?: TImage | null };
     image?: TImage | null;
     category?: TCategory | null;
-    tags?: TTag[];
+    tags?: TTag[] | null;
 
     likes_count: number;
     comments_count: number;

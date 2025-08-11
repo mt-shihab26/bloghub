@@ -24,6 +24,7 @@ export type TUser = {
     bio?: string | null;
     location?: string | null; // TODO
     website?: string | null; // TODO
+    expertises?: string[] | null; // TODO
 
     email_verified_at?: string | null;
 

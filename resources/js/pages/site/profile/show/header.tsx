@@ -70,7 +70,7 @@ export const Header = ({ user }: { user: TShowUser }) => {
                     <div>
                         <h4 className="mb-3 text-sm font-semibold text-muted-foreground">Tags</h4>
                         <div className="flex flex-wrap gap-2">
-                            {user.posts[0]?.tags?.map((tag) => (
+                            {user.tags?.map((tag) => (
                                 <Link key={tag.slug} href={tagLink(tag)}>
                                     <Badge variant="secondary" className="cursor-pointer text-xs hover:underline">
                                         #{tag.name}
@@ -79,11 +79,12 @@ export const Header = ({ user }: { user: TShowUser }) => {
                             ))}
                         </div>
                     </div>
-
                     <div>
                         <h4 className="mb-3 text-sm font-semibold text-muted-foreground">EXPERTISE</h4>
                         <div className="flex flex-wrap gap-2">
-                            <Badge variant="secondary">React</Badge>
+                            {user.expertises?.map((e) => (
+                                <Badge variant="secondary">{e}</Badge>
+                            ))}
                         </div>
                     </div>
                 </div>

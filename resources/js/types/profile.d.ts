@@ -2,7 +2,7 @@ import type { TImage, TPost, TTag, TUser } from './models';
 
 export type TShowPost = TPost & {
     image?: TImage | null;
-    tags?: TTag[];
+    tags?: TTag[] | null;
 
     likes_count: number;
     comments_count: number;
@@ -15,6 +15,7 @@ export type TShowPost = TPost & {
 export type TShowUser = TUser & {
     image?: TImage | null;
     posts: TShowPost[];
+    tags?: TTag[] | null;
 
     following_count: number;
     followers_count: number;
