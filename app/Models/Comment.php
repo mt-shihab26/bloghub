@@ -96,10 +96,12 @@ class Comment extends Model
     /**
      * Get nested comments for a post using efficient approach. Uses only 1 query instead of multiple nested joins.
      */
-    public static function recursive($postId, array $with = []): mixed
+    public static function recursive($postId, array $with = [], array $withCount = [], array $withExists = []): mixed
     {
         $comments = self::where('post_id', $postId)
             ->with($with)
+            ->withCount($withCount)
+            ->withExists($withExists)
             ->orderBy('created_at', 'desc')
             ->get();
 

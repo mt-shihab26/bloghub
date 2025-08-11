@@ -20,15 +20,13 @@ class HomeController extends Controller
         $userId = $request->user()?->id;
 
         $posts = Post::query()
-            ->with('user')
-            ->with('image')
-            ->with('category')
-            ->with('tags')
-            ->withCount('likes')
-            ->withCount('comments')
-            ->withExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $userId)])
-            ->withExists(['comments as commented_by_user' => fn ($q) => $q->where('user_id', $userId)])
-            ->withExists(['bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $userId)])
+            ->with(['user', 'image', 'category', 'tags'])
+            ->withCount(['likes', 'comments'])
+            ->withExists([
+                'likes as liked_by_user' => fn ($q) => $q->where('user_id', $userId),
+                'comments as commented_by_user' => fn ($q) => $q->where('user_id', $userId),
+                'bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $userId),
+            ])
             ->limit(10)
             ->get();
 
@@ -62,12 +60,20 @@ class HomeController extends Controller
         $authUserId = $request->user()?->id;
 
         $post->load(['image', 'tags'])
-            ->loadCount('likes')
-            ->loadCount('comments')
-            ->loadExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $authUserId)])
-            ->loadExists(['bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $authUserId)]);
+            ->loadCount(['likes', 'comments'])
+            ->loadExists([
+                'likes as liked_by_user' => fn ($q) => $q->where('user_id', $authUserId),
+                'bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $authUserId),
+            ]);
 
-        $comments = Comment::recursive($post->id, with: ['user.image']);
+        $comments = Comment::recursive(
+            postId: $post->id,
+            with: ['user.image'],
+            withCount: ['likes'],
+            withExists: [
+                'likes as liked_by_user' => fn ($q) => $q->where('user_id', $authUserId),
+            ]
+        );
 
         $followedByUser = $authUserId ? $user->followers()->where('user_id', $authUserId)->exists() : false;
 
