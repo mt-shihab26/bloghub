@@ -1,4 +1,4 @@
-import type { TShowPost } from '@/types/site';
+import type { TShowPost } from '@/types/home';
 
 import { formatInitials } from '@/lib/format';
 import { authorLink, imageLink, toggleFollowLink } from '@/lib/links';

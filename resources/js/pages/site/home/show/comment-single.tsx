@@ -1,5 +1,5 @@
 import type { TPublicPage } from '@/types';
-import type { TShowComment } from '@/types/site';
+import type { TShowComment } from '@/types/home';
 import type { TId } from '@/types/utils';
 
 import { formatInitials, formatTimeAgo } from '@/lib/format';

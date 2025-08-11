@@ -10,7 +10,7 @@ import {
     togglePostLike,
 } from '@/lib/links';
 
-import type { THomePost } from '@/types/site';
+import type { TIndexPost } from '@/types/home';
 
 import { formatInitials, formatTimeAgo } from '@/lib/format';
 import { cn, readingTime } from '@/lib/utils';
@@ -22,7 +22,7 @@ import { Link } from '@inertiajs/react';
 import { BookmarkIcon, Clock, HeartIcon, MessageCircleIcon } from 'lucide-react';
 import { IconButton } from './icon-button';
 
-export const FeaturedArticles = ({ posts }: { posts: THomePost[] }) => {
+export const FeaturedArticles = ({ posts }: { posts: TIndexPost[] }) => {
     const [currentIndex, setCurrentIndex] = useState<number>(0);
 
     const post = posts[currentIndex];
