@@ -1,4 +1,4 @@
-import InputError from '@/components/elements/input-error';
+import { InputError } from '@/components/elements/input-error';
 import { AdminLayout } from '@/layouts/admin-layout';
 import { Transition } from '@headlessui/react';
 import { Head, useForm } from '@inertiajs/react';
