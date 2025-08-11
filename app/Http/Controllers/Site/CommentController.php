@@ -32,7 +32,7 @@ class CommentController extends Controller
         $validated = $request->validate([
             'content' => ['required', 'string', 'min:3', 'max:1000'],
             'post_id' => ['required', 'exists:posts,id'],
-            'comment_id' => ['required', 'exists:comments,id'],
+            'comment_id' => ['nullable', 'exists:comments,id'],
         ]);
 
         $request->user()->comments()->create($validated);
