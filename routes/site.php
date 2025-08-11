@@ -37,7 +37,7 @@ Route::prefix('/comments')->group(function () {
 });
 
 Route::prefix('/profile')->group(function () {
-    Route::get('/me', fn () => redirect()->route('site.authors.profile', request()->user()))->name('site.profile.me');
+    Route::get('/me', fn () => redirect()->route('site.profile.show', request()->user()))->name('site.profile.me');
 
     Route::get('/write', [ProfileController::class, 'write'])->name('site.profile.write');
     Route::get('/settings', [ProfileController::class, 'settings'])->name('site.profile.settings');
@@ -47,5 +47,5 @@ Route::prefix('/newsletter')->group(function () {
     Route::post('/subscribe', [NewsletterController::class, 'store'])->name('site.newsletter.subscribe');
 });
 
-Route::get('/{user:username}', [ProfileController::class, 'index'])->name('site.authors.profile');
-Route::get('/{user:username}/{post:slug}', [HomeController::class, 'show'])->name('site.authors.posts.show');
+Route::get('/{user:username}', [ProfileController::class, 'show'])->name('site.profile.show');
+Route::get('/{user:username}/{post:slug}', [HomeController::class, 'show'])->name('site.home.show');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
@@ -35,9 +36,11 @@ class ProfileController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show(User $user)
     {
-        //
+        return inertia('site/profile/show/index', [
+            'user' => $user,
+        ]);
     }
 
     /**
