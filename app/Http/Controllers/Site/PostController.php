@@ -77,7 +77,7 @@ class PostController extends Controller
             $post->likes()->attach($user->id);
         }
 
-        return redirect()->route('home');
+        return redirect()->back();
     }
 
     /**
@@ -93,6 +93,6 @@ class PostController extends Controller
             $post->bookmarks()->attach($user->id);
         }
 
-        return redirect()->route('home');
+        return redirect()->back();
     }
 }

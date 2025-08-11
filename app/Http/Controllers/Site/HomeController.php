@@ -63,6 +63,7 @@ class HomeController extends Controller
 
         $post->load(['image', 'tags'])
             ->loadCount('likes')
+            ->loadCount('comments')
             ->loadExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $authUserId)])
             ->loadExists(['bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $authUserId)]);
 

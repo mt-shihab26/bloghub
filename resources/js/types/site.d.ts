@@ -36,8 +36,9 @@ export type TShowPost = TPost & {
     comments?: TShowComment[];
 
     likes_count: number;
+    comments_count: number;
+
     liked_by_user: boolean;
     bookmarked_by_user: boolean;
-
-    followed_by_user?: boolean; // TODO
+    followed_by_user?: boolean;
 };
