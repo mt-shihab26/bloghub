@@ -34,7 +34,7 @@ const Show = ({ post }: { post: TShowPost }) => {
                     <>
                         <AuthorBio post={post} />
                         <div id="comments" className="space-y-6">
-                            <h2 className="text-2xl font-bold">Comments ({post.comments?.length})</h2>
+                            <h2 className="text-2xl font-bold">Comments ({post.comments_count})</h2>
                             <CommentForm postId={post.id} />
                             <CommentsList post={post} />
                         </div>
