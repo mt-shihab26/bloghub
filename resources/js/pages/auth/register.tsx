@@ -1,40 +1,41 @@
-import { Head, useForm } from '@inertiajs/react';
-import { LoaderCircle } from 'lucide-react';
-import { FormEventHandler } from 'react';
+import { useForm } from '@inertiajs/react';
 
 import { InputError } from '@/components/elements/input-error';
-import TextLink from '@/components/elements/text-link';
+import { TextLink } from '@/components/elements/text-link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import AuthLayout from '@/layouts/auth-layout';
+import { AuthLayout } from '@/layouts/auth-layout';
+import { Head } from '@inertiajs/react';
+import { LoaderCircle } from 'lucide-react';
 
-type RegisterForm = {
-    name: string;
-    email: string;
-    password: string;
-    password_confirmation: string;
-};
-
-export default function Register() {
-    const { data, setData, post, processing, errors, reset } = useForm<Required<RegisterForm>>({
+const Register = () => {
+    const { data, setData, post, processing, errors, reset } = useForm<{
+        name: string;
+        email: string;
+        username: string;
+        password: string;
+        password_confirmation: string;
+    }>({
         name: '',
         email: '',
+        username: '',
         password: '',
         password_confirmation: '',
     });
 
-    const submit: FormEventHandler = (e) => {
-        e.preventDefault();
-        post(route('register'), {
-            onFinish: () => reset('password', 'password_confirmation'),
-        });
-    };
-
     return (
         <AuthLayout title="Create an account" description="Enter your details below to create your account">
             <Head title="Register" />
-            <form className="flex flex-col gap-6" onSubmit={submit}>
+            <form
+                className="flex flex-col gap-6"
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    post(route('register'), {
+                        onFinish: () => reset('password', 'password_confirmation'),
+                    });
+                }}
+            >
                 <div className="grid gap-6">
                     <div className="grid gap-2">
                         <Label htmlFor="name">Name</Label>
@@ -54,12 +55,29 @@ export default function Register() {
                     </div>
 
                     <div className="grid gap-2">
+                        <Label htmlFor="name">Username</Label>
+                        <Input
+                            id="username"
+                            type="text"
+                            required
+                            autoFocus
+                            tabIndex={2}
+                            autoComplete="username"
+                            value={data.username}
+                            onChange={(e) => setData('username', e.target.value)}
+                            disabled={processing}
+                            placeholder="Username"
+                        />
+                        <InputError message={errors.username} className="mt-2" />
+                    </div>
+
+                    <div className="grid gap-2">
                         <Label htmlFor="email">Email address</Label>
                         <Input
                             id="email"
                             type="email"
                             required
-                            tabIndex={2}
+                            tabIndex={3}
                             autoComplete="email"
                             value={data.email}
                             onChange={(e) => setData('email', e.target.value)}
@@ -75,7 +93,7 @@ export default function Register() {
                             id="password"
                             type="password"
                             required
-                            tabIndex={3}
+                            tabIndex={4}
                             autoComplete="new-password"
                             value={data.password}
                             onChange={(e) => setData('password', e.target.value)}
@@ -91,7 +109,7 @@ export default function Register() {
                             id="password_confirmation"
                             type="password"
                             required
-                            tabIndex={4}
+                            tabIndex={5}
                             autoComplete="new-password"
                             value={data.password_confirmation}
                             onChange={(e) => setData('password_confirmation', e.target.value)}
@@ -116,4 +134,6 @@ export default function Register() {
             </form>
         </AuthLayout>
     );
-}
+};
+
+export default Register;
