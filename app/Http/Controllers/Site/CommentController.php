@@ -85,4 +85,20 @@ class CommentController extends Controller
 
         return redirect()->back()->with('success', 'Comment deleted successfully!');
     }
+
+    /**
+     * Toggle like on a comment by the authenticated user.
+     */
+    public function toggleLike(Request $request, Comment $comment)
+    {
+        $user = $request->user();
+
+        if ($comment->likes()->where('user_id', $user->id)->exists()) {
+            $comment->likes()->detach($user->id);
+        } else {
+            $comment->likes()->attach($user->id);
+        }
+
+        return redirect()->back();
+    }
 }

@@ -25,8 +25,8 @@ export type TShowComment = TComment & {
     user?: (TUser & { image?: TImage | null }) | null;
     comments?: TShowComment[];
 
-    likes_count: number; // TODO
-    liked_by_user: boolean; // TODO
+    likes_count: number;
+    liked_by_user: boolean;
 };
 
 export type TShowPost = TPost & {

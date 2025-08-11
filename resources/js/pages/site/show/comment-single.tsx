@@ -3,14 +3,14 @@ import type { TShowComment } from '@/types/site';
 import type { TId } from '@/types/utils';
 
 import { formatInitials, formatTimeAgo } from '@/lib/format';
-import { authorLink, imageLink } from '@/lib/links';
+import { authorLink, imageLink, toggleCommentLike } from '@/lib/links';
 import { usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
-import { Edit, Reply, ThumbsUp } from 'lucide-react';
+import { Edit, HeartIcon, Reply } from 'lucide-react';
 import { CommentDelete } from './comment-delete';
 import { CommentForm } from './comment-form';
 
@@ -56,9 +56,10 @@ export const CommentSingle = ({ postId, comment }: { postId: TId; comment: TShow
                                     <Button
                                         variant="ghost"
                                         size="sm"
-                                        className={comment.liked_by_user ? 'text-red-500' : ''}
+                                        className={comment.liked_by_user ? 'text-red-500 hover:text-red-500' : ''}
+                                        onClick={() => toggleCommentLike(comment)}
                                     >
-                                        <ThumbsUp className="mr-1 h-4 w-4" />
+                                        <HeartIcon className="mr-1 h-4 w-4" />
                                         {comment.likes_count}
                                     </Button>
                                     <Button variant="ghost" size="sm" onClick={() => setShowReply((prev) => !prev)}>

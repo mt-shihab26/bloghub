@@ -83,7 +83,7 @@ export const FeaturedArticles = ({ posts }: { posts: THomePost[] }) => {
                         <IconButton
                             active={post.liked_by_user}
                             icon={HeartIcon}
-                            activeColorClass="text-red-500"
+                            activeColorClass="text-red-500 hover:text-red-500"
                             onClick={() => togglePostLike(post)}
                         >
                             {postLikes(post)}
@@ -99,7 +99,7 @@ export const FeaturedArticles = ({ posts }: { posts: THomePost[] }) => {
                         <IconButton
                             active={post.bookmarked_by_user}
                             icon={BookmarkIcon}
-                            activeColorClass="text-blue-500"
+                            activeColorClass="text-blue-500 hover:text-blue-500"
                             onClick={() => togglePostBookmark(post)}
                         />
                     </div>
