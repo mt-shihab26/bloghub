@@ -11,5 +11,3 @@ export const AuthLayout = ({ children, ...props }: { children: ReactNode; title:
         </BaseLayout>
     );
 };
-
-export default AuthLayout;

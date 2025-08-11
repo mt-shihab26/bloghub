@@ -1,24 +1,17 @@
+import { useForm } from '@inertiajs/react';
+
 import { InputError } from '@/components/elements/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import AuthLayout from '@/layouts/auth-layout';
-import { Head, useForm } from '@inertiajs/react';
+import { AuthLayout } from '@/layouts/auth-layout';
+import { Head } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
-import type { FormEventHandler } from 'react';
 
-export default function ConfirmPassword() {
+const ConfirmPassword = () => {
     const { data, setData, post, processing, errors, reset } = useForm<Required<{ password: string }>>({
         password: '',
     });
-
-    const submit: FormEventHandler = (e) => {
-        e.preventDefault();
-
-        post(route('password.confirm'), {
-            onFinish: () => reset('password'),
-        });
-    };
 
     return (
         <AuthLayout
@@ -27,7 +20,14 @@ export default function ConfirmPassword() {
         >
             <Head title="Confirm password" />
 
-            <form onSubmit={submit}>
+            <form
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    post(route('password.confirm'), {
+                        onFinish: () => reset('password'),
+                    });
+                }}
+            >
                 <div className="space-y-6">
                     <div className="grid gap-2">
                         <Label htmlFor="password">Password</Label>
@@ -55,4 +55,6 @@ export default function ConfirmPassword() {
             </form>
         </AuthLayout>
     );
-}
+};
+
+export default ConfirmPassword;

@@ -17,5 +17,3 @@ export const TextLink = ({ className, children, ...props }: ComponentProps<typeo
         </Link>
     );
 };
-
-export default TextLink;
