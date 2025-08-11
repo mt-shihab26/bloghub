@@ -1,19 +1,27 @@
+import type { TPublicPage } from '@/types';
 import type { TShowComment } from '@/types/site';
 import type { TId } from '@/types/utils';
 
 import { formatInitials, formatTimeAgo } from '@/lib/format';
 import { authorLink, imageLink } from '@/lib/links';
+import { usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Link } from '@inertiajs/react';
-import { Reply, ThumbsUp } from 'lucide-react';
+import { Edit, Reply, ThumbsUp } from 'lucide-react';
+import { CommentDelete } from './comment-delete';
 import { CommentForm } from './comment-form';
 
 export const CommentSingle = ({ postId, comment }: { postId: TId; comment: TShowComment }) => {
+    const { auth } = usePage<TPublicPage>().props;
+
     const [showReply, setShowReply] = useState<boolean>(false);
+    const [isEditing, setIsEditing] = useState<boolean>(false);
+
+    const isOwner = auth?.user?.id === comment.user_id;
 
     return (
         <div className="space-y-4">
@@ -25,29 +33,45 @@ export const CommentSingle = ({ postId, comment }: { postId: TId; comment: TShow
                             <AvatarFallback>{formatInitials(comment.user?.name)}</AvatarFallback>
                         </Avatar>
                         <div className="flex-1">
-                            <div className="mb-2 flex items-center space-x-2">
-                                <Link href={authorLink(comment.user)} className="font-semibold hover:underline">
-                                    {comment.user?.name}
-                                </Link>
-                                <span className="text-sm text-muted-foreground">
-                                    {formatTimeAgo(comment.created_at)}
-                                </span>
+                            <div className="mb-2 flex items-center justify-between">
+                                <div className="flex items-center space-x-2">
+                                    <Link href={authorLink(comment.user)} className="font-semibold hover:underline">
+                                        {comment.user?.name}
+                                    </Link>
+                                    <span className="text-sm text-muted-foreground">
+                                        {formatTimeAgo(comment.created_at)}
+                                    </span>
+                                </div>
+                                {isOwner && !isEditing && (
+                                    <div className="flex items-center space-x-2">
+                                        <Button variant="ghost" size="sm" onClick={() => setIsEditing(true)}>
+                                            <Edit className="h-4 w-4" />
+                                        </Button>
+                                        <CommentDelete comment={comment} />
+                                    </div>
+                                )}
                             </div>
-                            <p className="mb-4">{comment.content}</p>
-                            <div className="flex items-center space-x-4">
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className={comment.liked_by_user ? 'text-red-500' : ''}
-                                >
-                                    <ThumbsUp className="mr-1 h-4 w-4" />
-                                    {comment.likes_count}
-                                </Button>
-                                <Button variant="ghost" size="sm" onClick={() => setShowReply((prev) => !prev)}>
-                                    <Reply className="mr-1 h-4 w-4" />
-                                    Reply
-                                </Button>
-                            </div>
+                            {isEditing ? (
+                                <CommentForm postId={postId} commentId={comment.id} comment={comment} />
+                            ) : (
+                                <>
+                                    <p className="mb-4">{comment.content}</p>
+                                    <div className="flex items-center space-x-4">
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className={comment.liked_by_user ? 'text-red-500' : ''}
+                                        >
+                                            <ThumbsUp className="mr-1 h-4 w-4" />
+                                            {comment.likes_count}
+                                        </Button>
+                                        <Button variant="ghost" size="sm" onClick={() => setShowReply((prev) => !prev)}>
+                                            <Reply className="mr-1 h-4 w-4" />
+                                            Reply
+                                        </Button>
+                                    </div>
+                                </>
+                            )}
                         </div>
                     </div>
                 </CardContent>
