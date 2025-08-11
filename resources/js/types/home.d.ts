@@ -7,8 +7,9 @@ export type TIndexPost = TPost & {
     tags?: TTag[];
 
     likes_count: number;
-    liked_by_user: boolean;
     comments_count: number;
+
+    liked_by_user: boolean;
     commented_by_user: boolean;
     bookmarked_by_user: boolean;
 };

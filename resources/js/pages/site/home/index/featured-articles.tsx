@@ -91,7 +91,7 @@ export const FeaturedArticles = ({ posts }: { posts: TIndexPost[] }) => {
                         <IconButton
                             active={post.commented_by_user}
                             icon={MessageCircleIcon}
-                            activeColorClass="text-primary"
+                            activeColorClass="text-primary hover:text-primary"
                             href={postLink(post.user, post, '#comments')}
                         >
                             {postComments(post)}

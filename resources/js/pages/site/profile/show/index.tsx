@@ -1,66 +1,21 @@
 import type { TShowUser } from '@/types/profile';
 
-import { formatInitials } from '@/lib/format';
-import { imageLink } from '@/lib/links';
-import { useState } from 'react';
+import { formatInitials, formatTimeAgo } from '@/lib/format';
+import { imageLink, postLink, tagLink } from '@/lib/links';
+import { readingTime } from '@/lib/utils';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { SiteLayout } from '@/layouts/site-layout';
 import { Link } from '@inertiajs/react';
 import { Bookmark, Calendar, Clock, FileText, Heart, LinkIcon, MapPin, MessageCircle, Users } from 'lucide-react';
 
 const Show = ({ user }: { user: TShowUser }) => {
-    const [likedPosts, setLikedPosts] = useState<Set<number>>(new Set());
-    const [bookmarkedPosts, setBookmarkedPosts] = useState<Set<number>>(new Set());
-
-    const handleLike = (postId: number) => {
-        setLikedPosts((prev) => {
-            const newSet = new Set(prev);
-            if (newSet.has(postId)) {
-                newSet.delete(postId);
-            } else {
-                newSet.add(postId);
-            }
-            return newSet;
-        });
-    };
-
-    const handleBookmark = (postId: number) => {
-        setBookmarkedPosts((prev) => {
-            const newSet = new Set(prev);
-            if (newSet.has(postId)) {
-                newSet.delete(postId);
-            } else {
-                newSet.add(postId);
-            }
-            return newSet;
-        });
-    };
-
     return (
-        <div className="min-h-screen bg-background">
-            {/* Header */}
-            <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-                <div className="container mx-auto px-4 py-4">
-                    <div className="flex items-center justify-between">
-                        <Link href="/" className="text-2xl font-bold text-primary">
-                            BlogHub
-                        </Link>
-                        <div className="flex items-center space-x-4">
-                            <Button variant="ghost" asChild>
-                                <Link href="/write">Write</Link>
-                            </Button>
-                            <Button variant="outline" asChild>
-                                <Link href="/login">Sign In</Link>
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
+        <SiteLayout title={user.username}>
             <div className="container mx-auto px-4 py-8">
                 {/* Author Header */}
                 <div className="mb-8">
@@ -87,7 +42,7 @@ const Show = ({ user }: { user: TShowUser }) => {
                                         <div className="flex items-center">
                                             <LinkIcon className="mr-1 h-4 w-4" />
                                             <a
-                                                href={user.website}
+                                                href={user.website || ''}
                                                 className="hover:underline"
                                                 target="_blank"
                                                 rel="noopener noreferrer"
@@ -113,13 +68,13 @@ const Show = ({ user }: { user: TShowUser }) => {
                                         </div>
                                         <div className="flex items-center">
                                             <Heart className="mr-1 h-4 w-4" />
-                                            <span className="font-semibold">{user.total_likes}</span>
+                                            <span className="font-semibold">{user.likes_count}</span>
                                             <span className="ml-1 text-muted-foreground">likes</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="flex space-x-2">
-                                    <Button variant={user.follo ? 'outline' : 'default'}>
+                                    <Button variant={user.followed_by_user ? 'outline' : 'default'}>
                                         {user.followed_by_user ? 'Following' : 'Follow'}
                                     </Button>
                                     <Button variant="outline">Message</Button>
@@ -143,7 +98,7 @@ const Show = ({ user }: { user: TShowUser }) => {
                                 <div className="flex flex-col md:flex-row">
                                     <div className="md:w-1/3">
                                         <img
-                                            src={post.image || '/placeholder.svg'}
+                                            src={imageLink(post.image)}
                                             alt={post.title}
                                             width={300}
                                             height={200}
@@ -153,11 +108,11 @@ const Show = ({ user }: { user: TShowUser }) => {
                                     <div className="md:w-2/3">
                                         <CardHeader>
                                             <div className="mb-2 flex items-center space-x-2 text-sm text-muted-foreground">
-                                                <span>{post.publishedAt}</span>
+                                                <span>{formatTimeAgo(post.published_at)}</span>
                                                 <span>•</span>
                                                 <div className="flex items-center">
                                                     <Clock className="mr-1 h-4 w-4" />
-                                                    {post.readTime}
+                                                    {readingTime(post.content)}
                                                 </div>
                                             </div>
                                             <CardTitle className="mb-2 text-xl">
@@ -173,33 +128,51 @@ const Show = ({ user }: { user: TShowUser }) => {
                                                     <Button
                                                         variant="ghost"
                                                         size="sm"
-                                                        onClick={() => handleLike(post.id)}
-                                                        className={likedPosts.has(post.id) ? 'text-red-500' : ''}
+                                                        className={
+                                                            post.liked_by_user ? 'text-red-500 hover:text-red-500' : ''
+                                                        }
                                                     >
                                                         <Heart className="mr-1 h-4 w-4" />
-                                                        {post.likes}
+                                                        {post.likes_count}
                                                     </Button>
-                                                    <Button variant="ghost" size="sm" asChild>
-                                                        <Link href={`/blog/${post.id}#comments`}>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        className={
+                                                            post.commented_by_user
+                                                                ? 'text-primary hover:text-primary'
+                                                                : ''
+                                                        }
+                                                        asChild
+                                                    >
+                                                        <Link href={postLink(user, post, '#comments')}>
                                                             <MessageCircle className="mr-1 h-4 w-4" />
-                                                            {post.comments}
+                                                            {post.comments_count}
                                                         </Link>
                                                     </Button>
                                                     <Button
                                                         variant="ghost"
                                                         size="sm"
-                                                        onClick={() => handleBookmark(post.id)}
-                                                        className={bookmarkedPosts.has(post.id) ? 'text-blue-500' : ''}
+                                                        className={
+                                                            post.bookmarked_by_user
+                                                                ? 'text-blue-500 hover:text-blue-500'
+                                                                : ''
+                                                        }
                                                     >
                                                         <Bookmark className="h-4 w-4" />
                                                     </Button>
                                                 </div>
                                             </div>
                                             <div className="mt-4 flex flex-wrap gap-2">
-                                                {post.tags.map((tag) => (
-                                                    <Badge key={tag} variant="secondary" className="text-xs">
-                                                        {tag}
-                                                    </Badge>
+                                                {post.tags?.map((tag) => (
+                                                    <Link key={tag.slug} href={tagLink(tag)}>
+                                                        <Badge
+                                                            variant="secondary"
+                                                            className="cursor-pointer hover:underline"
+                                                        >
+                                                            #{tag.name}
+                                                        </Badge>
+                                                    </Link>
                                                 ))}
                                             </div>
                                         </CardContent>
@@ -280,7 +253,7 @@ const Show = ({ user }: { user: TShowUser }) => {
                     </TabsContent>
                 </Tabs>
             </div>
-        </div>
+        </SiteLayout>
     );
 };
 
