@@ -1,3 +1,4 @@
+import type { TComment } from '@/types/models';
 import type { TId } from '@/types/utils';
 
 import { useForm } from '@inertiajs/react';
@@ -7,15 +8,15 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 
-export const AddComment = ({ postId, commentId }: { postId: TId; commentId?: TId }) => {
-    const { data, setData, errors, post, processing } = useForm<{
+export const CommentForm = ({ postId, commentId, comment }: { postId: TId; commentId?: TId; comment?: TComment }) => {
+    const { data, setData, errors, post, patch, processing } = useForm<{
         content: string;
         post_id: TId;
         comment_id: TId | null;
     }>({
-        content: '',
-        post_id: postId,
-        comment_id: commentId || null,
+        content: comment?.content || '',
+        post_id: comment?.post_id || postId,
+        comment_id: comment?.comment_id || commentId || null,
     });
 
     return (
@@ -24,6 +25,13 @@ export const AddComment = ({ postId, commentId }: { postId: TId; commentId?: TId
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
+                        if (comment) {
+                            patch(route('site.comments.update', comment), {
+                                preserveScroll: true,
+                                preserveState: false,
+                            });
+                            return;
+                        }
                         post(route('site.comments.store'), { preserveScroll: true, preserveState: false });
                     }}
                     className="space-y-4"
@@ -36,7 +44,15 @@ export const AddComment = ({ postId, commentId }: { postId: TId; commentId?: TId
                     />
                     <InputError message={errors.content} />
                     <div className="flex justify-end">
-                        <Button disabled={processing}>{processing ? 'Posting...' : 'Post Comment'}</Button>
+                        <Button disabled={processing}>
+                            {processing
+                                ? comment
+                                    ? 'Updating..'
+                                    : 'Posting...'
+                                : comment
+                                  ? 'Update Comment'
+                                  : 'Post Comment'}
+                        </Button>
                     </div>
                 </form>
             </CardContent>

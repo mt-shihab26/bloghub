@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Link } from '@inertiajs/react';
 import { Reply, ThumbsUp } from 'lucide-react';
-import { AddComment } from './add-comment';
+import { CommentForm } from './comment-form';
 
 export const CommentSingle = ({ postId, comment }: { postId: TId; comment: TShowComment }) => {
     const [showReply, setShowReply] = useState<boolean>(false);
@@ -54,7 +54,7 @@ export const CommentSingle = ({ postId, comment }: { postId: TId; comment: TShow
             </Card>
             {showReply && (
                 <div className="pl-12">
-                    <AddComment postId={postId} commentId={comment.id} />
+                    <CommentForm postId={postId} commentId={comment.id} />
                 </div>
             )}
         </div>
