@@ -4,6 +4,7 @@ import { SiteLayout } from '@/layouts/site-layout';
 
 import { Actions } from './actions';
 import { AuthorBio } from './author-bio';
+import { Back } from './back';
 import { Comments } from './comments';
 import { Content } from './content';
 import { Header } from './header';
@@ -11,7 +12,8 @@ import { Header } from './header';
 const Show = ({ post }: { post: TShowPost }) => {
     return (
         <SiteLayout title={post.title}>
-            <div className="container mx-auto h-full max-w-4xl px-4 py-8">
+            <Back />
+            <div className="container mx-auto h-full max-w-4xl px-4">
                 <Header post={post} />
                 <Content post={post} />
                 <Actions post={post} />
