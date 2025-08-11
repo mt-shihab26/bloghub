@@ -5,7 +5,7 @@
         "build": "vite build",
         "build:ssr": "vite build && vite build --ssr",
         "dev": "vite",
-        "format": "prettier --write resources/",
+        "format": "prettier --write .",
         "lint": "tsc --noEmit && eslint . --fix",
         "test": "vitest --run",
         "shadcn": "shadcn"
@@ -26,6 +26,7 @@
     "dependencies": {
         "@headlessui/react": "^2.2.0",
         "@inertiajs/react": "^2.0.0",
+        "@radix-ui/react-alert-dialog": "^1.1.14",
         "@radix-ui/react-avatar": "^1.1.10",
         "@radix-ui/react-checkbox": "^1.1.4",
         "@radix-ui/react-collapsible": "^1.1.3",

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Site;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CommentController extends Controller
 {
@@ -61,7 +62,16 @@ class CommentController extends Controller
      */
     public function update(Request $request, Comment $comment)
     {
-        //
+        Gate::allowIf(fn ($user) => $user->id === $comment->user_id);
+
+        $validated = $request->validate([
+            'content' => ['required', 'string', 'min:3', 'max:1000'],
+        ]);
+
+        $comment->update($validated);
+
+        return redirect()->back()->with('success', 'Comment updated successfully!');
+
     }
 
     /**
@@ -69,6 +79,10 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        //
+        Gate::allowIf(fn ($user) => $user->id === $comment->user_id);
+
+        $comment->delete();
+
+        return redirect()->back()->with('success', 'Comment deleted successfully!');
     }
 }

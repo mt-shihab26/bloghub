@@ -44,7 +44,7 @@ export const CommentForm = ({ postId, commentId, comment }: { postId: TId; comme
                     />
                     <InputError message={errors.content} />
                     <div className="flex justify-end">
-                        <Button disabled={processing}>
+                        <Button type="submit" disabled={processing}>
                             {processing
                                 ? comment
                                     ? 'Updating..'

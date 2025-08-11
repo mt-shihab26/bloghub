@@ -31,6 +31,8 @@ Route::prefix('/posts')->group(function () {
 
 Route::prefix('/comments')->group(function () {
     Route::post('/', [CommentController::class, 'store'])->middleware(['auth'])->name('site.comments.store');
+    Route::patch('/{comment}', [CommentController::class, 'update'])->middleware(['auth'])->name('site.comments.update');
+    Route::delete('/{comment}', [CommentController::class, 'destroy'])->middleware(['auth'])->name('site.comments.destroy');
 });
 
 Route::prefix('/profile')->group(function () {
