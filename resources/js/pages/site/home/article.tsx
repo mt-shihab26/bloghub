@@ -1,9 +1,17 @@
 import type { THomePost } from '@/types/site';
 
 import { formatInitials, formatTimeAgo } from '@/lib/format';
-import { authorLink, imageLink, postComments, postLikes, postLink, tagLink } from '@/lib/links';
+import {
+    authorLink,
+    imageLink,
+    postComments,
+    postLikes,
+    postLink,
+    tagLink,
+    togglePostBookmark,
+    togglePostLike,
+} from '@/lib/links';
 import { readingTime } from '@/lib/utils';
-import { router } from '@inertiajs/react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -52,7 +60,7 @@ export const Article = ({ post }: { post: THomePost }) => {
                                 active={post.liked_by_user}
                                 icon={HeartIcon}
                                 activeColorClass="text-red-500"
-                                onClick={() => router.post(route('site.posts.like', post))}
+                                onClick={() => togglePostLike(post)}
                             >
                                 {postLikes(post)}
                             </IconButton>
@@ -68,7 +76,7 @@ export const Article = ({ post }: { post: THomePost }) => {
                                 active={post.bookmarked_by_user}
                                 icon={BookmarkIcon}
                                 activeColorClass="text-blue-500"
-                                onClick={() => router.post(route('site.posts.bookmark', post))}
+                                onClick={() => togglePostBookmark(post)}
                             />
                         </div>
                         <div className="flex items-center space-x-2 text-sm text-muted-foreground">

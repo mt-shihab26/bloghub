@@ -1,7 +1,7 @@
 import type { TShowPost } from '@/types/site';
 
 import { formatInitials } from '@/lib/format';
-import { authorLink, imageLink, toogleFollowLink } from '@/lib/links';
+import { authorLink, imageLink, toggleFollowLink } from '@/lib/links';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -26,7 +26,7 @@ export const AuthorBio = ({ post }: { post: TShowPost }) => {
                             </Link>
                         </h3>
                         <p className="mb-4 text-muted-foreground">{user?.bio || ''}</p>
-                        <Button variant="outline" onClick={() => toogleFollowLink(user)}>
+                        <Button variant="outline" onClick={() => toggleFollowLink(user)}>
                             {post.followed_by_user ? 'Following' : 'Follow'}
                         </Button>
                     </div>

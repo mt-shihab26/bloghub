@@ -1,13 +1,24 @@
+import {
+    authorLink,
+    categoryName,
+    imageLink,
+    postComments,
+    postLikes,
+    postLink,
+    tagLink,
+    togglePostBookmark,
+    togglePostLike,
+} from '@/lib/links';
+
 import type { THomePost } from '@/types/site';
 
 import { formatInitials, formatTimeAgo } from '@/lib/format';
-import { authorLink, categoryName, imageLink, postComments, postLikes, postLink, tagLink } from '@/lib/links';
 import { cn, readingTime } from '@/lib/utils';
 import { useState } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Link, router } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import { BookmarkIcon, Clock, HeartIcon, MessageCircleIcon } from 'lucide-react';
 import { IconButton } from './icon-button';
 
@@ -73,7 +84,7 @@ export const FeaturedArticles = ({ posts }: { posts: THomePost[] }) => {
                             active={post.liked_by_user}
                             icon={HeartIcon}
                             activeColorClass="text-red-500"
-                            onClick={() => router.post(route('site.posts.like', post))}
+                            onClick={() => togglePostLike(post)}
                         >
                             {postLikes(post)}
                         </IconButton>
@@ -89,7 +100,7 @@ export const FeaturedArticles = ({ posts }: { posts: THomePost[] }) => {
                             active={post.bookmarked_by_user}
                             icon={BookmarkIcon}
                             activeColorClass="text-blue-500"
-                            onClick={() => router.post(route('site.posts.bookmark', post))}
+                            onClick={() => togglePostBookmark(post)}
                         />
                     </div>
                     <div className="flex items-center space-x-2 text-sm text-muted-foreground">
