@@ -23,17 +23,11 @@ export const DeleteConfirm = ({
     title = 'Delete Item',
     description = 'Are you sure you want to delete this item? This action cannot be undone.',
     trigger,
-    onSuccess,
-    onError,
-    options = {},
 }: {
     route: string;
     title?: string;
     description?: string;
     trigger?: ReactNode;
-    onSuccess?: () => void;
-    onError?: (error: any) => void;
-    options?: any;
 }) => {
     const [open, setOpen] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
@@ -43,15 +37,12 @@ export const DeleteConfirm = ({
 
         router.delete(route, {
             preserveScroll: true,
-            ...options,
             onSuccess: () => {
                 setOpen(false);
                 setIsDeleting(false);
-                onSuccess?.();
             },
-            onError: (error) => {
+            onError: () => {
                 setIsDeleting(false);
-                onError?.(error);
             },
         });
     };
