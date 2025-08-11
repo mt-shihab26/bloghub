@@ -5,15 +5,14 @@ import { authorLink, imageLink, toggleFollowLink } from '@/lib/links';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { Link } from '@inertiajs/react';
 
 export const AuthorBio = ({ post }: { post: TShowPost }) => {
     const { user } = post;
 
     return (
-        <Card className="my-8">
-            <CardContent className="pt-6">
+        <div className="my-8 overflow-hidden rounded-lg border">
+            <div className="px-6 pt-6 pb-6">
                 <div className="flex items-start space-x-4">
                     <Avatar className="h-16 w-16">
                         <AvatarImage src={imageLink(user.image)} />
@@ -31,7 +30,7 @@ export const AuthorBio = ({ post }: { post: TShowPost }) => {
                         </Button>
                     </div>
                 </div>
-            </CardContent>
-        </Card>
+            </div>
+        </div>
     );
 };

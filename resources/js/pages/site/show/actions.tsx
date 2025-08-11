@@ -12,7 +12,7 @@ export const Actions = ({ post }: { post: TShowPost }) => {
             <div className="flex items-center space-x-4">
                 <Button
                     variant="ghost"
-                    className={post.liked_by_user ? 'text-red-500' : ''}
+                    className={post.liked_by_user ? 'text-red-500 hover:text-red-500' : ''}
                     onClick={() => togglePostLike(post)}
                 >
                     <HeartIcon className="mr-2 h-5 w-5" />
@@ -26,7 +26,7 @@ export const Actions = ({ post }: { post: TShowPost }) => {
                 </Button>
                 <Button
                     variant="ghost"
-                    className={post.bookmarked_by_user ? 'text-blue-500' : ''}
+                    className={post.bookmarked_by_user ? 'text-blue-500 hover:text-blue-500' : ''}
                     onClick={() => togglePostBookmark(post)}
                 >
                     <BookmarkIcon className="mr-2 h-5 w-5" />

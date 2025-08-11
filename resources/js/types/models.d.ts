@@ -20,9 +20,9 @@ export type TUser = {
     username: string;
     role: TUserRole;
     name: string;
+    bio?: string | null;
     email: string;
     email_verified_at?: string | null;
-    bio?: string | null; //TODO
 
     created_at: string;
     updated_at: string;

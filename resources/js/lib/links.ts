@@ -1,4 +1,4 @@
-import type { TCategory, TImage, TPost, TTag, TUser } from '@/types/models';
+import type { TCategory, TComment, TImage, TPost, TTag, TUser } from '@/types/models';
 
 import { router } from '@inertiajs/react';
 
@@ -78,6 +78,12 @@ export const togglePostLike = (post: TPost): void => {
 
 export const togglePostBookmark = (post: TPost): void => {
     return router.patch(route('site.posts.bookmark', post), undefined, {
+        preserveScroll: true,
+    });
+};
+
+export const toggleCommentLike = (comment: TComment): void => {
+    return router.patch(route('site.comments.like', comment), undefined, {
         preserveScroll: true,
     });
 };

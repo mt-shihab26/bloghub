@@ -18,6 +18,11 @@ return new class extends Migration
             $table->foreignIdFor(Tag::class)->constrained()->onDelete('cascade');
 
             $table->timestamps();
+
+            $table->unique(['post_id', 'tag_id']);
+
+            $table->index('post_id');
+            $table->index('tag_id');
         });
     }
 

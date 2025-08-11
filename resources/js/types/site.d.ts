@@ -1,4 +1,4 @@
-import { TCategory, TComment, TImage, TPost, TTag, TUser } from './models';
+import type { TCategory, TComment, TImage, TPost, TTag, TUser } from './models';
 
 export type THomePost = TPost & {
     user: TUser & { image?: TImage | null };
@@ -25,8 +25,8 @@ export type TShowComment = TComment & {
     user?: (TUser & { image?: TImage | null }) | null;
     comments?: TShowComment[];
 
-    likes_count: number; // TODO
-    liked_by_user: boolean; // TODO
+    likes_count: number;
+    liked_by_user: boolean;
 };
 
 export type TShowPost = TPost & {

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Comment extends Model
@@ -72,6 +73,14 @@ class Comment extends Model
     }
 
     /**
+     * Users who liked this comment
+     */
+    public function likes(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'comment_user_likes')->withTimestamps();
+    }
+
+    /**
      * Get nested comments for this specific comment
      */
     public function replies(array $with = []): mixed
@@ -87,10 +96,12 @@ class Comment extends Model
     /**
      * Get nested comments for a post using efficient approach. Uses only 1 query instead of multiple nested joins.
      */
-    public static function recursive($postId, array $with = []): mixed
+    public static function recursive($postId, array $with = [], array $withCount = [], array $withExists = []): mixed
     {
         $comments = self::where('post_id', $postId)
             ->with($with)
+            ->withCount($withCount)
+            ->withExists($withExists)
             ->orderBy('created_at', 'desc')
             ->get();
 

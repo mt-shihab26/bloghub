@@ -28,7 +28,7 @@ class CommentSeeder extends Seeder
         for ($i = 0; $i < $depth; $i++) {
             // Create replies with no post_id
             $currentLevel = Comment::factory()
-                ->count(50)
+                ->count(3)
                 ->make([
                     'post_id' => $firstPost?->id,
                     'user_id' => User::inRandomOrder()->first()?->id,

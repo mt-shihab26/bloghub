@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -12,16 +13,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('followers', function (Blueprint $table) {
+        Schema::create('comment_user_likes', function (Blueprint $table) {
             $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
-            $table->foreignIdFor(User::class, 'following_id')->constrained()->onDelete('cascade');
+            $table->foreignIdFor(Comment::class)->constrained()->onDelete('cascade');
 
             $table->timestamps();
 
-            $table->unique(['user_id', 'following_id']);
+            $table->unique(['user_id', 'comment_id']);
 
             $table->index('user_id');
-            $table->index('following_id');
+            $table->index('comment_id');
         });
     }
 
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('followers');
+        Schema::dropIfExists('comment_user_likes');
     }
 };
