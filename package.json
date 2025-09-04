@@ -6,7 +6,7 @@
         "build:ssr": "vite build && vite build --ssr",
         "dev": "vite",
         "format": "biome format --write .",
-        "lint": "tsc --noEmit && biome lint . --write",
+        "lint": "tsc --noEmit && biome lint --write",
         "test": "vitest --run",
         "shadcn": "shadcn"
     },
