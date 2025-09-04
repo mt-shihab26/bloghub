@@ -17,11 +17,15 @@ export type TUser = {
     id: TId;
     image_id?: TId | null;
 
+    name: string;
+    email: string;
     username: string;
     role: TUserRole;
-    name: string;
     bio?: string | null;
-    email: string;
+    location?: string | null; // TODO
+    website?: string | null; // TODO
+    expertises?: string[] | null; // TODO
+
     email_verified_at?: string | null;
 
     created_at: string;

@@ -1,9 +1,9 @@
-import type { THomePost } from '@/types/site';
+import type { TIndexPost } from '@/types/home';
 
 import { TrendingUpIcon } from 'lucide-react';
 import { Article } from './article';
 
-export const RecommendedArticles = ({ posts }: { posts: THomePost[] }) => {
+export const RecommendedArticles = ({ posts }: { posts: TIndexPost[] }) => {
     return (
         <div className="space-y-6">
             <h2 className="flex items-center text-2xl font-bold">

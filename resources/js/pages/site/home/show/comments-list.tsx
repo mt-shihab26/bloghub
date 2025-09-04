@@ -1,4 +1,4 @@
-import type { TShowComment, TShowPost } from '@/types/site';
+import type { TShowComment, TShowPost } from '@/types/home';
 import type { TId } from '@/types/utils';
 
 import { CommentSingle } from './comment-single';

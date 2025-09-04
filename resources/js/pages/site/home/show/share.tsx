@@ -1,4 +1,4 @@
-import type { TShowPost } from '@/types/site';
+import type { TShowPost } from '@/types/home';
 
 import { postLink } from '@/lib/links';
 import { useState } from 'react';

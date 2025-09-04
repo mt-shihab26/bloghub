@@ -3,4 +3,7 @@ resources/js/ziggy.js
 resources/views/mail/*
 bun.lock
 composer.lock
+CLAUDE.md
+.github/copilot-instructions.md
+.mcp.json
 
