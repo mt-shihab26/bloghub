@@ -31,7 +31,10 @@ export const CommentForm = ({ postId, commentId, comment }: { postId: TId; comme
                             });
                             return;
                         }
-                        post(route('site.comments.store'), { preserveScroll: true, preserveState: false });
+                        post(route('site.comments.store'), {
+                            preserveScroll: true,
+                            preserveState: false,
+                        });
                     }}
                     className="space-y-4"
                 >

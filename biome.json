@@ -2,7 +2,32 @@
     "$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
     "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
     "files": { "ignoreUnknown": false },
-    "formatter": { "enabled": true, "indentStyle": "tab" },
+    "formatter": {
+        "enabled": true,
+        "formatWithErrors": false,
+        "indentStyle": "space",
+        "indentWidth": 4,
+        "lineEnding": "lf",
+        "lineWidth": 120,
+        "attributePosition": "auto",
+        "bracketSameLine": false,
+        "bracketSpacing": true,
+        "expand": "auto",
+        "useEditorconfig": true,
+        "includes": [
+            "**",
+            "!vendor",
+            "!node_modules",
+            "!resources/js/components/ui/*",
+            "!resources/js/ziggy.js",
+            "!resources/views/mail/*",
+            "!**/bun.lock",
+            "!**/composer.lock",
+            "!**/CLAUDE.md",
+            "!.github/copilot-instructions.md",
+            "!**/.mcp.json"
+        ]
+    },
     "linter": {
         "enabled": true,
         "rules": {
@@ -100,7 +125,17 @@
         ]
     },
     "javascript": {
-        "formatter": { "quoteStyle": "double" },
+        "formatter": {
+            "jsxQuoteStyle": "double",
+            "quoteProperties": "asNeeded",
+            "trailingCommas": "all",
+            "semicolons": "always",
+            "arrowParentheses": "always",
+            "bracketSameLine": false,
+            "quoteStyle": "single",
+            "attributePosition": "auto",
+            "bracketSpacing": true
+        },
         "globals": [
             "onanimationend",
             "ongamepadconnected",
@@ -228,6 +263,7 @@
             "onemptied"
         ]
     },
+    "html": { "formatter": { "selfCloseVoidElements": "always" } },
     "overrides": [
         {
             "includes": ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"],
@@ -292,7 +328,8 @@
                     }
                 }
             }
-        }
+        },
+        { "includes": ["**/*.yml"], "formatter": { "indentWidth": 2 } }
     ],
     "assist": {
         "enabled": true,

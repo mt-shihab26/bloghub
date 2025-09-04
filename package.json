@@ -5,8 +5,8 @@
         "build": "vite build",
         "build:ssr": "vite build && vite build --ssr",
         "dev": "vite",
-        "format": "prettier --write .",
-        "lint": "tsc --noEmit && eslint . --fix",
+        "format": "biome format --write .",
+        "lint": "tsc --noEmit && biome lint . --fix",
         "test": "vitest --run",
         "shadcn": "shadcn"
     },

@@ -31,7 +31,9 @@ export const IconButton = ({
                 asChild
                 variant="ghost"
                 size="sm"
-                className={cn('cursor-pointer', className, { [activeColorClass]: active })}
+                className={cn('cursor-pointer', className, {
+                    [activeColorClass]: active,
+                })}
             >
                 <Link href={href} className="flex items-center">
                     {active ? (
@@ -49,7 +51,9 @@ export const IconButton = ({
         <Button
             variant="ghost"
             size="sm"
-            className={cn('cursor-pointer', className, { [activeColorClass]: active })}
+            className={cn('cursor-pointer', className, {
+                [activeColorClass]: active,
+            })}
             onClick={onClick}
         >
             {active ? <Icon className={iconClassName} fill="currentColor" /> : <Icon className={iconClassName} />}

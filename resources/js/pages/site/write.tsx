@@ -118,7 +118,9 @@ export default function WritePage() {
                                         <div className="prose min-h-[400px] max-w-none rounded-lg border p-4">
                                             {content ? (
                                                 <div
-                                                    dangerouslySetInnerHTML={{ __html: content.replace(/\n/g, '<br>') }}
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: content.replace(/\n/g, '<br>'),
+                                                    }}
                                                 />
                                             ) : (
                                                 <p className="text-muted-foreground">
