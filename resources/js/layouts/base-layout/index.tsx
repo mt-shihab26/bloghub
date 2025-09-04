@@ -13,7 +13,9 @@ const useToastErrors = () => {
         toast.error(errors[key], {
             action: {
                 label: 'Close',
-                onClick: () => {},
+                onClick: () => {
+                    // Close toast
+                },
             },
         });
     }
