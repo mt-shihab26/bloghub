@@ -46,6 +46,17 @@ This application is a Laravel application and its main Laravel ecosystems packag
 ## Documentation Files
 - You must only create documentation files if explicitly requested by the user.
 
+## Git Commits
+
+- Use `git add -A` to stage all files for commit instead of adding files individually.
+- All git commit messages must use lowercase characters only.
+- NEVER include Claude Code credits, co-authoring attribution, or any AI-generated tags in commit messages. Keep commit messages clean and simple.
+
+## Pull Requests
+
+- When creating pull requests, only include a summary section and changes made in the body.
+- Do not include test plans or testing checklists in PR descriptions.
+
 
 === boost rules ===
 

@@ -51,7 +51,7 @@ class ProfileController extends Controller
             'posts' => $posts,
             'following_count' => $user->following()->count(),
             'followers_count' => $user->followers()->count(),
-            'likes_count' => $posts->sum(fn ($post) => $post->likes()->count()),
+            'likes_count' => $posts->sum(fn (Post $post) => $post->likes()->count()),
             'followed_by_user' => $user->followers()->where('user_id', $request->user()->id)->exists() ?? false,
         ];
 
