@@ -32,6 +32,9 @@
         "enabled": true,
         "rules": {
             "recommended": false,
+            "nursery": {
+                "useSortedClasses": "error"
+            },
             "complexity": {
                 "noAdjacentSpacesInRegex": "error",
                 "noExtraBooleanCast": "error",

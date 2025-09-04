@@ -22,3 +22,10 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+
+# ESLint and Prettier
+.eslintrc*
+eslint.config.*
+.prettierrc*
+prettier.config.*
+.prettierignore
