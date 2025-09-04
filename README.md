@@ -1,6 +1,6 @@
 # Bloghub
 
-A comprehensive blogging platform built with Laravel, React, and TailwindCSS. Bloghub empowers developers, designers, and tech enthusiasts to share knowledge, discover content, and build meaningful connections through writing.
+A comprehensive blogging platform built with Laravel. Bloghub empowers developers, designers, and tech enthusiasts to share knowledge, discover content, and build meaningful connections through writing.
 
 ## Features
 
@@ -44,26 +44,26 @@ A comprehensive blogging platform built with Laravel, React, and TailwindCSS. Bl
 - **Clean, accessible interface** built with shadcn/ui components
 - **Dark/light mode support** (ready for implementation)
 - **Smooth animations** and micro-interactions
-- **Optimized performance** with Next.js 15 features
+- **Optimized performance** with Laravel's built-in optimizations
 
 
 ## ️ Tech Stack
 
-- **Framework**: Next.js 15 (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **UI Components**: shadcn/ui
-- **Icons**: Lucide React
-- **Image Handling**: Next.js Image Optimization
-- **State Management**: React Hooks (useState, useEffect)
-
+- **Language**: PHP, TypeScript
+- **Framework**: Laravel, React, Inertia.js
+- **Database**: SQLite, Redis
+- **Styling**: Tailwind CSS, shadcn/ui
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 18+
-- npm or yarn or pnpm
+- PHP 8.2+
+- Composer
+- SQLite 
+- Node.js
+- Bun
+- Redis
 
 
 ### Installation
@@ -71,127 +71,58 @@ A comprehensive blogging platform built with Laravel, React, and TailwindCSS. Bl
 1. **Clone the repository**
 
 ```shellscript
-git clone https://github.com/yourusername/bloghub.git
+git clone https://github.com/mt-shihab26/bloghub.git
 cd bloghub
 ```
 
 
-2. **Install dependencies**
+2. **Install PHP dependencies**
 
 ```shellscript
-npm install
-# or
-yarn install
-# or
-pnpm install
+composer install
 ```
 
 
-3. **Run the development server**
+3. **Install TypeScript dependencies**
 
 ```shellscript
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+bun install
 ```
 
 
-4. **Open your browser**
-Navigate to [http://localhost:3000](http://localhost:3000) to see the application.
+4. **Environment setup**
 
-
-## Project Structure
-
-```plaintext
-bloghub/
-├── app/                    # Next.js 15 App Router
-│   ├── author/            # Author profile pages
-│   ├── blog/              # Individual blog post pages
-│   ├── category/          # Category pages
-│   ├── tag/               # Tag pages
-│   ├── categories/        # Categories directory
-│   ├── tags/              # Tags directory
-│   ├── write/             # Blog post editor
-│   └── page.tsx           # Homepage
-├── components/            # Reusable components
-│   ├── ui/                # shadcn/ui components
-│   └── footer.tsx         # Footer component
-├── public/                # Static assets
-└── README.md
+```shellscript
+cp .env.example .env
+php artisan key:generate
 ```
 
-## Key Pages
 
-- **Homepage** (`/`) - Personalized feed with recommendations
-- **Categories** (`/categories`) - Browse all content categories
-- **Tags** (`/tags`) - Explore trending and popular tags
-- **Author Profiles** (`/author/[username]`) - User profiles with posts and stats
-- **Blog Posts** (`/blog/[id]`) - Individual articles with comments
-- **Write** (`/write`) - Rich markdown editor for creating content
-- **Category Pages** (`/category/[slug]`) - Category-specific content
-- **Tag Pages** (`/tag/[slug]`) - Tag-specific content
+5. **Database setup**
+
+```shellscript
+php artisan migrate --seed
+```
 
 
-## Customization
+6. **Compile assets**
 
-### Adding New Categories
-
-Update the categories data in the respective page components to add new content categories.
-
-### Styling
-
-The project uses Tailwind CSS with shadcn/ui. Customize the theme in `tailwind.config.ts` and component styles throughout the application.
-
-### Components
-
-All UI components are built with shadcn/ui and can be customized in the `components/ui/` directory.
-
-## Roadmap
-
-- **Authentication System** - User registration and login
-- **Database Integration** - PostgreSQL/MongoDB for data persistence
-- **Real-time Features** - Live notifications and comments
-- **Advanced Search** - Full-text search with Elasticsearch
-- **Content Analytics** - View counts, engagement metrics
-- **Email Notifications** - Newsletter and activity updates
-- **Mobile App** - React Native companion app
-- **API Documentation** - RESTful API for third-party integrations
+```shellscript
+bun dev
+```
 
 
-## Contributing
+7. **Start the development server**
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+```shellscript
+composer dev
+```
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
 
+8. **Open your browser**
+Navigate to [http://localhost:8000](http://localhost:8000) to see the application.
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Acknowledgments
-
-- [Next.js](https://nextjs.org/) for the amazing React framework
-- [shadcn/ui](https://ui.shadcn.com/) for the beautiful component library
-- [Tailwind CSS](https://tailwindcss.com/) for the utility-first CSS framework
-- [Lucide](https://lucide.dev/) for the clean, consistent icons
-
-
-## Support
-
-If you have any questions or need help, please:
-
-- Open an issue on GitHub
-- Join our [Discord community](https://discord.gg/bloghub)
-- Follow us on [Twitter](https://twitter.com/bloghub)
-
-
----
-
-**Built with ❤️ by the BlogHub community**
