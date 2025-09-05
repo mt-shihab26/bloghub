@@ -52,7 +52,7 @@ class ProfileController extends Controller
             'following_count' => $user->following()->count(),
             'followers_count' => $user->followers()->count(),
             'likes_count' => $posts->sum(fn (Post $post) => $post->likes()->count()),
-            'followed_by_user' => $user->followers()->where('user_id', $request->user()->id)->exists() ?? false,
+            'followed_by_user' => $user->followers()->where('user_id', $request->user()?->id)->exists() ?? false,
         ];
 
         return inertia('site/profile/show/index', [
