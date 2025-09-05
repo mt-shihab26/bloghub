@@ -1,9 +1,7 @@
-import { TPost } from '@/types/models';
+import type { TPost } from '@/types/models';
+
+import { Response } from '@/components/ui/response';
 
 export const Content = ({ post }: { post: TPost }) => {
-    return (
-        <div className="prose prose-lg mb-8 max-w-none">
-            <div dangerouslySetInnerHTML={{ __html: post.content }} />
-        </div>
-    );
+    return <Response>{post.content}</Response>;
 };
