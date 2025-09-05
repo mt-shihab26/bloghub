@@ -87,8 +87,6 @@ Route::prefix('/admin')->middleware(['auth', 'verified'])->group(function () {
 
 // site routes
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
-
 Route::prefix('/users')->group(function () {
     Route::patch('/{user}/follow', [UserController::class, 'toggleFollow'])->middleware(['auth'])->name('site.users.follow');
 });
@@ -124,5 +122,13 @@ Route::prefix('/newsletter')->group(function () {
     Route::post('/subscribe', [NewsletterController::class, 'store'])->name('site.newsletter.subscribe');
 });
 
-Route::get('/{user:username}', [ProfileController::class, 'show'])->name('site.profile.show');
-Route::get('/{user:username}/{post:slug}', [HomeController::class, 'show'])->name('site.home.show');
+// profile routes
+Route::prefix('/')->group(function () {
+    Route::get('/{user:username}', [ProfileController::class, 'show'])->name('site.profile.show');
+});
+
+// home routes
+Route::prefix('/')->group(function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/{user:username}/{post:slug}', [HomeController::class, 'show'])->name('site.home.show');
+});

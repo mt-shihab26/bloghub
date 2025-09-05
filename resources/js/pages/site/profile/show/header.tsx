@@ -1,7 +1,9 @@
 import type { TShowUser } from '@/types/profile';
+import type { TPublicPage } from '@/types';
 
 import { formatHumanDate, formatInitials } from '@/lib/format';
 import { imageLink, tagLink, toggleFollowLink } from '@/lib/links';
+import { usePage } from '@inertiajs/react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -10,6 +12,8 @@ import { Link } from '@inertiajs/react';
 import { Calendar, FileText, Heart, LinkIcon, MapPin, Users } from 'lucide-react';
 
 export const Header = ({ user }: { user: TShowUser }) => {
+    const { auth } = usePage<TPublicPage>().props;
+
     return (
         <div className="flex flex-col items-start space-y-6 rounded-2xl border border-border p-8 md:flex-row md:items-start md:space-y-0 md:space-x-8">
             <Avatar className="h-32 w-32 shadow-lg ring-4 ring-background">
@@ -70,9 +74,12 @@ export const Header = ({ user }: { user: TShowUser }) => {
                     <div>
                         <h4 className="mb-3 text-sm font-semibold text-muted-foreground">Tags</h4>
                         <div className="flex flex-wrap gap-2">
-                            {user.tags?.map((tag) => (
+                            {user.tags?.map(tag => (
                                 <Link key={tag.slug} href={tagLink(tag)}>
-                                    <Badge variant="secondary" className="cursor-pointer text-xs hover:underline">
+                                    <Badge
+                                        variant="secondary"
+                                        className="cursor-pointer text-xs hover:underline"
+                                    >
                                         #{tag.name}
                                     </Badge>
                                 </Link>
@@ -80,9 +87,11 @@ export const Header = ({ user }: { user: TShowUser }) => {
                         </div>
                     </div>
                     <div>
-                        <h4 className="mb-3 text-sm font-semibold text-muted-foreground">EXPERTISE</h4>
+                        <h4 className="mb-3 text-sm font-semibold text-muted-foreground">
+                            EXPERTISE
+                        </h4>
                         <div className="flex flex-wrap gap-2">
-                            {user.expertises?.map((e) => (
+                            {user.expertises?.map(e => (
                                 <Badge variant="secondary">{e}</Badge>
                             ))}
                         </div>

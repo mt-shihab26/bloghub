@@ -44,7 +44,9 @@ export const postLikes = (post: (TPost & { likes_count?: number }) | null | unde
     return post?.likes_count || 0;
 };
 
-export const postComments = (post: (TPost & { comments_count?: number }) | null | undefined): number => {
+export const postComments = (
+    post: (TPost & { comments_count?: number }) | null | undefined,
+): number => {
     return post?.comments_count || 0;
 };
 
@@ -64,10 +66,11 @@ export const tagLink = (tag: TTag, extra?: string): string => {
     return `${link}${extra}`;
 };
 
-export const toggleFollowLink = (user: TUser): void => {
-    return router.patch(route('site.users.follow', user), undefined, {
-        preserveScroll: true,
-    });
+export const toggleFollowLink = (user: TUser, authUser?: TUser | null): void => {
+    if (!authUser?.id) {
+        return router.visit(route('login'));
+    }
+    return router.patch(route('site.users.follow', user), undefined, { preserveScroll: true });
 };
 
 export const togglePostLike = (post: TPost): void => {
