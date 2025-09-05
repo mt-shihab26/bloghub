@@ -18,7 +18,7 @@ export const Header = ({ post }: { post: TShowPost }) => {
         <div className="mb-8">
             {!isZenMode && post.tags && (
                 <div className="mt-4 mb-2 flex flex-wrap gap-2">
-                    {post.tags.map(tag => (
+                    {post.tags.map((tag) => (
                         <Link key={tag.slug} href={tagLink(tag)}>
                             <Badge variant="secondary" className="cursor-pointer hover:underline">
                                 #{tag.name}
@@ -37,10 +37,7 @@ export const Header = ({ post }: { post: TShowPost }) => {
                             <AvatarFallback>{formatInitials(post.user.name)}</AvatarFallback>
                         </Avatar>
                         <div>
-                            <Link
-                                href={authorLink(post.user)}
-                                className="font-semibold hover:underline"
-                            >
+                            <Link href={authorLink(post.user)} className="font-semibold hover:underline">
                                 {post.user.name}
                             </Link>
                             <div className="flex items-center space-x-2 text-sm text-muted-foreground">
@@ -53,11 +50,7 @@ export const Header = ({ post }: { post: TShowPost }) => {
                         </div>
                     </div>
                     <div className="flex items-center space-x-2">
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => toggleFollowLink(post.user)}
-                        >
+                        <Button variant="outline" size="sm" onClick={() => toggleFollowLink(post.user)}>
                             {post.followed_by_user ? 'Following' : 'Follow'}
                         </Button>
                     </div>
