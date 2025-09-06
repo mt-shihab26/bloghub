@@ -15,7 +15,7 @@ export const LatestPosts = ({ user }: { user: TShowUser }) => {
             <div>
                 <h2 className="mb-6 text-2xl font-bold">Latest Posts</h2>
                 <div className="space-y-8">
-                    {user.posts?.map((post) => (
+                    {user.posts?.map(post => (
                         <div
                             key={post.id}
                             className="overflow-hidden rounded-xl border bg-card shadow-sm transition-shadow hover:shadow-md"
@@ -36,7 +36,7 @@ export const LatestPosts = ({ user }: { user: TShowUser }) => {
                                         <span>•</span>
                                         <div className="flex items-center">
                                             <Clock className="mr-1 h-4 w-4" />
-                                            {readingTime(post.content)}
+                                            {readingTime(post.content)} min read
                                         </div>
                                     </div>
                                     <h3 className="mb-3 text-xl font-bold">
@@ -47,7 +47,9 @@ export const LatestPosts = ({ user }: { user: TShowUser }) => {
                                             {post.title}
                                         </Link>
                                     </h3>
-                                    <p className="mb-4 leading-relaxed text-muted-foreground">{post.excerpt}</p>
+                                    <p className="mb-4 leading-relaxed text-muted-foreground">
+                                        {post.excerpt}
+                                    </p>
 
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center space-x-4">
@@ -93,7 +95,7 @@ export const LatestPosts = ({ user }: { user: TShowUser }) => {
                                     </div>
 
                                     <div className="mt-4 flex flex-wrap gap-2">
-                                        {post.tags?.map((tag) => (
+                                        {post.tags?.map(tag => (
                                             <Link key={tag.slug} href={tagLink(tag)}>
                                                 <Badge
                                                     variant="secondary"

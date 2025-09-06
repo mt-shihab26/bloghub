@@ -7,10 +7,17 @@ export const cn = (...inputs: ClassValue[]): string => {
     return twMerge(clsx(inputs));
 };
 
-export const readingTime = (content: string): string => {
+export const wordCount = (content: string): number => {
+    return content
+        .trim()
+        .split(/\s+/)
+        .filter(word => word.length > 0).length;
+};
+
+export const readingTime = (content: string): number => {
     const wordsPerMinute = 200;
-    const words = content.trim().split(/\s+/).length;
+    const words = wordCount(content);
     const minutes = Math.max(1, Math.ceil(words / wordsPerMinute));
 
-    return `${minutes} min read`;
+    return minutes;
 };

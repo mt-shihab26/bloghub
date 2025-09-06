@@ -22,13 +22,14 @@ export const formatInitials = (fullName?: string | null): string => {
 /**
  * Formats a date string into a readable long format, e.g., "August 1, 2025".
  */
-export const formatHumanDate = (date: string): string => {
+export const formatHumanDate = (date: string | Date): string => {
     return format(new Date(date), 'MMMM d, yyyy');
 };
 
 /**
  * Returns a human-readable relative time like "12 days ago" or "3 hours ago".
  */
-export const formatTimeAgo = (date: string): string => {
+export const formatTimeAgo = (date: string | Date | null): string => {
+    if (!date) return 'Never';
     return formatDistanceToNow(new Date(date), { addSuffix: true });
 };

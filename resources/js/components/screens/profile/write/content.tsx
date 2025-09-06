@@ -1,8 +1,3 @@
-import { useState } from 'react';
-
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Separator } from '@/components/ui/separator';
 import {
     X,
     Bold,
@@ -16,31 +11,16 @@ import {
     AlertCircle,
 } from 'lucide-react';
 
+import { useProfileWriteStore } from '@/states/use-profile-write-store';
+
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { Separator } from '@/components/ui/separator';
+
 export const Content = () => {
-    const [content, setContent] = useState(`# Welcome to the Markdown Editor
+    const { post, setPostKey } = useProfileWriteStore();
+    const { content } = post;
 
-Start writing your amazing blog post here! This editor supports full **Markdown** syntax.
-
-## Features
-
-- **Bold** and *italic* text
-- Code blocks with \`inline code\`
-- Lists and quotes
-- And much more!
-
-### Code Example
-
-\`\`\`javascript
-function hello() {
-  console.log("Hello, World!");
-}
-\`\`\`
-
-> Quotes look great too!
-
-- Lists
-- Are
-- Supported`);
     const insertMarkdown = (before: string, after = '') => {
         const textarea = document.getElementById('content-editor') as HTMLTextAreaElement;
         if (!textarea) return;
@@ -51,7 +31,7 @@ function hello() {
         const newText =
             content.substring(0, start) + before + selectedText + after + content.substring(end);
 
-        setContent(newText);
+        setPostKey('content', newText);
 
         // Set cursor position after insertion
         setTimeout(() => {
@@ -146,7 +126,7 @@ function hello() {
                         id="content-editor"
                         placeholder="Tell your story... Supports: GitHub Flavored Markdown • LaTeX Math Equations • Mermaid Diagrams • Code Syntax Highlighting"
                         value={content}
-                        onChange={e => setContent(e.target.value)}
+                        onChange={e => setPostKey('content', e.target.value)}
                         className="min-h-[500px] font-mono text-sm resize-none"
                     />
                     {content.length > 100 ? (
