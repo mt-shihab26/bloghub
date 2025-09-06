@@ -4,22 +4,21 @@ A comprehensive blogging platform built with Laravel. Bloghub empowers developer
 
 ## Features
 
-### Pages
+### [ ] / - Home page
 
-- [x] /{username}/{post:slug} - Blog post show page
-    - [x] zen mode post reading implemented
-    - [x] showing tags, authors info, featured image on top
-    - [x] rendering markdown content of post with `streamdown` response package
-    - [x] love, comments, bookmark and share actions toolbar.
-    - [x] showing authors details
-    - [x] implement recursive comments of post.
-
-### **Content Discovery**
-
-- **AI-powered recommendations** based on user interests and reading history
-- **Trending topics** and featured articles on the homepage
 - **Advanced search** with filters for categories, tags, authors, and dates
-- **Personalized feed** tailored to followed categories and tags
+- **AI-powered recommendations** based on user interests and reading history and **Personalized feed** tailored to followed categories and tags
+- **Trending categories** on the home page
+- **Trending tags** and featured articles on the homepage
+
+### [x] /{username}/{post:slug} - Blog post show page
+
+- [x] zen mode post reading implemented
+- [x] showing tags, authors info, featured image on top
+- [x] rendering markdown content of post with `streamdown` response package
+- [x] love, comments, bookmark and share actions toolbar.
+- [x] showing authors details
+- [x] implement recursive comments of post.
 
 ### **Rich Writing Experience**
 
