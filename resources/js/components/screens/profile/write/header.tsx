@@ -1,14 +1,12 @@
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
-import { Save, Send, X, Clock, FileText } from 'lucide-react';
+import { Save, Send, X } from 'lucide-react';
+import { ArticleDrawer } from './article-drawer';
 
 export const Header = () => {
     const [isDraft, setIsDraft] = useState(true);
     const [lastSaved, setLastSaved] = useState<Date | null>(null);
-    const [readingTime] = useState(0);
-    const [completionPercentage] = useState(0);
 
     const formatLastSaved = (date: Date | null) => {
         if (!date) return 'Never';
@@ -25,27 +23,15 @@ export const Header = () => {
     };
 
     return (
-        <div className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/95 sticky top-0 z-50">
-            <div className="h-[4.5rem] flex items-center justify-between">
+        <div className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/95 sticky top-0 z-50">
+            <div className="h-[4.45rem] flex items-center justify-between">
                 <div className="flex items-center space-x-4">
+                    <ArticleDrawer />
                     <div className="hidden md:flex items-center space-x-2 text-sm text-muted-foreground">
-                        <FileText className="w-4 h-4" />
-                        <span>{50} words</span>
-                        <span>•</span>
-                        <Clock className="w-4 h-4" />
-                        <span>{readingTime} min read</span>
-                        <span>•</span>
                         <span>Last saved: {formatLastSaved(lastSaved)}</span>
                     </div>
                 </div>
                 <div className="flex items-center space-x-4">
-                    <div className="hidden md:flex items-center space-x-2">
-                        <span className="text-sm text-muted-foreground">Progress:</span>
-                        <Progress value={completionPercentage} className="w-20" />
-                        <span className="text-sm font-medium">
-                            {Math.round(completionPercentage)}%
-                        </span>
-                    </div>
                     <Button variant="ghost" onClick={() => setLastSaved(new Date())}>
                         <Save className="w-4 h-4 mr-2" />
                         Save Draft
@@ -54,20 +40,11 @@ export const Header = () => {
                         <X className="w-4 h-4 mr-2" />
                         Preview
                     </Button>
-                    <Button onClick={() => setIsDraft(false)} disabled={completionPercentage < 80}>
+                    <Button onClick={() => setIsDraft(false)}>
                         <Send className="w-4 h-4 mr-2" />
                         {isDraft ? 'Publish' : 'Update'}
                     </Button>
                 </div>
-            </div>
-
-            {/* Mobile Progress Bar */}
-            <div className="md:hidden mt-4">
-                <div className="flex items-center justify-between text-sm text-muted-foreground mb-2">
-                    <span>Post completion</span>
-                    <span>{Math.round(completionPercentage)}%</span>
-                </div>
-                <Progress value={completionPercentage} className="w-full" />
             </div>
         </div>
     );

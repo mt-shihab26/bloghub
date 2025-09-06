@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import {
     X,
@@ -17,7 +16,7 @@ import {
     AlertCircle,
 } from 'lucide-react';
 
-export const WritingContent = () => {
+export const Content = () => {
     const [content, setContent] = useState(`# Welcome to the Markdown Editor
 
 Start writing your amazing blog post here! This editor supports full **Markdown** syntax.
@@ -152,7 +151,7 @@ function hello() {
                     </div>
                     <Textarea
                         id="content-editor"
-                        placeholder="Tell your story... (Markdown supported)"
+                        placeholder="Tell your story... Supports: GitHub Flavored Markdown • LaTeX Math Equations • Mermaid Diagrams • Code Syntax Highlighting"
                         value={content}
                         onChange={e => setContent(e.target.value)}
                         className="min-h-[500px] font-mono text-sm resize-none"

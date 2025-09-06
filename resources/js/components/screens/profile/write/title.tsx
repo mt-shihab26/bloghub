@@ -1,15 +1,13 @@
 import { useState } from 'react';
 
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { CheckCircle, AlertCircle } from 'lucide-react';
 
-export const WritingTitle = () => {
+export const Title = () => {
     const [title, setTitle] = useState('');
 
     return (
         <div className="space-y-2">
-            <Label htmlFor="title">Title *</Label>
             <Input
                 id="title"
                 placeholder="Enter your article title..."
