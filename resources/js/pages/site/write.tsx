@@ -4,16 +4,16 @@ import { formatTimeAgo } from '@/lib/format';
 
 import { FileText, Clock, History } from 'lucide-react';
 import { SiteLayout } from '@/layouts/site-layout';
-import { Title } from '@/components/screens/profile/write/title';
-import { Content } from '@/components/screens/profile/write/content';
-import { Excerpt } from '@/components/screens/profile/write/excerpt';
-import { FeaturedImage } from '@/components/screens/profile/write/featured-image';
-import { Category } from '@/components/screens/profile/write/category';
-import { Tags } from '@/components/screens/profile/write/tags';
-import { Slug } from '@/components/screens/profile/write/slug';
-import { SaveDraft } from '@/components/screens/profile/write/save-draft';
-import { Publish } from '@/components/screens/profile/write/publish';
-import { Preview } from '@/components/screens/profile/write/preview';
+import { Title } from '@/components/screens/write/title';
+import { Content } from '@/components/screens/write/content';
+import { Excerpt } from '@/components/screens/write/excerpt';
+import { FeaturedImage } from '@/components/screens/write/featured-image';
+import { Category } from '@/components/screens/write/category';
+import { Tags } from '@/components/screens/write/tags';
+import { Slug } from '@/components/screens/write/slug';
+import { SaveDraft } from '@/components/screens/write/save-draft';
+import { Publish } from '@/components/screens/write/publish';
+import { Preview } from '@/components/screens/write/preview';
 
 const Write = () => {
     const { content, updated_at } = useProfileWriteStore(s => s.post);

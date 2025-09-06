@@ -14,7 +14,7 @@ export const profileMeLink = (): string => {
 };
 
 export const profileWriteLink = (): string => {
-    return route('site.profile.write');
+    return route('site.write.create');
 };
 
 export const profileSettingsLink = (): string => {

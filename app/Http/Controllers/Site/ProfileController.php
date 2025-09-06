@@ -18,14 +18,6 @@ class ProfileController extends Controller
     }
 
     /**
-     * Show the editor for writing post.
-     */
-    public function write(Request $request)
-    {
-        return inertia('site/profile/write');
-    }
-
-    /**
      * Show the settings for the user.
      */
     public function settings(Request $request)
@@ -55,49 +47,9 @@ class ProfileController extends Controller
             'followed_by_user' => $user->followers()->where('user_id', $request->user()?->id)->exists() ?? false,
         ];
 
-        return inertia('site/profile/show', [
+        return inertia('site/profile', [
             'user' => $user,
         ]);
-    }
-
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Post $post)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Post $post)
-    {
-        //
     }
 
     /**

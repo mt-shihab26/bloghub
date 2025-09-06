@@ -40,7 +40,7 @@ class HomeController extends Controller
             ->limit(10)
             ->get();
 
-        return inertia('site/home/index', [
+        return inertia('site/home', [
             'posts' => $posts,
             'categories' => $categories,
             'users' => $users,
@@ -72,7 +72,7 @@ class HomeController extends Controller
 
         $comments = Comment::tree($comments);
 
-        return inertia('site/home/show', [
+        return inertia('site/post', [
             'post' => [
                 ...$post->toArray(),
                 'user' => $user->load('image'),

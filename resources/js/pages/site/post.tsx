@@ -3,14 +3,14 @@ import type { TShowPost } from '@/types/home';
 import { useHomeShowStore } from '@/states/use-home-show-store';
 
 import { SiteLayout } from '@/layouts/site-layout';
-import { Actions } from '@/components/screens/home/show/actions';
-import { AuthorBio } from '@/components/screens/home/show/author-bio';
-import { Back } from '@/components/screens/home/show/back';
-import { CommentForm } from '@/components/screens/home/show/comment-form';
-import { CommentsList } from '@/components/screens/home/show/comments-list';
-import { Content } from '@/components/screens/home/show/content';
-import { Header } from '@/components/screens/home/show/header';
-import { ZenMode } from '@/components/screens/home/show/zen-mode';
+import { Actions } from '@/components/screens/post/actions';
+import { AuthorBio } from '@/components/screens/post/author-bio';
+import { Back } from '@/components/screens/post/back';
+import { CommentForm } from '@/components/screens/post/comment-form';
+import { CommentsList } from '@/components/screens/post/comments-list';
+import { Content } from '@/components/screens/post/content';
+import { Header } from '@/components/screens/post/header';
+import { ZenMode } from '@/components/screens/post/zen-mode';
 
 const Show = ({ post }: { post: TShowPost }) => {
     const { isZenMode, setIsZenMode } = useHomeShowStore();
