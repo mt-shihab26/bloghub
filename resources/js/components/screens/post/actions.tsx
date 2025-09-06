@@ -1,12 +1,16 @@
 import type { TShowPost } from '@/types/home';
 
+import { useAuthUser } from '@/hooks/use-auth-user';
 import { togglePostBookmark, togglePostLike } from '@/lib/links';
 
+import { Link } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
-import { BookmarkIcon, HeartIcon, MessageCircleIcon } from 'lucide-react';
+import { BookmarkIcon, Edit, HeartIcon, MessageCircleIcon } from 'lucide-react';
 import { Share } from './share';
 
 export const Actions = ({ post }: { post: TShowPost }) => {
+    const { user } = useAuthUser();
+
     return (
         <div className="flex items-center justify-between border-y py-6">
             <div className="flex items-center space-x-4">
@@ -32,6 +36,14 @@ export const Actions = ({ post }: { post: TShowPost }) => {
                     <BookmarkIcon className="mr-2 h-5 w-5" />
                     {post.bookmarked_by_user ? 'Bookmarked' : 'Bookmark'}
                 </Button>
+                {user && user.id === post.user.id && (
+                    <Button variant="ghost" asChild>
+                        <Link href={route('site.write.edit', { post })}>
+                            <Edit className="mr-2 h-5 w-5" />
+                            Edit
+                        </Link>
+                    </Button>
+                )}
             </div>
             <Share post={post} />
         </div>
