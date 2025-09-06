@@ -12,7 +12,7 @@ export const Title = () => {
                 id="title"
                 placeholder="Enter your article title..."
                 value={title}
-                onChange={e => setTitle(e.target.value)}
+                onChange={(e) => setTitle(e.target.value)}
                 className="text-lg font-medium"
             />
             {title.length > 0 && (
@@ -23,9 +23,7 @@ export const Title = () => {
                         <AlertCircle className="w-4 h-4 text-orange-500" />
                     )}
                     <span className="text-muted-foreground">
-                        {title.length > 10
-                            ? 'Good title length'
-                            : 'Title should be more descriptive'}
+                        {title.length > 10 ? 'Good title length' : 'Title should be more descriptive'}
                     </span>
                 </div>
             )}

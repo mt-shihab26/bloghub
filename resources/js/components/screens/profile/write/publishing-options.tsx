@@ -6,13 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { X, Settings, CheckCircle } from 'lucide-react';
 
@@ -31,7 +25,7 @@ export const PublishingOptions = () => {
     };
 
     const removeTag = (tagToRemove: string) => {
-        setTags(tags.filter(tag => tag !== tagToRemove));
+        setTags(tags.filter((tag) => tag !== tagToRemove));
     };
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -76,26 +70,18 @@ export const PublishingOptions = () => {
                             id="tags"
                             placeholder="Add a tag..."
                             value={newTag}
-                            onChange={e => setNewTag(e.target.value)}
+                            onChange={(e) => setNewTag(e.target.value)}
                             onKeyPress={handleKeyPress}
                             disabled={tags.length >= 5}
                         />
-                        <Button
-                            onClick={addTag}
-                            size="sm"
-                            disabled={tags.length >= 5 || !newTag.trim()}
-                        >
+                        <Button onClick={addTag} size="sm" disabled={tags.length >= 5 || !newTag.trim()}>
                             Add
                         </Button>
                     </div>
                     {tags.length > 0 && (
                         <div className="flex flex-wrap gap-2 mt-2">
-                            {tags.map(tag => (
-                                <Badge
-                                    key={tag}
-                                    variant="secondary"
-                                    className="flex items-center gap-1"
-                                >
+                            {tags.map((tag) => (
+                                <Badge key={tag} variant="secondary" className="flex items-center gap-1">
                                     #{tag}
                                     <X
                                         className="w-3 h-3 cursor-pointer hover:text-destructive"
@@ -127,11 +113,7 @@ export const PublishingOptions = () => {
                     </div>
                     <div className="flex items-center justify-between text-sm mt-2">
                         <span>Completion:</span>
-                        <span
-                            className={
-                                completionPercentage >= 80 ? 'text-green-600' : 'text-orange-500'
-                            }
-                        >
+                        <span className={completionPercentage >= 80 ? 'text-green-600' : 'text-orange-500'}>
                             {Math.round(completionPercentage)}%
                         </span>
                     </div>

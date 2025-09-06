@@ -1,72 +1,45 @@
 import { useState } from 'react';
 
-import { Button } from '@/components/ui/button';
-import { ImageIcon, X, Upload, CheckCircle } from 'lucide-react';
+import { Dropzone, DropzoneContent, DropzoneEmptyState } from '@/components/ui/dropzone';
 
 export const FeaturedImageUpload = () => {
-    const [featuredImage, setFeaturedImage] = useState<string | null>(null);
-    const [fileName, setFileName] = useState<string | null>(null);
+    const [files, setFiles] = useState<File[] | undefined>();
+    const [filePreview, setFilePreview] = useState<string | undefined>();
 
-    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            // In a real app, you'd upload to your server/cloud storage
-            const imageUrl = URL.createObjectURL(file);
-            setFeaturedImage(imageUrl);
-            setFileName(file.name);
+    const handleDrop = (files: File[]) => {
+        console.log(files);
+        setFiles(files);
+
+        if (files.length > 0) {
+            const reader = new FileReader();
+            reader.onload = e => {
+                if (typeof e.target?.result === 'string') {
+                    setFilePreview(e.target?.result);
+                }
+            };
+            reader.readAsDataURL(files[0]);
         }
     };
 
     return (
-        <div>
-            
-            {featuredImage ? (
-                <div className="space-y-3">
-                    <div className="relative">
+        <Dropzone
+            accept={{ 'image/*': ['.png', '.jpg', '.jpeg'] }}
+            onDrop={handleDrop}
+            onError={console.error}
+            src={files}
+        >
+            <DropzoneEmptyState />
+            <DropzoneContent>
+                {filePreview && (
+                    <div className="h-[102px] w-full">
                         <img
-                            src={featuredImage}
-                            alt="Featured image"
-                            className="w-full h-32 object-cover rounded-lg"
+                            alt="Preview"
+                            className="absolute top-0 left-0 h-full w-full object-cover"
+                            src={filePreview}
                         />
-                        <Button
-                            variant="destructive"
-                            size="sm"
-                            className="absolute top-2 right-2"
-                            onClick={() => {
-                                setFeaturedImage(null);
-                                setFileName(null);
-                            }}
-                        >
-                            <X className="w-4 h-4" />
-                        </Button>
                     </div>
-                    <div className="flex items-center space-x-2 text-sm text-green-600">
-                        <CheckCircle className="w-4 h-4" />
-                        <span>{fileName}</span>
-                    </div>
-                </div>
-            ) : (
-                <div className="space-y-3">
-                    <Button 
-                        variant="outline" 
-                        onClick={() => document.getElementById('image-upload')?.click()}
-                        className="w-full"
-                    >
-                        <Upload className="w-4 h-4 mr-2" />
-                        Choose Featured Image
-                    </Button>
-                    <input
-                        id="image-upload"
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        onChange={handleImageUpload}
-                    />
-                    <p className="text-xs text-muted-foreground">
-                        Recommended: 1200x630px for best display across platforms
-                    </p>
-                </div>
-            )}
-        </div>
+                )}
+            </DropzoneContent>
+        </Dropzone>
     );
 };

@@ -2,6 +2,7 @@ import { SiteLayout } from '@/layouts/site-layout';
 import { Header } from '@/components/screens/profile/write/header';
 import { Title } from '@/components/screens/profile/write/title';
 import { Content } from '@/components/screens/profile/write/content';
+import { WritingExcerpt } from '@/components/screens/profile/write/writing-excerpt';
 
 const Write = () => {
     return (
@@ -10,6 +11,7 @@ const Write = () => {
             <div className="py-10 space-y-8">
                 <Title />
                 <Content />
+                <WritingExcerpt />
             </div>
         </SiteLayout>
     );

@@ -2,9 +2,8 @@ import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Sparkles, Edit3, CheckCircle, AlertCircle } from 'lucide-react';
+import { Sparkles, CheckCircle, AlertCircle } from 'lucide-react';
 
 export const WritingExcerpt = () => {
     const [excerpt, setExcerpt] = useState('');
@@ -15,7 +14,7 @@ export const WritingExcerpt = () => {
         setIsGenerating(true);
         // Simulate AI generation
         setTimeout(() => {
-            const generatedExcerpt = `This is an **AI-generated** excerpt that provides a compelling *preview* of your article content. 
+            const generatedExcerpt = `This is an **AI-generated** excerpt that provides a compelling *preview* of your article content.
 
 It automatically creates a summary that engages readers and encourages them to read the full post.`;
             setExcerpt(generatedExcerpt);
@@ -31,9 +30,7 @@ It automatically creates a summary that engages readers and encourages them to r
     return (
         <div>
             <div className="flex items-center justify-between mb-4">
-                <p className="text-sm text-muted-foreground">
-                    Create a compelling preview of your article (supports Markdown)
-                </p>
+                <p className="text-sm text-muted-foreground">Create a compelling preview of your article</p>
                 <Button
                     variant="outline"
                     size="sm"
@@ -51,7 +48,7 @@ It automatically creates a summary that engages readers and encourages them to r
                     <TabsTrigger value="write">Write</TabsTrigger>
                     <TabsTrigger value="preview">Preview</TabsTrigger>
                 </TabsList>
-                
+
                 <TabsContent value="write" className="space-y-2">
                     <Textarea
                         placeholder="Write your article excerpt... (Markdown supported)"
@@ -94,7 +91,7 @@ It automatically creates a summary that engages readers and encourages them to r
                         </div>
                     </div>
                 </TabsContent>
-                
+
                 <TabsContent value="preview" className="space-y-2">
                     <div className="border rounded-lg p-4 min-h-[120px] prose max-w-none">
                         {excerpt ? (
@@ -113,9 +110,7 @@ It automatically creates a summary that engages readers and encourages them to r
                                 }}
                             />
                         ) : (
-                            <p className="text-muted-foreground">
-                                Write an excerpt to see a preview...
-                            </p>
+                            <p className="text-muted-foreground">Write an excerpt to see a preview...</p>
                         )}
                     </div>
                 </TabsContent>

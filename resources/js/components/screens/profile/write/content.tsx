@@ -3,18 +3,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Separator } from '@/components/ui/separator';
-import {
-    X,
-    Bold,
-    Italic,
-    Code,
-    List,
-    Quote,
-    Heading1,
-    Heading2,
-    CheckCircle,
-    AlertCircle,
-} from 'lucide-react';
+import { X, Bold, Italic, Code, List, Quote, Heading1, Heading2, CheckCircle, AlertCircle } from 'lucide-react';
 
 export const Content = () => {
     const [content, setContent] = useState(`# Welcome to the Markdown Editor
@@ -51,18 +40,14 @@ function hello() {
         const start = textarea.selectionStart;
         const end = textarea.selectionEnd;
         const selectedText = content.substring(start, end);
-        const newText =
-            content.substring(0, start) + before + selectedText + after + content.substring(end);
+        const newText = content.substring(0, start) + before + selectedText + after + content.substring(end);
 
         setContent(newText);
 
         // Set cursor position after insertion
         setTimeout(() => {
             textarea.focus();
-            textarea.setSelectionRange(
-                start + before.length,
-                start + before.length + selectedText.length,
-            );
+            textarea.setSelectionRange(start + before.length, start + before.length + selectedText.length);
         }, 0);
     };
 
@@ -70,70 +55,30 @@ function hello() {
         <div>
             {/* Markdown Toolbar */}
             <div className="flex flex-wrap gap-2 mb-4 p-2 border rounded-lg bg-muted/30">
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => insertMarkdown('**', '**')}
-                    title="Bold"
-                >
+                <Button variant="ghost" size="sm" onClick={() => insertMarkdown('**', '**')} title="Bold">
                     <Bold className="w-4 h-4" />
                 </Button>
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => insertMarkdown('*', '*')}
-                    title="Italic"
-                >
+                <Button variant="ghost" size="sm" onClick={() => insertMarkdown('*', '*')} title="Italic">
                     <Italic className="w-4 h-4" />
                 </Button>
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => insertMarkdown('`', '`')}
-                    title="Inline Code"
-                >
+                <Button variant="ghost" size="sm" onClick={() => insertMarkdown('`', '`')} title="Inline Code">
                     <Code className="w-4 h-4" />
                 </Button>
                 <Separator orientation="vertical" className="h-6" />
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => insertMarkdown('# ', '')}
-                    title="Heading 1"
-                >
+                <Button variant="ghost" size="sm" onClick={() => insertMarkdown('# ', '')} title="Heading 1">
                     <Heading1 className="w-4 h-4" />
                 </Button>
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => insertMarkdown('## ', '')}
-                    title="Heading 2"
-                >
+                <Button variant="ghost" size="sm" onClick={() => insertMarkdown('## ', '')} title="Heading 2">
                     <Heading2 className="w-4 h-4" />
                 </Button>
                 <Separator orientation="vertical" className="h-6" />
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => insertMarkdown('[', '](url)')}
-                    title="Link"
-                >
+                <Button variant="ghost" size="sm" onClick={() => insertMarkdown('[', '](url)')} title="Link">
                     <X className="w-4 h-4" />
                 </Button>
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => insertMarkdown('- ', '')}
-                    title="List"
-                >
+                <Button variant="ghost" size="sm" onClick={() => insertMarkdown('- ', '')} title="List">
                     <List className="w-4 h-4" />
                 </Button>
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => insertMarkdown('> ', '')}
-                    title="Quote"
-                >
+                <Button variant="ghost" size="sm" onClick={() => insertMarkdown('> ', '')} title="Quote">
                     <Quote className="w-4 h-4" />
                 </Button>
             </div>
@@ -153,7 +98,7 @@ function hello() {
                         id="content-editor"
                         placeholder="Tell your story... Supports: GitHub Flavored Markdown • LaTeX Math Equations • Mermaid Diagrams • Code Syntax Highlighting"
                         value={content}
-                        onChange={e => setContent(e.target.value)}
+                        onChange={(e) => setContent(e.target.value)}
                         className="min-h-[500px] font-mono text-sm resize-none"
                     />
                     {content.length > 100 ? (
@@ -189,9 +134,7 @@ function hello() {
                                 }}
                             />
                         ) : (
-                            <p className="text-muted-foreground">
-                                Start writing to see a preview...
-                            </p>
+                            <p className="text-muted-foreground">Start writing to see a preview...</p>
                         )}
                     </div>
                 </div>
