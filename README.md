@@ -20,13 +20,14 @@ A comprehensive blogging platform built with Laravel. Bloghub empowers developer
 - [x] showing authors details
 - [x] implement recursive comments of post.
 
-### **Rich Writing Experience**
+### [ ] /profile/write - Rich Writing Experience
 
-- **Markdown editor** with live preview and syntax highlighting
-- **Drag-and-drop image uploads** for featured images and content
-- **Tag management system** for better content organization
-- **Draft/publish workflow** with auto-save functionality
-- **Writing tips and markdown guide** integrated into the editor
+- [ ] **Markdown editor** with live preview and syntax highlighting
+- [ ] **Drag-and-drop image uploads** for featured images and content
+- [ ] **Tag management system** for better content organization
+- [ ] **Category selection** for better post organization
+- [ ] **Draft/publish workflow** with auto-save functionality
+- [ ] **Writing tips and markdown guide** integrated into the editor
 
 ### ️ **Advanced Organization**
 

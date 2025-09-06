@@ -22,7 +22,7 @@ class ProfileController extends Controller
      */
     public function write(Request $request)
     {
-        //
+        return inertia('site/profile/write');
     }
 
     /**
