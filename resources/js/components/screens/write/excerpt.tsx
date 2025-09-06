@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useProfileWriteStore } from '@/states/use-profile-write-store';
+import { useWriteStore } from '@/states/use-write-store';
 
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Sparkles, CheckCircle, AlertCircle } from 'lucide-react';
 
 export const Excerpt = () => {
-    const { post, setPostKey } = useProfileWriteStore();
+    const { post, setPostKey } = useWriteStore();
 
     const [isGenerating, setIsGenerating] = useState(false);
     const [isManual, setIsManual] = useState(true);

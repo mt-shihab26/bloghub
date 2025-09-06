@@ -1,7 +1,7 @@
 import type { TShowPost } from '@/types/home';
 import type { TPublicPage } from '@/types';
 
-import { useHomeShowStore } from '@/states/use-home-show-store';
+import { usePostStore } from '@/states/use-post-store';
 import { formatInitials, formatTimeAgo } from '@/lib/format';
 import { authorLink, imageLink, tagLink, toggleFollowLink } from '@/lib/links';
 import { readingTime } from '@/lib/utils';
@@ -14,7 +14,7 @@ import { Link } from '@inertiajs/react';
 import { Calendar, Clock } from 'lucide-react';
 
 export const Header = ({ post }: { post: TShowPost }) => {
-    const { isZenMode } = useHomeShowStore();
+    const { isZenMode } = usePostStore();
     const { auth } = usePage<TPublicPage>().props;
 
     return (

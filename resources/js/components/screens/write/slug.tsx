@@ -1,24 +1,11 @@
-import { useState } from 'react';
+import { useWriteStore } from '@/states/use-write-store';
+import { formatSlug } from '@/lib/format';
 
 import { Input } from '@/components/ui/input';
-import { CheckCircle, Link } from 'lucide-react';
+import { Link } from 'lucide-react';
 
 export const Slug = () => {
-    const [slug, setSlug] = useState('');
-
-    const formatSlug = (value: string) => {
-        return value
-            .toLowerCase()
-            .replace(/[^a-z0-9\s-]/g, '')
-            .replace(/\s+/g, '-')
-            .replace(/-+/g, '-')
-            .replace(/^-|-$/g, '');
-    };
-
-    const handleSlugChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const formattedSlug = formatSlug(e.target.value);
-        setSlug(formattedSlug);
-    };
+    const { post, setPostKey } = useWriteStore();
 
     return (
         <div className="space-y-4">
@@ -30,21 +17,14 @@ export const Slug = () => {
             <Input
                 id="slug"
                 placeholder="my-awesome-article"
-                value={slug}
-                onChange={handleSlugChange}
+                value={post.slug}
+                onChange={e => setPostKey('slug', formatSlug(e.target.value))}
             />
 
             <p className="text-xs text-muted-foreground">
                 URL-friendly version of your title. Only lowercase letters, numbers, and hyphens
                 allowed.
             </p>
-
-            {slug && (
-                <div className="flex items-center space-x-2 text-sm text-green-600">
-                    <CheckCircle className="w-4 h-4" />
-                    <span>Slug: /blog/{slug}</span>
-                </div>
-            )}
         </div>
     );
 };

@@ -33,3 +33,14 @@ export const formatTimeAgo = (date: string | Date | null): string => {
     if (!date) return 'Never';
     return formatDistanceToNow(new Date(date), { addSuffix: true });
 };
+
+export const formatSlug = (value: string | undefined | null): string => {
+    if (!value) return '';
+
+    return value
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+};

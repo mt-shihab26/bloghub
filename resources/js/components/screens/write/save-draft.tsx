@@ -1,10 +1,10 @@
-import { useProfileWriteStore } from '@/states/use-profile-write-store';
+import { useWriteStore } from '@/states/use-write-store';
 
 import { Button } from '@/components/ui/button';
 import { Save } from 'lucide-react';
 
 export const SaveDraft = () => {
-    const { setPostKey } = useProfileWriteStore();
+    const { setPostKey } = useWriteStore();
 
     return (
         <Button variant="ghost" onClick={() => setPostKey('updated_at', new Date().toISOString())}>

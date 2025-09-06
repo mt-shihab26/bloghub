@@ -11,14 +11,14 @@ import {
     AlertCircle,
 } from 'lucide-react';
 
-import { useProfileWriteStore } from '@/states/use-profile-write-store';
+import { useWriteStore } from '@/states/use-write-store';
 
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Separator } from '@/components/ui/separator';
 
 export const Content = () => {
-    const { post, setPostKey } = useProfileWriteStore();
+    const { post, setPostKey } = useWriteStore();
     const { content } = post;
 
     const insertMarkdown = (before: string, after = '') => {

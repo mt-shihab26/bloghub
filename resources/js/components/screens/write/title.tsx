@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { useProfileWriteStore } from '@/states/use-profile-write-store';
+import { useWriteStore } from '@/states/use-write-store';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, AlertCircle, Sparkles } from 'lucide-react';
 
 export const Title = () => {
-    const { post, setPostKey } = useProfileWriteStore();
+    const { post, setPostKey } = useWriteStore();
 
     const [isGenerating, setIsGenerating] = useState(false);
     const [isManual, setIsManual] = useState(true);

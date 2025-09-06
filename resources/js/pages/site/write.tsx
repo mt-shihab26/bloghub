@@ -1,4 +1,4 @@
-import { useProfileWriteStore } from '@/states/use-profile-write-store';
+import { useWriteStore } from '@/states/use-write-store';
 import { readingTime, wordCount } from '@/lib/utils';
 import { formatTimeAgo } from '@/lib/format';
 
@@ -16,7 +16,7 @@ import { Publish } from '@/components/screens/write/publish';
 import { Preview } from '@/components/screens/write/preview';
 
 const Write = () => {
-    const { content, updated_at } = useProfileWriteStore(s => s.post);
+    const { content, updated_at } = useWriteStore(s => s.post);
 
     return (
         <SiteLayout title="Write" footer={false}>
@@ -48,13 +48,13 @@ const Write = () => {
             <div className="px-4 py-8 space-y-8">
                 <Content />
                 <Title />
+                <Slug />
                 <Excerpt />
                 <FeaturedImage />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <Category />
                     <Tags />
                 </div>
-                <Slug />
             </div>
         </SiteLayout>
     );

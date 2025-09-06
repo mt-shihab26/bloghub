@@ -1,5 +1,6 @@
 import type { TPost } from '@/types/models';
 
+import { formatSlug } from '@/lib/format';
 import { create } from 'zustand';
 
 const defaultPost: TPost = {
@@ -17,12 +18,20 @@ const defaultPost: TPost = {
     updated_at: '',
 };
 
-export const useProfileWriteStore = create<{
+export const useWriteStore = create<{
     post: TPost;
     setPost: (post: TPost) => void;
     setPostKey: <K extends keyof TPost>(key: K, value: TPost[K]) => void;
 }>(set => ({
     post: defaultPost,
     setPost: post => set({ post }),
-    setPostKey: (key, value) => set(state => ({ post: { ...state.post, [key]: value } })),
+    setPostKey: (key, value) => {
+        set(state => {
+            const post = { ...state.post, [key]: value };
+            if (key === 'title') {
+                post.slug = formatSlug(value);
+            }
+            return { post };
+        });
+    },
 }));

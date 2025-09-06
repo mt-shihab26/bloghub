@@ -1,6 +1,6 @@
 import type { TShowPost } from '@/types/home';
 
-import { useHomeShowStore } from '@/states/use-home-show-store';
+import { usePostStore } from '@/states/use-post-store';
 
 import { SiteLayout } from '@/layouts/site-layout';
 import { Actions } from '@/components/screens/post/actions';
@@ -13,7 +13,7 @@ import { Header } from '@/components/screens/post/header';
 import { ZenMode } from '@/components/screens/post/zen-mode';
 
 const Show = ({ post }: { post: TShowPost }) => {
-    const { isZenMode, setIsZenMode } = useHomeShowStore();
+    const { isZenMode, setIsZenMode } = usePostStore();
 
     return (
         <SiteLayout title={post.title} header={!isZenMode} footer={!isZenMode} className="py-16">
