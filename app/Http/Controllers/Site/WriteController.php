@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 class WriteController extends Controller
@@ -16,6 +17,8 @@ class WriteController extends Controller
      */
     public function edit(Post $post)
     {
+        Gate::allowIf(Auth::id() === $post->user_id);
+
         return inertia('site/write', [
             'post' => $post,
         ]);
@@ -26,6 +29,8 @@ class WriteController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        Gate::allowIf(Auth::id() === $post->user_id);
+
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'slug' => ['required', 'string', 'max:255'],

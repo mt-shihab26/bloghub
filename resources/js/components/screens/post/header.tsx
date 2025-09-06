@@ -2,9 +2,10 @@ import type { TShowPost } from '@/types/home';
 import type { TPublicPage } from '@/types';
 
 import { usePostStore } from '@/states/use-post-store';
-import { formatInitials, formatTimeAgo } from '@/lib/format';
+import { formatDateTime, formatInitials, formatTimeAgo } from '@/lib/format';
 import { authorLink, imageLink, tagLink, toggleFollowLink } from '@/lib/links';
-import { readingTime } from '@/lib/utils';
+import { isScheduled } from '@/lib/post';
+import { cn, readingTime } from '@/lib/utils';
 import { usePage } from '@inertiajs/react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -30,7 +31,9 @@ export const Header = ({ post }: { post: TShowPost }) => {
                     ))}
                 </div>
             )}
-            <h1 className="mb-6 text-4xl font-bold">{post.title}</h1>
+            <div className="mb-6 flex items-center gap-4">
+                <h1 className="text-4xl font-bold">{post.title}</h1>
+            </div>
 
             {!isZenMode && (
                 <div className="mb-6 flex items-center justify-between">
