@@ -1,0 +1,74 @@
+import { useState } from 'react';
+
+import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
+import { Save, Send, X, Clock, FileText } from 'lucide-react';
+
+export const Header = () => {
+    const [isDraft, setIsDraft] = useState(true);
+    const [lastSaved, setLastSaved] = useState<Date | null>(null);
+    const [readingTime] = useState(0);
+    const [completionPercentage] = useState(0);
+
+    const formatLastSaved = (date: Date | null) => {
+        if (!date) return 'Never';
+        const now = new Date();
+        const diff = now.getTime() - date.getTime();
+        const minutes = Math.floor(diff / 60000);
+
+        if (minutes < 1) return 'Just now';
+        if (minutes < 60) return `${minutes} min ago`;
+        const hours = Math.floor(minutes / 60);
+        if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+        const days = Math.floor(hours / 24);
+        return `${days} day${days > 1 ? 's' : ''} ago`;
+    };
+
+    return (
+        <div className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/95 sticky top-0 z-50">
+            <div className="h-[4.5rem] flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                    <div className="hidden md:flex items-center space-x-2 text-sm text-muted-foreground">
+                        <FileText className="w-4 h-4" />
+                        <span>{50} words</span>
+                        <span>•</span>
+                        <Clock className="w-4 h-4" />
+                        <span>{readingTime} min read</span>
+                        <span>•</span>
+                        <span>Last saved: {formatLastSaved(lastSaved)}</span>
+                    </div>
+                </div>
+                <div className="flex items-center space-x-4">
+                    <div className="hidden md:flex items-center space-x-2">
+                        <span className="text-sm text-muted-foreground">Progress:</span>
+                        <Progress value={completionPercentage} className="w-20" />
+                        <span className="text-sm font-medium">
+                            {Math.round(completionPercentage)}%
+                        </span>
+                    </div>
+                    <Button variant="ghost" onClick={() => setLastSaved(new Date())}>
+                        <Save className="w-4 h-4 mr-2" />
+                        Save Draft
+                    </Button>
+                    <Button variant="outline">
+                        <X className="w-4 h-4 mr-2" />
+                        Preview
+                    </Button>
+                    <Button onClick={() => setIsDraft(false)} disabled={completionPercentage < 80}>
+                        <Send className="w-4 h-4 mr-2" />
+                        {isDraft ? 'Publish' : 'Update'}
+                    </Button>
+                </div>
+            </div>
+
+            {/* Mobile Progress Bar */}
+            <div className="md:hidden mt-4">
+                <div className="flex items-center justify-between text-sm text-muted-foreground mb-2">
+                    <span>Post completion</span>
+                    <span>{Math.round(completionPercentage)}%</span>
+                </div>
+                <Progress value={completionPercentage} className="w-full" />
+            </div>
+        </div>
+    );
+};
