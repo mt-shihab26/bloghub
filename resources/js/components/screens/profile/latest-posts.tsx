@@ -41,7 +41,7 @@ export const LatestPosts = ({ user }: { user: TShowUser }) => {
                                     </div>
                                     <h3 className="mb-3 text-xl font-bold">
                                         <Link
-                                            href={`/blog/${post.id}`}
+                                            href={route('site.post', { user, post })}
                                             className="transition-colors hover:text-primary"
                                         >
                                             {post.title}

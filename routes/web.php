@@ -136,5 +136,5 @@ Route::prefix('/')->group(function () {
 // home routes
 Route::prefix('/')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
-    Route::get('/{user:username}/{post:slug}', [HomeController::class, 'show'])->name('site.home.show');
+    Route::get('/{user:username}/{post:slug}', [HomeController::class, 'show'])->name('site.post');
 });

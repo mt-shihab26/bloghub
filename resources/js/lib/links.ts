@@ -22,7 +22,7 @@ export const profileSettingsLink = (): string => {
 };
 
 export const postLink = (user: TUser, post: TPost, extra?: string): string => {
-    const link = route('site.home.show', { user, post });
+    const link = route('site.post', { user, post });
     if (!extra) {
         return link;
     }
