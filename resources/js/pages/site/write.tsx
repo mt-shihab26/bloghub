@@ -1,7 +1,8 @@
 import type { TPost } from '@/types/models';
 
 import { useWriteStore } from '@/states/use-write-store';
-import { readingTime, wordCount } from '@/lib/utils';
+import { useEffect } from 'react';
+import { cn, readingTime, wordCount } from '@/lib/utils';
 import { formatTimeAgo } from '@/lib/format';
 
 import { FileText, Clock, History } from 'lucide-react';
@@ -16,11 +17,11 @@ import { Slug } from '@/components/screens/write/slug';
 import { SaveDraft } from '@/components/screens/write/save-draft';
 import { Publish } from '@/components/screens/write/publish';
 import { Preview } from '@/components/screens/write/preview';
-import { useEffect } from 'react';
+import { Archive } from '@/components/screens/write/archive';
 
 const Write = ({ post }: { post?: TPost }) => {
     const {
-        post: { content, updated_at },
+        post: { content, updated_at, status },
         setPost,
     } = useWriteStore();
 
@@ -35,6 +36,20 @@ const Write = ({ post }: { post?: TPost }) => {
             <div className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/95 sticky top-0 z-50">
                 <div className="h-[4.45rem] flex items-center justify-between px-4">
                     <div className="flex items-center space-x-4">
+                        <div className="flex items-center space-x-2">
+                            <span
+                                className={cn(
+                                    'px-2 py-1 capitalize text-xs font-medium rounded-full',
+                                    status === 'published'
+                                        ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                                        : status === 'archived'
+                                          ? 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
+                                          : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+                                )}
+                            >
+                                {status}
+                            </span>
+                        </div>
                         <div className="flex items-center space-x-4 text-sm text-muted-foreground">
                             <div className="flex items-center space-x-1">
                                 <FileText className="w-4 h-4" />
@@ -52,8 +67,9 @@ const Write = ({ post }: { post?: TPost }) => {
                     </div>
                     <div className="flex items-center space-x-4">
                         <SaveDraft />
-                        <Preview />
+                        <Archive />
                         <Publish />
+                        <Preview />
                     </div>
                 </div>
             </div>

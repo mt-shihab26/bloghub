@@ -39,10 +39,6 @@ class WriteController extends Controller
             'tags.*' => ['exists:tags,id'],
         ]);
 
-        if ($validated['status'] === PostStatus::PUBLISHED->value && $post->status !== PostStatus::PUBLISHED && ! isset($validated['published_at'])) {
-            $validated['published_at'] = now();
-        }
-
         $post->update($validated);
 
         if (isset($validated['tags'])) {
@@ -81,10 +77,6 @@ class WriteController extends Controller
         ]);
 
         $validated['user_id'] = Auth::id();
-
-        if ($validated['status'] === PostStatus::PUBLISHED->value && ! isset($validated['published_at'])) {
-            $validated['published_at'] = now();
-        }
 
         $post = Post::create($validated);
 

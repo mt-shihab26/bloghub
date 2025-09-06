@@ -123,7 +123,7 @@ Route::prefix('/write')->middleware('auth')->group(function () {
     Route::patch('/{post}', [WriteController::class, 'update'])->name('site.write.update');
 
     Route::get('/', [WriteController::class, 'create'])->name('site.write.create');
-    Route::post('/', [WriteController::class, 'store'])->name('site.write.save');
+    Route::post('/', [WriteController::class, 'store'])->name('site.write.store');
 });
 
 // profile routes

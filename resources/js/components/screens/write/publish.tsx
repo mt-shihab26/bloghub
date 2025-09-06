@@ -7,6 +7,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { useState } from 'react';
+import { useWriteStore } from '@/states/use-write-store';
+import { savePost } from '@/lib/links';
+import { now } from '@/lib/utils';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,7 +18,8 @@ import { Switch } from '@/components/ui/switch';
 import { Send, Calendar, CheckCircle, ChevronDown } from 'lucide-react';
 
 export const Publish = () => {
-    const [isDraft, setIsDraft] = useState(true);
+    const { post } = useWriteStore();
+
     const [publishDate, setPublishDate] = useState('');
     const [publishTime, setPublishTime] = useState('');
     const [schedulePublish, setSchedulePublish] = useState(false);
@@ -25,12 +29,14 @@ export const Publish = () => {
             <DropdownMenuTrigger asChild>
                 <Button>
                     <Send className="w-4 h-4 mr-2" />
-                    {isDraft ? 'Publish' : 'Update'}
+                    {post.status === 'published' ? 'Update' : 'Publish'}
                     <ChevronDown className="w-4 h-4 ml-2" />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-80" align="end">
-                <DropdownMenuItem onClick={() => setIsDraft(false)}>
+                <DropdownMenuItem
+                    onClick={() => savePost({ ...post, status: 'published', published_at: now() })}
+                >
                     <Send className="w-4 h-4 mr-2" />
                     Publish Now
                 </DropdownMenuItem>

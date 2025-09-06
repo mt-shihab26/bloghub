@@ -21,3 +21,7 @@ export const readingTime = (content: string): number => {
 
     return minutes;
 };
+
+export const now = (): string => {
+    return new Date().toISOString();
+};
