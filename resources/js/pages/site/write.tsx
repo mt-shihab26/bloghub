@@ -1,3 +1,5 @@
+import type { TPost } from '@/types/models';
+
 import { useWriteStore } from '@/states/use-write-store';
 import { readingTime, wordCount } from '@/lib/utils';
 import { formatTimeAgo } from '@/lib/format';
@@ -14,9 +16,19 @@ import { Slug } from '@/components/screens/write/slug';
 import { SaveDraft } from '@/components/screens/write/save-draft';
 import { Publish } from '@/components/screens/write/publish';
 import { Preview } from '@/components/screens/write/preview';
+import { useEffect } from 'react';
 
-const Write = () => {
-    const { content, updated_at } = useWriteStore(s => s.post);
+const Write = ({ post }: { post?: TPost }) => {
+    const {
+        post: { content, updated_at },
+        setPost,
+    } = useWriteStore();
+
+    useEffect(() => {
+        if (post) {
+            setPost(post);
+        }
+    }, []);
 
     return (
         <SiteLayout title="Write" footer={false}>

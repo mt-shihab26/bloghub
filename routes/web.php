@@ -118,7 +118,7 @@ Route::prefix('/newsletter')->group(function () {
 });
 
 // write routes
-Route::prefix('/write')->group(function () {
+Route::prefix('/write')->middleware('auth')->group(function () {
     Route::get('/{post}', [WriteController::class, 'edit'])->name('site.write.edit');
     Route::patch('/{post}', [WriteController::class, 'update'])->name('site.write.update');
 
@@ -128,8 +128,8 @@ Route::prefix('/write')->group(function () {
 
 // profile routes
 Route::prefix('/')->group(function () {
-    Route::get('/profile/me', [ProfileController::class, 'me'])->name('site.profile.me');
-    Route::get('/profile/settings', [ProfileController::class, 'settings'])->name('site.profile.settings');
+    Route::get('/profile/me', [ProfileController::class, 'me'])->middleware('auth')->name('site.profile.me');
+    Route::get('/profile/settings', [ProfileController::class, 'settings'])->middleware('auth')->name('site.profile.settings');
     Route::get('/{user:username}', [ProfileController::class, 'show'])->name('site.profile.show');
 });
 
