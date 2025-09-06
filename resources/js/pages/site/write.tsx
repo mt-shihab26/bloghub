@@ -56,7 +56,7 @@ const Write = ({ post: passPost }: { post?: TPost }) => {
                         <SaveDraft />
                         <Archive />
                         <Publish />
-                        <Preview />
+                        <Preview post={post} />
                     </div>
                 </div>
             </div>
