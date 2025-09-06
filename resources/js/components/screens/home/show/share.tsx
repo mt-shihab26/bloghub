@@ -50,9 +50,9 @@ export const Share = ({ post }: { post: TShowPost }) => {
                 text: shareText,
                 url: postUrl,
             });
-        } catch (err: any) {
+        } catch (err: unknown) {
             toast.warning('Unable to share at this time', {
-                description: err?.message || 'Unknown error',
+                description: err instanceof Error ? err.message : 'Unknown error',
             });
         }
     };
