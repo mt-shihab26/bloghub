@@ -1,14 +1,13 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { WritingTitle } from './writing-title';
 import { WritingContent } from './writing-content';
 
 export const Writing = () => {
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle>Create Your Story</CardTitle>
-                <CardDescription className="space-y-3">
-                    <div>Share your knowledge and insights with the community.</div>
+        <div className="space-y-6">
+            <div>
+                <h1 className="text-2xl font-bold mb-2">Create Your Story</h1>
+                <div className="space-y-3">
+                    <div className="text-muted-foreground">Share your knowledge and insights with the community.</div>
                     <div className="text-sm">
                         <div className="font-medium mb-2">This editor supports:</div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-1 text-muted-foreground">
@@ -30,12 +29,10 @@ export const Writing = () => {
                             </div>
                         </div>
                     </div>
-                </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-                <WritingTitle />
-                <WritingContent />
-            </CardContent>
-        </Card>
+                </div>
+            </div>
+            <WritingTitle />
+            <WritingContent />
+        </div>
     );
 };

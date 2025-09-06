@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ImageIcon, X, Upload, CheckCircle } from 'lucide-react';
 
 export const FeaturedImageUpload = () => {
@@ -33,15 +32,12 @@ export const FeaturedImageUpload = () => {
     };
 
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle className="flex items-center">
-                    <ImageIcon className="w-5 h-5 mr-2" />
-                    Featured Image
-                </CardTitle>
-                <CardDescription>Upload a cover image for your article</CardDescription>
-            </CardHeader>
-            <CardContent>
+        <div>
+            <h2 className="flex items-center text-lg font-semibold mb-2">
+                <ImageIcon className="w-5 h-5 mr-2" />
+                Featured Image
+            </h2>
+            <p className="text-sm text-muted-foreground mb-4">Upload a cover image for your article</p>
                 {featuredImage ? (
                     <div className="space-y-4">
                         <div className="relative">
@@ -93,7 +89,6 @@ export const FeaturedImageUpload = () => {
                         </p>
                     </div>
                 )}
-            </CardContent>
-        </Card>
+        </div>
     );
 };

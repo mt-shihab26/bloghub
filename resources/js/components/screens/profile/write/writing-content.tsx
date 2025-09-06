@@ -139,13 +139,17 @@ function hello() {
                 </Button>
             </div>
 
-            {/* Editor Tabs */}
-            <Tabs defaultValue="write" className="w-full">
-                <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="write">Write</TabsTrigger>
-                    <TabsTrigger value="preview">Preview</TabsTrigger>
-                </TabsList>
-                <TabsContent value="write" className="space-y-2">
+            {/* Side by Side Editor and Preview */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                {/* Editor */}
+                <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                        <h3 className="text-sm font-medium">Write</h3>
+                        <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+                            <span>{wordCount} words</span>
+                            <span>{readingTime} min read</span>
+                        </div>
+                    </div>
                     <Textarea
                         id="content-editor"
                         placeholder="Tell your story... (Markdown supported)"
@@ -153,26 +157,23 @@ function hello() {
                         onChange={e => setContent(e.target.value)}
                         className="min-h-[500px] font-mono text-sm resize-none"
                     />
-                    <div className="flex items-center justify-between text-sm text-muted-foreground">
-                        <div className="flex items-center space-x-4">
-                            <span>{wordCount} words</span>
-                            <span>{readingTime} min read</span>
+                    {content.length > 100 ? (
+                        <div className="flex items-center space-x-1 text-sm text-green-600">
+                            <CheckCircle className="w-4 h-4" />
+                            <span>Good content length</span>
                         </div>
-                        {content.length > 100 ? (
-                            <div className="flex items-center space-x-1 text-green-600">
-                                <CheckCircle className="w-4 h-4" />
-                                <span>Good content length</span>
-                            </div>
-                        ) : (
-                            <div className="flex items-center space-x-1 text-orange-500">
-                                <AlertCircle className="w-4 h-4" />
-                                <span>Content too short</span>
-                            </div>
-                        )}
-                    </div>
-                </TabsContent>
-                <TabsContent value="preview" className="space-y-2">
-                    <div className="border rounded-lg p-4 min-h-[500px] prose max-w-none">
+                    ) : (
+                        <div className="flex items-center space-x-1 text-sm text-orange-500">
+                            <AlertCircle className="w-4 h-4" />
+                            <span>Content too short</span>
+                        </div>
+                    )}
+                </div>
+
+                {/* Preview */}
+                <div className="space-y-2">
+                    <h3 className="text-sm font-medium">Preview</h3>
+                    <div className="border rounded-lg p-4 min-h-[500px] prose max-w-none overflow-auto">
                         {content ? (
                             <div
                                 dangerouslySetInnerHTML={{
@@ -194,8 +195,8 @@ function hello() {
                             </p>
                         )}
                     </div>
-                </TabsContent>
-            </Tabs>
+                </div>
+            </div>
         </div>
     );
 };

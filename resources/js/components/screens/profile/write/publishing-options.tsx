@@ -3,7 +3,6 @@ import type React from 'react';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
@@ -43,14 +42,12 @@ export const PublishingOptions = () => {
     };
 
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle className="flex items-center">
-                    <Settings className="w-5 h-5 mr-2" />
-                    Publishing
-                </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+        <div>
+            <h2 className="flex items-center text-lg font-semibold mb-4">
+                <Settings className="w-5 h-5 mr-2" />
+                Publishing Options
+            </h2>
+            <div className="space-y-4">
                 <div className="space-y-2">
                     <Label htmlFor="category">Category *</Label>
                     <Select value={category} onValueChange={setCategory}>
@@ -143,7 +140,7 @@ export const PublishingOptions = () => {
                         </span>
                     </div>
                 </div>
-            </CardContent>
-        </Card>
+            </div>
+        </div>
     );
 };

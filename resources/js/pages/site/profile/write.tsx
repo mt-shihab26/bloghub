@@ -8,14 +8,12 @@ const Write = () => {
     return (
         <SiteLayout title="Write">
             <Header />
-            <div className="grid pt-5 pb-10 grid-cols-1 lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-2 space-y-6">
-                    <Writing />
-                </div>
-                <div className="space-y-6">
+            <div className="pt-5 pb-10 space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <FeaturedImageUpload />
                     <PublishingOptions />
                 </div>
+                <Writing />
             </div>
         </SiteLayout>
     );
