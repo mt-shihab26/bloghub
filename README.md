@@ -6,10 +6,10 @@ A comprehensive blogging platform built with Laravel. Bloghub empowers developer
 
 ### [ ] / - Home page
 
-- **Advanced search** with filters for categories, tags, authors, and dates
-- **AI-powered recommendations** based on user interests and reading history and **Personalized feed** tailored to followed categories and tags
-- **Trending categories** on the home page
-- **Trending tags** and featured articles on the homepage
+- [ ] **Advanced search** with filters for categories, tags, authors, and dates
+- [ ] **AI-powered recommendations** based on user interests and reading history and **Personalized feed** tailored to followed categories and tags
+- [ ] **Trending categories** on the home page
+- [ ] **Trending tags** and featured articles on the homepage
 
 ### [x] /{username}/{post:slug} - Blog post show page
 
