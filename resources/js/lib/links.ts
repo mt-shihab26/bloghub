@@ -44,9 +44,7 @@ export const postLikes = (post: (TPost & { likes_count?: number }) | null | unde
     return post?.likes_count || 0;
 };
 
-export const postComments = (
-    post: (TPost & { comments_count?: number }) | null | undefined,
-): number => {
+export const postComments = (post: (TPost & { comments_count?: number }) | null | undefined): number => {
     return post?.comments_count || 0;
 };
 

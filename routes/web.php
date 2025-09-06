@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\PasswordController;
 use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
@@ -79,8 +80,8 @@ Route::prefix('/admin')->middleware(['auth', 'verified'])->group(function () {
         Route::get('/profile', [AdminProfileController::class, 'edit'])->name('admin.settings.profile.edit');
         Route::patch('/profile', [AdminProfileController::class, 'update'])->name('admin.settings.profile.update');
         Route::delete('/profile', [AdminProfileController::class, 'destroy'])->name('admin.settings.profile.destroy');
-        Route::get('/password', [AdminProfileController::class, 'edit'])->name('admin.settings.password.edit');
-        Route::put('/password', [AdminProfileController::class, 'update'])->middleware('throttle:6,1')->name('admin.settings.password.update');
+        Route::get('/password', [PasswordController::class, 'edit'])->name('admin.settings.password.edit');
+        Route::put('/password', [PasswordController::class, 'update'])->middleware('throttle:6,1')->name('admin.settings.password.update');
         Route::get('/appearance', fn () => inertia('admin/settings/appearance'))->name('admin.settings.appearance');
     });
 });

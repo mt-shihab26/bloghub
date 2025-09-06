@@ -32,7 +32,7 @@ export const CommentForm = ({
         <div className="overflow-hidden rounded-lg border">
             <div className="px-6 pt-6 pb-6">
                 <form
-                    onSubmit={e => {
+                    onSubmit={(e) => {
                         e.preventDefault();
                         if (comment) {
                             patch(route('site.comments.update', comment), {
@@ -51,7 +51,7 @@ export const CommentForm = ({
                     <Textarea
                         placeholder="Share your thoughts..."
                         value={data.content}
-                        onChange={e => setData('content', e.target.value)}
+                        onChange={(e) => setData('content', e.target.value)}
                         className="min-h-[100px]"
                     />
                     <InputError message={errors.content} />
@@ -62,13 +62,7 @@ export const CommentForm = ({
                             </Button>
                         )}
                         <Button type="submit" disabled={processing}>
-                            {processing
-                                ? comment
-                                    ? 'Updating..'
-                                    : 'Posting...'
-                                : comment
-                                  ? 'Update'
-                                  : 'Post'}
+                            {processing ? (comment ? 'Updating..' : 'Posting...') : comment ? 'Update' : 'Post'}
                         </Button>
                     </div>
                 </form>

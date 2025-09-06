@@ -28,10 +28,7 @@ export const AuthorBio = ({ post }: { post: TShowPost }) => {
                             </Link>
                         </h3>
                         <p className="mb-4 text-muted-foreground">{user?.bio || ''}</p>
-                        <Button
-                            variant="outline"
-                            onClick={() => toggleFollowLink(user, auth?.user)}
-                        >
+                        <Button variant="outline" onClick={() => toggleFollowLink(user, auth?.user)}>
                             {post.followed_by_user ? 'Following' : 'Follow'}
                         </Button>
                     </div>

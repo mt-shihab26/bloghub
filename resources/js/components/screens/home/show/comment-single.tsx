@@ -30,17 +30,12 @@ export const CommentSingle = ({ postId, comment }: { postId: TId; comment: TShow
                         <div className="flex items-start space-x-4">
                             <Avatar className="h-10 w-10">
                                 <AvatarImage src={imageLink(comment.user?.image)} />
-                                <AvatarFallback>
-                                    {formatInitials(comment.user?.name)}
-                                </AvatarFallback>
+                                <AvatarFallback>{formatInitials(comment.user?.name)}</AvatarFallback>
                             </Avatar>
                             <div className="flex-1">
                                 <div className="mb-2 flex items-center justify-between">
                                     <div className="flex items-center space-x-2">
-                                        <Link
-                                            href={authorLink(comment.user)}
-                                            className="font-semibold hover:underline"
-                                        >
+                                        <Link href={authorLink(comment.user)} className="font-semibold hover:underline">
                                             {comment.user?.name}
                                         </Link>
                                         <span className="text-sm text-muted-foreground">
@@ -49,11 +44,7 @@ export const CommentSingle = ({ postId, comment }: { postId: TId; comment: TShow
                                     </div>
                                     {isOwner && (
                                         <div className="flex items-center space-x-2">
-                                            <Button
-                                                variant="ghost"
-                                                size="sm"
-                                                onClick={() => setIsEditing(true)}
-                                            >
+                                            <Button variant="ghost" size="sm" onClick={() => setIsEditing(true)}>
                                                 <Edit className="h-4 w-4" />
                                             </Button>
                                             <CommentDelete comment={comment} />
@@ -65,21 +56,13 @@ export const CommentSingle = ({ postId, comment }: { postId: TId; comment: TShow
                                     <Button
                                         variant="ghost"
                                         size="sm"
-                                        className={
-                                            comment.liked_by_user
-                                                ? 'text-red-500 hover:text-red-500'
-                                                : ''
-                                        }
+                                        className={comment.liked_by_user ? 'text-red-500 hover:text-red-500' : ''}
                                         onClick={() => toggleCommentLike(comment)}
                                     >
                                         <HeartIcon className="mr-1 h-4 w-4" />
                                         {comment.likes_count}
                                     </Button>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => setShowReply(prev => !prev)}
-                                    >
+                                    <Button variant="ghost" size="sm" onClick={() => setShowReply((prev) => !prev)}>
                                         <Reply className="mr-1 h-4 w-4" />
                                         Reply
                                     </Button>
@@ -99,11 +82,7 @@ export const CommentSingle = ({ postId, comment }: { postId: TId; comment: TShow
             )}
             {showReply && (
                 <div className="pl-12">
-                    <CommentForm
-                        postId={postId}
-                        commentId={comment.id}
-                        onCancel={() => setShowReply(false)}
-                    />
+                    <CommentForm postId={postId} commentId={comment.id} onCancel={() => setShowReply(false)} />
                 </div>
             )}
         </div>
