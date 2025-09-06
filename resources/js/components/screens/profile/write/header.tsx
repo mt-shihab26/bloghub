@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Save, Send, X } from 'lucide-react';
-import { ArticleDrawer } from './article-drawer';
+import { Options } from './options';
 
 export const Header = () => {
     const [isDraft, setIsDraft] = useState(true);
@@ -26,7 +26,7 @@ export const Header = () => {
         <div className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/95 sticky top-0 z-50">
             <div className="h-[4.45rem] flex items-center justify-between">
                 <div className="flex items-center space-x-4">
-                    <ArticleDrawer />
+                    <Options />
                     <div className="hidden md:flex items-center space-x-2 text-sm text-muted-foreground">
                         <span>Last saved: {formatLastSaved(lastSaved)}</span>
                     </div>

@@ -23,9 +23,10 @@ A comprehensive blogging platform built with Laravel. Bloghub empowers developer
 ### [ ] /profile/write - Rich Writing Experience
 
 - [ ] **Markdown editor** with live preview and syntax highlighting
-- [ ] **Drag-and-drop image uploads** for featured images and content
-- [ ] **Tag management system** for better content organization
-- [ ] **Category selection** for better post organization
+      placeholder="Tell your story... Supports: GitHub Flavored Markdown • LaTeX Math Equations • Mermaid Diagrams • Code Syntax Highlighting"
+- [ ] **Drag-and-drop image uploads** for featured images and content, and AI-powered featured image generation
+- [ ] **AI-powered tag management system** for better content organization
+- [ ] **AI-powered category selection** for better post organization
 - [ ] **Draft/publish workflow** with auto-save functionality
 - [ ] **Writing tips and markdown guide** integrated into the editor
 

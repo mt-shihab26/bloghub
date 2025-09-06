@@ -5,7 +5,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Sparkles, CheckCircle, AlertCircle } from 'lucide-react';
 
-export const WritingExcerpt = () => {
+export const Excerpt = () => {
     const [excerpt, setExcerpt] = useState('');
     const [isGenerating, setIsGenerating] = useState(false);
     const [isManual, setIsManual] = useState(true);
@@ -30,7 +30,9 @@ It automatically creates a summary that engages readers and encourages them to r
     return (
         <div>
             <div className="flex items-center justify-between mb-4">
-                <p className="text-sm text-muted-foreground">Create a compelling preview of your article</p>
+                <p className="text-sm text-muted-foreground">
+                    Create a compelling preview of your article
+                </p>
                 <Button
                     variant="outline"
                     size="sm"
@@ -53,7 +55,7 @@ It automatically creates a summary that engages readers and encourages them to r
                     <Textarea
                         placeholder="Write your article excerpt... (Markdown supported)"
                         value={excerpt}
-                        onChange={(e) => {
+                        onChange={e => {
                             setExcerpt(e.target.value);
                             setIsManual(true);
                         }}
@@ -110,7 +112,9 @@ It automatically creates a summary that engages readers and encourages them to r
                                 }}
                             />
                         ) : (
-                            <p className="text-muted-foreground">Write an excerpt to see a preview...</p>
+                            <p className="text-muted-foreground">
+                                Write an excerpt to see a preview...
+                            </p>
                         )}
                     </div>
                 </TabsContent>
