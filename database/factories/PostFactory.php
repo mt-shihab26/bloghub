@@ -49,7 +49,7 @@ class PostFactory extends Factory
 
         // Add multiple sections for longer content
         $numSections = rand(4, 6);
-        
+
         for ($section = 0; $section < $numSections; $section++) {
             // Add section heading
             $content[] = '## '.fake()->sentence();
@@ -59,8 +59,8 @@ class PostFactory extends Factory
             $paragraphs = fake()->paragraphs(rand(3, 5));
             foreach ($paragraphs as $paragraph) {
                 // Make paragraphs longer for blog-style content
-                $extendedParagraph = $paragraph . ' ' . fake()->sentences(rand(2, 4), true);
-                
+                $extendedParagraph = $paragraph.' '.fake()->sentences(rand(2, 4), true);
+
                 // Randomly add bold text
                 if (rand(0, 3) === 0) {
                     $words = explode(' ', $extendedParagraph);
@@ -98,9 +98,9 @@ class PostFactory extends Factory
             if (rand(0, 3) === 0) {
                 $languages = ['javascript', 'php', 'python', 'bash', 'sql'];
                 $language = $languages[array_rand($languages)];
-                
+
                 $content[] = '```'.$language;
-                
+
                 switch ($language) {
                     case 'javascript':
                         $content[] = 'const '.fake()->word().' = {';
@@ -128,7 +128,7 @@ class PostFactory extends Factory
                     default:
                         $content[] = fake()->word().' = "'.fake()->sentence().'"';
                 }
-                
+
                 $content[] = '```';
                 $content[] = '';
             }
