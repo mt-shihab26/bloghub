@@ -12,7 +12,7 @@ const Write = () => {
     return (
         <SiteLayout title="Write" footer={false}>
             <Header />
-            <div className=" px-4 py-8 space-y-8">
+            <div className="px-4 py-8 space-y-8">
                 <Content />
                 <Title />
                 <Excerpt />
