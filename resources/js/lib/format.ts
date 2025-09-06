@@ -34,6 +34,9 @@ export const formatTimeAgo = (date: string | Date | null): string => {
     return formatDistanceToNow(new Date(date), { addSuffix: true });
 };
 
+/**
+ * Converts a string to a URL-friendly slug format.
+ */
 export const formatSlug = (value: string | undefined | null): string => {
     if (!value) return '';
 
@@ -48,6 +51,7 @@ export const formatSlug = (value: string | undefined | null): string => {
 /**
  * Formats a date string into a localized date and time string.
  */
-export const formatDateTime = (date: string | Date): string => {
+export const formatDateTime = (date: string | Date | null): string => {
+    if (!date) return '';
     return new Date(date).toLocaleString();
 };

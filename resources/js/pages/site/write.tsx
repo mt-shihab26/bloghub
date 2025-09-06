@@ -1,8 +1,9 @@
 import type { TPost } from '@/types/models';
 
 import { useWriteStore } from '@/states/use-write-store';
+import { isScheduled } from '@/lib/post';
 import { useEffect } from 'react';
-import { cn, readingTime, wordCount, isFuture } from '@/lib/utils';
+import { cn, readingTime, wordCount } from '@/lib/utils';
 import { formatTimeAgo, formatDateTime } from '@/lib/format';
 
 import { FileText, Clock, History } from 'lucide-react';
@@ -19,15 +20,12 @@ import { Publish } from '@/components/screens/write/publish';
 import { Preview } from '@/components/screens/write/preview';
 import { Archive } from '@/components/screens/write/archive';
 
-const Write = ({ post }: { post?: TPost }) => {
-    const {
-        post: { content, updated_at, status, published_at },
-        setPost,
-    } = useWriteStore();
+const Write = ({ post: passPost }: { post?: TPost }) => {
+    const { post, setPost } = useWriteStore();
 
     useEffect(() => {
-        if (post) {
-            setPost(post);
+        if (passPost) {
+            setPost(passPost);
         }
     }, []);
 
@@ -40,32 +38,31 @@ const Write = ({ post }: { post?: TPost }) => {
                             <span
                                 className={cn(
                                     'px-2 py-1 capitalize text-xs font-medium rounded-full',
-                                    status === 'published'
+                                    post.status === 'published'
                                         ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                                        : status === 'archived'
+                                        : post.status === 'archived'
                                           ? 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
                                           : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
                                 )}
                             >
-                                {status === 'published' && isFuture(published_at)
-                                    ? `Scheduled for ${formatDateTime(published_at)}`
-                                    : status
-                                }
+                                {isScheduled(post)
+                                    ? `Scheduled for ${formatDateTime(post.published_at)}`
+                                    : post.status}
                             </span>
                         </div>
                         <div className="flex items-center space-x-4 text-sm text-muted-foreground">
                             <div className="flex items-center space-x-1">
                                 <FileText className="w-4 h-4" />
-                                <span>{wordCount(content)} words</span>
+                                <span>{wordCount(post.content)} words</span>
                             </div>
                             <div className="flex items-center space-x-1">
                                 <Clock className="w-4 h-4" />
-                                <span>{readingTime(content)} min read</span>
+                                <span>{readingTime(post.content)} min read</span>
                             </div>
                         </div>
                         <div className="hidden md:flex items-center space-x-1 text-sm text-muted-foreground">
                             <History className="w-4 h-4" />
-                            <span>{formatTimeAgo(updated_at)}</span>
+                            <span>{formatTimeAgo(post.updated_at)}</span>
                         </div>
                     </div>
                     <div className="flex items-center space-x-4">
