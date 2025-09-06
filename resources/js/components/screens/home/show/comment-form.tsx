@@ -7,7 +7,17 @@ import { InputError } from '@/components/elements/input-error';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 
-export const CommentForm = ({ postId, commentId, comment }: { postId: TId; commentId?: TId; comment?: TComment }) => {
+export const CommentForm = ({
+    postId,
+    commentId,
+    comment,
+    onCancel,
+}: {
+    postId: TId;
+    commentId?: TId;
+    comment?: TComment;
+    onCancel?: () => void;
+}) => {
     const { data, setData, errors, post, patch, processing } = useForm<{
         content: string;
         post_id: TId;
@@ -45,15 +55,14 @@ export const CommentForm = ({ postId, commentId, comment }: { postId: TId; comme
                         className="min-h-[100px]"
                     />
                     <InputError message={errors.content} />
-                    <div className="flex justify-end">
+                    <div className="flex justify-end gap-2">
+                        {onCancel && (
+                            <Button type="button" variant="outline" onClick={onCancel}>
+                                Cancel
+                            </Button>
+                        )}
                         <Button type="submit" disabled={processing}>
-                            {processing
-                                ? comment
-                                    ? 'Updating..'
-                                    : 'Posting...'
-                                : comment
-                                  ? 'Update Comment'
-                                  : 'Post Comment'}
+                            {processing ? (comment ? 'Updating..' : 'Posting...') : comment ? 'Update' : 'Post'}
                         </Button>
                     </div>
                 </form>

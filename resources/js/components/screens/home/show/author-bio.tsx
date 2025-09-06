@@ -1,7 +1,9 @@
 import type { TShowPost } from '@/types/home';
+import type { TPublicPage } from '@/types';
 
 import { formatInitials } from '@/lib/format';
 import { authorLink, imageLink, toggleFollowLink } from '@/lib/links';
+import { usePage } from '@inertiajs/react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -9,6 +11,7 @@ import { Link } from '@inertiajs/react';
 
 export const AuthorBio = ({ post }: { post: TShowPost }) => {
     const { user } = post;
+    const { auth } = usePage<TPublicPage>().props;
 
     return (
         <div className="my-8 overflow-hidden rounded-lg border">
@@ -25,7 +28,7 @@ export const AuthorBio = ({ post }: { post: TShowPost }) => {
                             </Link>
                         </h3>
                         <p className="mb-4 text-muted-foreground">{user?.bio || ''}</p>
-                        <Button variant="outline" onClick={() => toggleFollowLink(user)}>
+                        <Button variant="outline" onClick={() => toggleFollowLink(user, auth?.user)}>
                             {post.followed_by_user ? 'Following' : 'Follow'}
                         </Button>
                     </div>

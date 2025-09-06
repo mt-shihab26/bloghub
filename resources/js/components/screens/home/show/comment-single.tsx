@@ -72,10 +72,17 @@ export const CommentSingle = ({ postId, comment }: { postId: TId; comment: TShow
                     </div>
                 </div>
             )}
-            {isEditing && <CommentForm postId={postId} commentId={comment.id} comment={comment} />}
+            {isEditing && (
+                <CommentForm
+                    postId={postId}
+                    commentId={comment.id}
+                    comment={comment}
+                    onCancel={() => setIsEditing(false)}
+                />
+            )}
             {showReply && (
                 <div className="pl-12">
-                    <CommentForm postId={postId} commentId={comment.id} />
+                    <CommentForm postId={postId} commentId={comment.id} onCancel={() => setShowReply(false)} />
                 </div>
             )}
         </div>

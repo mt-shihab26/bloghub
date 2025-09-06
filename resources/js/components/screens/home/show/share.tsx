@@ -2,6 +2,7 @@ import type { TShowPost } from '@/types/home';
 
 import { postLink } from '@/lib/links';
 import { useState } from 'react';
+import { toast } from '@/lib/toast';
 
 import { Button } from '@/components/ui/button';
 import { Copy, MessageSquare, Share2 } from 'lucide-react';
@@ -39,16 +40,20 @@ export const Share = ({ post }: { post: TShowPost }) => {
     };
 
     const shareNative = async () => {
-        if (navigator.share) {
-            try {
-                await navigator.share({
-                    title: post.title,
-                    text: shareText,
-                    url: postUrl,
-                });
-            } catch (err) {
-                console.error('Error sharing:', err);
-            }
+        if (!navigator.share) {
+            toast.warning('Sharing is not supported on this device');
+            return;
+        }
+        try {
+            await navigator.share({
+                title: post.title,
+                text: shareText,
+                url: postUrl,
+            });
+        } catch (err: unknown) {
+            toast.warning('Unable to share at this time', {
+                description: err instanceof Error ? err.message : 'Unknown error',
+            });
         }
     };
 
@@ -62,7 +67,7 @@ export const Share = ({ post }: { post: TShowPost }) => {
             {/* Modal Overlay */}
             {isOpen && (
                 <div
-                    className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black"
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
                     onClick={() => setIsOpen(false)}
                 >
                     <div className="mx-4 w-full max-w-md rounded-lg bg-white p-6" onClick={(e) => e.stopPropagation()}>
