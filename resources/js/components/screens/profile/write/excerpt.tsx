@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useProfileWriteStore } from '@/states/use-profile-write-store';
 
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -6,7 +7,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Sparkles, CheckCircle, AlertCircle } from 'lucide-react';
 
 export const Excerpt = () => {
-    const [excerpt, setExcerpt] = useState('');
+    const { post, setPostKey } = useProfileWriteStore();
+
     const [isGenerating, setIsGenerating] = useState(false);
     const [isManual, setIsManual] = useState(true);
 
@@ -17,7 +19,7 @@ export const Excerpt = () => {
             const generatedExcerpt = `This is an **AI-generated** excerpt that provides a compelling *preview* of your article content.
 
 It automatically creates a summary that engages readers and encourages them to read the full post.`;
-            setExcerpt(generatedExcerpt);
+            setPostKey('excerpt', generatedExcerpt);
             setIsGenerating(false);
             setIsManual(false);
         }, 2000);
@@ -54,9 +56,9 @@ It automatically creates a summary that engages readers and encourages them to r
                 <TabsContent value="write" className="space-y-2">
                     <Textarea
                         placeholder="Write your article excerpt... (Markdown supported)"
-                        value={excerpt}
+                        value={post.excerpt}
                         onChange={e => {
-                            setExcerpt(e.target.value);
+                            setPostKey('excerpt', e.target.value);
                             setIsManual(true);
                         }}
                         className="min-h-[120px] font-mono text-sm resize-none"
@@ -64,27 +66,27 @@ It automatically creates a summary that engages readers and encourages them to r
                     />
                     <div className="flex items-center justify-between text-sm">
                         <div className="flex items-center space-x-4 text-muted-foreground">
-                            <span>{excerpt.length} characters</span>
+                            <span>{post.excerpt.length} characters</span>
                             <span>Recommended: 150-160 characters</span>
                         </div>
                         <div className="flex items-center space-x-2">
-                            {!isManual && excerpt && (
+                            {!isManual && post.excerpt && (
                                 <div className="flex items-center space-x-1 text-blue-600">
                                     <Sparkles className="w-4 h-4" />
                                     <span className="text-sm">AI Generated</span>
                                 </div>
                             )}
-                            {excerpt.length >= 150 && excerpt.length <= 160 ? (
+                            {post.excerpt.length >= 150 && post.excerpt.length <= 160 ? (
                                 <div className="flex items-center space-x-1 text-green-600">
                                     <CheckCircle className="w-4 h-4" />
                                     <span>Good length</span>
                                 </div>
-                            ) : excerpt.length > 160 ? (
+                            ) : post.excerpt.length > 160 ? (
                                 <div className="flex items-center space-x-1 text-orange-500">
                                     <AlertCircle className="w-4 h-4" />
                                     <span>Too long</span>
                                 </div>
-                            ) : excerpt.length > 0 ? (
+                            ) : post.excerpt.length > 0 ? (
                                 <div className="flex items-center space-x-1 text-orange-500">
                                     <AlertCircle className="w-4 h-4" />
                                     <span>Too short</span>
@@ -96,10 +98,10 @@ It automatically creates a summary that engages readers and encourages them to r
 
                 <TabsContent value="preview" className="space-y-2">
                     <div className="border rounded-lg p-4 min-h-[120px] prose max-w-none">
-                        {excerpt ? (
+                        {post.excerpt ? (
                             <div
                                 dangerouslySetInnerHTML={{
-                                    __html: excerpt
+                                    __html: post.excerpt
                                         .replace(/\n/g, '<br>')
                                         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                                         .replace(/\*(.*?)\*/g, '<em>$1</em>')
