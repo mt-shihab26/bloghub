@@ -44,3 +44,10 @@ export const formatSlug = (value: string | undefined | null): string => {
         .replace(/-+/g, '-')
         .replace(/^-|-$/g, '');
 };
+
+/**
+ * Formats a date string into a localized date and time string.
+ */
+export const formatDateTime = (date: string | Date): string => {
+    return new Date(date).toLocaleString();
+};

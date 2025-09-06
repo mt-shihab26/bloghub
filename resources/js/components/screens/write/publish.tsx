@@ -16,6 +16,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Send, Calendar, CheckCircle, ChevronDown } from 'lucide-react';
+import { SchedulePick } from './schedule-pick';
 
 export const Publish = () => {
     const { post } = useWriteStore();
@@ -54,31 +55,7 @@ export const Publish = () => {
                     </div>
                     {schedulePublish && (
                         <div className="space-y-3">
-                            <div className="grid grid-cols-2 gap-3">
-                                <div className="space-y-1">
-                                    <Label htmlFor="publish-date" className="text-sm">
-                                        Date
-                                    </Label>
-                                    <Input
-                                        id="publish-date"
-                                        type="date"
-                                        value={publishDate}
-                                        onChange={e => setPublishDate(e.target.value)}
-                                        min={new Date().toISOString().split('T')[0]}
-                                    />
-                                </div>
-                                <div className="space-y-1">
-                                    <Label htmlFor="publish-time" className="text-sm">
-                                        Time
-                                    </Label>
-                                    <Input
-                                        id="publish-time"
-                                        type="time"
-                                        value={publishTime}
-                                        onChange={e => setPublishTime(e.target.value)}
-                                    />
-                                </div>
-                            </div>
+                            <SchedulePick />
                             {publishDate && publishTime && (
                                 <div className="space-y-3">
                                     <div className="flex items-center space-x-2 text-sm text-green-600">

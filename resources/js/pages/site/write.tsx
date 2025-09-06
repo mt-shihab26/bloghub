@@ -2,8 +2,8 @@ import type { TPost } from '@/types/models';
 
 import { useWriteStore } from '@/states/use-write-store';
 import { useEffect } from 'react';
-import { cn, readingTime, wordCount } from '@/lib/utils';
-import { formatTimeAgo } from '@/lib/format';
+import { cn, readingTime, wordCount, isFuture } from '@/lib/utils';
+import { formatTimeAgo, formatDateTime } from '@/lib/format';
 
 import { FileText, Clock, History } from 'lucide-react';
 import { SiteLayout } from '@/layouts/site-layout';
@@ -21,7 +21,7 @@ import { Archive } from '@/components/screens/write/archive';
 
 const Write = ({ post }: { post?: TPost }) => {
     const {
-        post: { content, updated_at, status },
+        post: { content, updated_at, status, published_at },
         setPost,
     } = useWriteStore();
 
@@ -47,7 +47,10 @@ const Write = ({ post }: { post?: TPost }) => {
                                           : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
                                 )}
                             >
-                                {status}
+                                {status === 'published' && isFuture(published_at)
+                                    ? `Scheduled for ${formatDateTime(published_at)}`
+                                    : status
+                                }
                             </span>
                         </div>
                         <div className="flex items-center space-x-4 text-sm text-muted-foreground">

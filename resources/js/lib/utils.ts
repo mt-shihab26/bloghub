@@ -25,3 +25,8 @@ export const readingTime = (content: string): number => {
 export const now = (): string => {
     return new Date().toISOString();
 };
+
+export const isFuture = (date: string | null | undefined): boolean => {
+    if (!date) return false;
+    return new Date(date) > new Date();
+};
