@@ -2,10 +2,9 @@ import type { TShowPost } from '@/types/home';
 import type { TPublicPage } from '@/types';
 
 import { usePostStore } from '@/states/use-post-store';
-import { formatDateTime, formatInitials, formatTimeAgo } from '@/lib/format';
+import { formatInitials, formatTimeAgo } from '@/lib/format';
 import { authorLink, imageLink, tagLink, toggleFollowLink } from '@/lib/links';
-import { isScheduled } from '@/lib/post';
-import { cn, readingTime } from '@/lib/utils';
+import { readingTime } from '@/lib/utils';
 import { usePage } from '@inertiajs/react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';

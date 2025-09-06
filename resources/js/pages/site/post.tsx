@@ -14,10 +14,8 @@ import { Content } from '@/components/screens/post/content';
 import { Header } from '@/components/screens/post/header';
 import { ZenMode } from '@/components/screens/post/zen-mode';
 import { Button } from '@/components/ui/button';
+import { PostStatus } from '@/components/composite/post-status';
 import { Edit } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { isScheduled } from '@/lib/post';
-import { formatDateTime } from '@/lib/format';
 
 const Show = ({ post }: { post: TShowPost }) => {
     const { isZenMode, setIsZenMode } = usePostStore();
@@ -30,20 +28,7 @@ const Show = ({ post }: { post: TShowPost }) => {
                     <Back />
                 </div>
                 <div className="flex items-center gap-2">
-                    <span
-                        className={cn(
-                            'px-2 py-1 capitalize text-xs font-medium rounded-full whitespace-nowrap',
-                            post.status === 'published'
-                                ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                                : post.status === 'archived'
-                                  ? 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
-                                  : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
-                        )}
-                    >
-                        {isScheduled(post)
-                            ? `Scheduled for ${formatDateTime(post.published_at)}`
-                            : post.status}
-                    </span>
+                    <PostStatus post={post} />
                     {user && user.id === post.user.id && (
                         <Button variant="outline" size="sm" asChild>
                             <Link href={route('site.write.edit', { post })}>

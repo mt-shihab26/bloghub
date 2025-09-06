@@ -1,12 +1,12 @@
 import type { TShowUser } from '@/types/profile';
 
-import { formatDateTime, formatTimeAgo } from '@/lib/format';
+import { formatTimeAgo } from '@/lib/format';
 import { imageLink, postLink, tagLink } from '@/lib/links';
-import { isScheduled } from '@/lib/post';
-import { cn, readingTime } from '@/lib/utils';
+import { readingTime } from '@/lib/utils';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { PostStatus } from '@/components/composite/post-status';
 import { Link } from '@inertiajs/react';
 import { Bookmark, Clock, Heart, MessageCircle } from 'lucide-react';
 
@@ -33,20 +33,7 @@ export const LatestPosts = ({ user }: { user: TShowUser }) => {
                                 </div>
                                 <div className="p-6 md:w-2/3">
                                     <div className="mb-3 flex items-center space-x-2 text-sm text-muted-foreground">
-                                        <span
-                                            className={cn(
-                                                'px-2 py-1 capitalize text-xs font-medium rounded-full',
-                                                post.status === 'published'
-                                                    ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                                                    : post.status === 'archived'
-                                                      ? 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
-                                                      : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
-                                            )}
-                                        >
-                                            {isScheduled(post)
-                                                ? `Scheduled for ${formatDateTime(post.published_at)}`
-                                                : post.status}
-                                        </span>
+                                        <PostStatus post={post} />
                                         <span>•</span>
                                         <span>{formatTimeAgo(post.published_at)}</span>
                                         <span>•</span>

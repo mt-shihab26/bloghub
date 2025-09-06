@@ -1,10 +1,9 @@
 import type { TPost } from '@/types/models';
 
 import { useWriteStore } from '@/states/use-write-store';
-import { isScheduled } from '@/lib/post';
 import { useEffect } from 'react';
-import { cn, readingTime, wordCount } from '@/lib/utils';
-import { formatTimeAgo, formatDateTime } from '@/lib/format';
+import { readingTime, wordCount } from '@/lib/utils';
+import { formatTimeAgo } from '@/lib/format';
 
 import { FileText, Clock, History } from 'lucide-react';
 import { SiteLayout } from '@/layouts/site-layout';
@@ -19,6 +18,7 @@ import { SaveDraft } from '@/components/screens/write/save-draft';
 import { Publish } from '@/components/screens/write/publish';
 import { Preview } from '@/components/screens/write/preview';
 import { Archive } from '@/components/screens/write/archive';
+import { PostStatus } from '@/components/composite/post-status';
 
 const Write = ({ post: passPost }: { post?: TPost }) => {
     const { post, setPost } = useWriteStore();
@@ -35,20 +35,7 @@ const Write = ({ post: passPost }: { post?: TPost }) => {
                 <div className="h-[4.45rem] flex items-center justify-between px-4">
                     <div className="flex items-center space-x-4">
                         <div className="flex items-center space-x-2">
-                            <span
-                                className={cn(
-                                    'px-2 py-1 capitalize text-xs font-medium rounded-full',
-                                    post.status === 'published'
-                                        ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                                        : post.status === 'archived'
-                                          ? 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
-                                          : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
-                                )}
-                            >
-                                {isScheduled(post)
-                                    ? `Scheduled for ${formatDateTime(post.published_at)}`
-                                    : post.status}
-                            </span>
+                            <PostStatus post={post} />
                         </div>
                         <div className="flex items-center space-x-4 text-sm text-muted-foreground">
                             <div className="flex items-center space-x-1">
