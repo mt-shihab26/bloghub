@@ -23,9 +23,3 @@ yarn-error.log
 /.vscode
 /.zed
 
-# ESLint and Prettier
-.eslintrc*
-eslint.config.*
-.prettierrc*
-prettier.config.*
-.prettierignore
