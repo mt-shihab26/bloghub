@@ -1,10 +1,10 @@
-import type { TShowPost } from '@/types/home';
 import type { TPublicPage } from '@/types';
+import type { TShowPost } from '@/types/home';
 
-import { useHomeShowStore } from '@/states/use-home-show-store';
 import { formatInitials, formatTimeAgo } from '@/lib/format';
 import { authorLink, imageLink, tagLink, toggleFollowLink } from '@/lib/links';
 import { readingTime } from '@/lib/utils';
+import { usePostStore } from '@/states/use-post-store';
 import { usePage } from '@inertiajs/react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -14,7 +14,7 @@ import { Link } from '@inertiajs/react';
 import { Calendar, Clock } from 'lucide-react';
 
 export const Header = ({ post }: { post: TShowPost }) => {
-    const { isZenMode } = useHomeShowStore();
+    const { isZenMode } = usePostStore();
     const { auth } = usePage<TPublicPage>().props;
 
     return (
@@ -30,7 +30,9 @@ export const Header = ({ post }: { post: TShowPost }) => {
                     ))}
                 </div>
             )}
-            <h1 className="mb-6 text-4xl font-bold">{post.title}</h1>
+            <div className="mb-6 flex items-center gap-4">
+                <h1 className="text-4xl font-bold">{post.title}</h1>
+            </div>
 
             {!isZenMode && (
                 <div className="mb-6 flex items-center justify-between">
@@ -48,7 +50,7 @@ export const Header = ({ post }: { post: TShowPost }) => {
                                 <span>{formatTimeAgo(post.published_at)}</span>
                                 <span>•</span>
                                 <Clock className="h-4 w-4" />
-                                <span>{readingTime(post.content)}</span>
+                                <span>{readingTime(post.content)} min read</span>
                             </div>
                         </div>
                     </div>

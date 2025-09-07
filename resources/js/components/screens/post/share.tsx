@@ -1,8 +1,8 @@
 import type { TShowPost } from '@/types/home';
 
 import { postLink } from '@/lib/links';
-import { useState } from 'react';
 import { toast } from '@/lib/toast';
+import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Copy, MessageSquare, Share2 } from 'lucide-react';

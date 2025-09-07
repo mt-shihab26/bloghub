@@ -14,7 +14,7 @@ export const profileMeLink = (): string => {
 };
 
 export const profileWriteLink = (): string => {
-    return route('site.profile.write');
+    return route('site.write.create');
 };
 
 export const profileSettingsLink = (): string => {
@@ -22,7 +22,7 @@ export const profileSettingsLink = (): string => {
 };
 
 export const postLink = (user: TUser, post: TPost, extra?: string): string => {
-    const link = route('site.home.show', { user, post });
+    const link = route('site.post', { user, post });
     if (!extra) {
         return link;
     }
@@ -87,4 +87,18 @@ export const toggleCommentLike = (comment: TComment): void => {
     return router.patch(route('site.comments.like', comment), undefined, {
         preserveScroll: true,
     });
+};
+
+export const savePost = (post: TPost) => {
+    if (post.id) {
+        router.patch(route('site.write.update', post), post, {
+            preserveState: false,
+            preserveScroll: true,
+        });
+    } else {
+        router.post(route('site.write.store'), post, {
+            preserveState: false,
+            preserveScroll: true,
+        });
+    }
 };

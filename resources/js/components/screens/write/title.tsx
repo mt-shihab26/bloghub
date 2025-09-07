@@ -1,0 +1,86 @@
+import { useWriteStore } from '@/states/use-write-store';
+import { useState } from 'react';
+
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { AlertCircle, CheckCircle, Sparkles } from 'lucide-react';
+
+export const Title = () => {
+    const { post, setPostKey } = useWriteStore();
+
+    const [isGenerating, setIsGenerating] = useState(false);
+    const [isManual, setIsManual] = useState(true);
+
+    const generateTitle = async () => {
+        setIsGenerating(true);
+        // Simulate AI generation
+        setTimeout(() => {
+            const titles = [
+                '10 Essential Tips for Modern Web Development',
+                'Building Scalable Applications with React and TypeScript',
+                'The Future of AI in Software Development',
+                'Mastering Database Design: Best Practices Guide',
+                'How to Optimize Your Code for Better Performance',
+            ];
+            const randomTitle = titles[Math.floor(Math.random() * titles.length)];
+            setPostKey('title', randomTitle);
+            setIsGenerating(false);
+            setIsManual(false);
+        }, 2000);
+    };
+
+    const handleManualEdit = () => {
+        setIsManual(true);
+    };
+
+    return (
+        <div className="space-y-2">
+            <div className="mb-2 flex items-center justify-between">
+                <p className="text-sm text-muted-foreground">Create an engaging title for your article</p>
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={generateTitle}
+                    disabled={isGenerating}
+                    className="flex items-center gap-2"
+                >
+                    <Sparkles className="h-4 w-4" />
+                    {isGenerating ? 'Generating...' : 'Generate with AI'}
+                </Button>
+            </div>
+            <Input
+                id="title"
+                placeholder="Enter your article title..."
+                value={post.title}
+                onChange={(e) => {
+                    setPostKey('title', e.target.value);
+                    setIsManual(true);
+                }}
+                onFocus={handleManualEdit}
+                className="text-lg font-medium"
+            />
+            <div className="flex items-center justify-between text-sm">
+                <div className="flex items-center space-x-2">
+                    {post.title.length > 10 ? (
+                        <CheckCircle className="h-4 w-4 text-green-500" />
+                    ) : post.title.length > 0 ? (
+                        <AlertCircle className="h-4 w-4 text-orange-500" />
+                    ) : null}
+                    {post.title.length > 0 && (
+                        <span className="text-muted-foreground">
+                            {post.title.length > 10 ? 'Good title length' : 'Title should be more descriptive'}
+                        </span>
+                    )}
+                </div>
+                <div className="flex items-center space-x-2">
+                    {!isManual && post.title && (
+                        <div className="flex items-center space-x-1 text-blue-600">
+                            <Sparkles className="h-4 w-4" />
+                            <span className="text-sm">AI Generated</span>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};

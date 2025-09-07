@@ -1,13 +1,13 @@
 import type { TIndexCategory, TIndexPost, TIndexUser } from '@/types/home';
 import type { TTag } from '@/types/models';
 
+import { Categories } from '@/components/screens/home/categories';
+import { FeaturedArticles } from '@/components/screens/home/featured-articles';
+import { NewsletterSignup } from '@/components/screens/home/newsletter-signup';
+import { PopularAuthors } from '@/components/screens/home/popular-authors';
+import { PopularTags } from '@/components/screens/home/popular-tags';
+import { RecommendedArticles } from '@/components/screens/home/recommended-articles';
 import { SiteLayout } from '@/layouts/site-layout';
-import { Categories } from '@/components/screens/home/index/categories';
-import { FeaturedArticles } from '@/components/screens/home/index/featured-articles';
-import { NewsletterSignup } from '@/components/screens/home/index/newsletter-signup';
-import { PopularAuthors } from '@/components/screens/home/index/popular-authors';
-import { PopularTags } from '@/components/screens/home/index/popular-tags';
-import { RecommendedArticles } from '@/components/screens/home/index/recommended-articles';
 
 const Index = ({
     posts,

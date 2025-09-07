@@ -3,7 +3,10 @@
     "name": "laravel/react-starter-kit",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.2",
@@ -41,8 +44,12 @@
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
         ],
-        "post-update-cmd": ["@php artisan vendor:publish --tag=laravel-assets --ansi --force"],
-        "post-root-package-install": ["@php -r \"file_exists('.env') || copy('.env.example', '.env');\""],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi",
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
@@ -57,10 +64,19 @@
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"php artisan inertia:start-ssr\" --names=server,queue,logs,ssr --kill-others"
         ],
-        "dev": ["bun run ./resources/scripts/dev.ts"],
-        "format": ["vendor/bin/pint"],
-        "lint": ["./vendor/bin/phpstan analyse --memory-limit=2G"],
-        "test": ["@php artisan config:clear --ansi", "@php artisan test"]
+        "dev": [
+            "bun run ./resources/scripts/dev.ts"
+        ],
+        "format": [
+            "vendor/bin/pint"
+        ],
+        "lint": [
+            "./vendor/bin/phpstan analyse --memory-limit=2G"
+        ],
+        "test": [
+            "@php artisan config:clear --ansi",
+            "@php artisan test"
+        ]
     },
     "extra": {
         "laravel": {

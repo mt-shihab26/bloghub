@@ -1,13 +1,13 @@
 import type { TShowUser } from '@/types/profile';
 
+import { Header } from '@/components/screens/profile/header';
+import { LatestPosts } from '@/components/screens/profile/latest-posts';
 import { SiteLayout } from '@/layouts/site-layout';
-import { Header } from '@/components/screens/profile/show/header';
-import { LatestPosts } from '@/components/screens/profile/show/latest-posts';
 
 const Show = ({ user }: { user: TShowUser }) => {
     return (
         <SiteLayout title={user.name}>
-            <div className="container mx-auto space-y-8 max-w-6xl px-4 py-8">
+            <div className="container mx-auto max-w-6xl space-y-8 px-4 py-8">
                 <Header user={user} />
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
                     <LatestPosts user={user} />

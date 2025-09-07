@@ -1,6 +1,6 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { useMobile } from '@/hooks/use-mobile';
 import { UserMenuContent } from '@/layouts/admin-layout/user-menu-content';
 import { type TAuthPage } from '@/types';
 import { usePage } from '@inertiajs/react';
@@ -10,7 +10,7 @@ import { UserInfo } from './user-info';
 export function NavUser() {
     const { auth } = usePage<TAuthPage>().props;
     const { state } = useSidebar();
-    const isMobile = useIsMobile();
+    const isMobile = useMobile();
 
     return (
         <SidebarMenu>

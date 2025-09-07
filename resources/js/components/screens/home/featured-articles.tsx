@@ -105,7 +105,7 @@ export const FeaturedArticles = ({ posts }: { posts: TIndexPost[] }) => {
                     </div>
                     <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                         <Clock className="h-4 w-4" />
-                        <span>{readingTime(post.content)}</span>
+                        <span>{readingTime(post.content)} min read</span>
                     </div>
                 </div>
                 {post.tags && (

@@ -26,7 +26,7 @@ return new class extends Migration
             $table->text('content');
             $table->text('excerpt');
             $table->string('status')->default(PostStatus::DRAFT->value);
-            $table->timestamp('published_at');
+            $table->timestamp('published_at')->nullable();
 
             $table->timestamps();
         });
