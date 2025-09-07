@@ -8,7 +8,7 @@ export const PostStatus = ({ post, className }: { post: TPost; className?: strin
     return (
         <span
             className={cn(
-                'px-2 py-1 capitalize text-xs font-medium rounded-full whitespace-nowrap',
+                'rounded-full px-2 py-1 text-xs font-medium whitespace-nowrap capitalize',
                 post.status === 'published'
                     ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
                     : post.status === 'archived'
@@ -17,9 +17,7 @@ export const PostStatus = ({ post, className }: { post: TPost; className?: strin
                 className,
             )}
         >
-            {isScheduled(post as TPost)
-                ? `Scheduled for ${formatDateTime(post.published_at)}`
-                : post.status}
+            {isScheduled(post as TPost) ? `Scheduled for ${formatDateTime(post.published_at)}` : post.status}
         </span>
     );
 };

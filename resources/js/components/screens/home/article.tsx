@@ -40,16 +40,11 @@ export const Article = ({ post }: { post: TIndexPost }) => {
                             <AvatarImage src={imageLink(post.user.image)} />
                             <AvatarFallback>{formatInitials(post.user.name)}</AvatarFallback>
                         </Avatar>
-                        <Link
-                            href={authorLink(post.user)}
-                            className="text-sm font-medium hover:underline"
-                        >
+                        <Link href={authorLink(post.user)} className="text-sm font-medium hover:underline">
                             {post.user.name}
                         </Link>
                         <span className="text-sm text-muted-foreground">•</span>
-                        <span className="text-sm text-muted-foreground">
-                            {formatTimeAgo(post.published_at)}
-                        </span>
+                        <span className="text-sm text-muted-foreground">{formatTimeAgo(post.published_at)}</span>
                     </div>
 
                     <h2 className="mb-2 text-xl font-semibold">
@@ -92,12 +87,9 @@ export const Article = ({ post }: { post: TIndexPost }) => {
 
                     {post.tags && (
                         <div className="mt-4 flex flex-wrap gap-2">
-                            {post.tags.map(tag => (
+                            {post.tags.map((tag) => (
                                 <Link key={tag.slug} href={tagLink(tag)}>
-                                    <Badge
-                                        variant="secondary"
-                                        className="cursor-pointer text-xs hover:underline"
-                                    >
+                                    <Badge variant="secondary" className="cursor-pointer text-xs hover:underline">
                                         #{tag.name}
                                     </Badge>
                                 </Link>

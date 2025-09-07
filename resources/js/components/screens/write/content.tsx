@@ -1,21 +1,10 @@
-import {
-    X,
-    Bold,
-    Italic,
-    Code,
-    List,
-    Quote,
-    Heading1,
-    Heading2,
-    CheckCircle,
-    AlertCircle,
-} from 'lucide-react';
+import { AlertCircle, Bold, CheckCircle, Code, Heading1, Heading2, Italic, List, Quote, X } from 'lucide-react';
 
 import { useWriteStore } from '@/states/use-write-store';
 
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
 import { Separator } from '@/components/ui/separator';
+import { Textarea } from '@/components/ui/textarea';
 
 export const Content = () => {
     const { post, setPostKey } = useWriteStore();
@@ -28,95 +17,51 @@ export const Content = () => {
         const start = textarea.selectionStart;
         const end = textarea.selectionEnd;
         const selectedText = content.substring(start, end);
-        const newText =
-            content.substring(0, start) + before + selectedText + after + content.substring(end);
+        const newText = content.substring(0, start) + before + selectedText + after + content.substring(end);
 
         setPostKey('content', newText);
 
         // Set cursor position after insertion
         setTimeout(() => {
             textarea.focus();
-            textarea.setSelectionRange(
-                start + before.length,
-                start + before.length + selectedText.length,
-            );
+            textarea.setSelectionRange(start + before.length, start + before.length + selectedText.length);
         }, 0);
     };
 
     return (
         <div>
             {/* Markdown Toolbar */}
-            <div className="flex flex-wrap gap-2 mb-4 p-2 border rounded-lg bg-muted/30">
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => insertMarkdown('**', '**')}
-                    title="Bold"
-                >
-                    <Bold className="w-4 h-4" />
+            <div className="mb-4 flex flex-wrap gap-2 rounded-lg border bg-muted/30 p-2">
+                <Button variant="ghost" size="sm" onClick={() => insertMarkdown('**', '**')} title="Bold">
+                    <Bold className="h-4 w-4" />
                 </Button>
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => insertMarkdown('*', '*')}
-                    title="Italic"
-                >
-                    <Italic className="w-4 h-4" />
+                <Button variant="ghost" size="sm" onClick={() => insertMarkdown('*', '*')} title="Italic">
+                    <Italic className="h-4 w-4" />
                 </Button>
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => insertMarkdown('`', '`')}
-                    title="Inline Code"
-                >
-                    <Code className="w-4 h-4" />
+                <Button variant="ghost" size="sm" onClick={() => insertMarkdown('`', '`')} title="Inline Code">
+                    <Code className="h-4 w-4" />
                 </Button>
                 <Separator orientation="vertical" className="h-6" />
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => insertMarkdown('# ', '')}
-                    title="Heading 1"
-                >
-                    <Heading1 className="w-4 h-4" />
+                <Button variant="ghost" size="sm" onClick={() => insertMarkdown('# ', '')} title="Heading 1">
+                    <Heading1 className="h-4 w-4" />
                 </Button>
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => insertMarkdown('## ', '')}
-                    title="Heading 2"
-                >
-                    <Heading2 className="w-4 h-4" />
+                <Button variant="ghost" size="sm" onClick={() => insertMarkdown('## ', '')} title="Heading 2">
+                    <Heading2 className="h-4 w-4" />
                 </Button>
                 <Separator orientation="vertical" className="h-6" />
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => insertMarkdown('[', '](url)')}
-                    title="Link"
-                >
-                    <X className="w-4 h-4" />
+                <Button variant="ghost" size="sm" onClick={() => insertMarkdown('[', '](url)')} title="Link">
+                    <X className="h-4 w-4" />
                 </Button>
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => insertMarkdown('- ', '')}
-                    title="List"
-                >
-                    <List className="w-4 h-4" />
+                <Button variant="ghost" size="sm" onClick={() => insertMarkdown('- ', '')} title="List">
+                    <List className="h-4 w-4" />
                 </Button>
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => insertMarkdown('> ', '')}
-                    title="Quote"
-                >
-                    <Quote className="w-4 h-4" />
+                <Button variant="ghost" size="sm" onClick={() => insertMarkdown('> ', '')} title="Quote">
+                    <Quote className="h-4 w-4" />
                 </Button>
             </div>
 
             {/* Side by Side Editor and Preview */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
                 {/* Editor */}
                 <div className="space-y-2">
                     <div className="flex items-center justify-between">
@@ -126,17 +71,17 @@ export const Content = () => {
                         id="content-editor"
                         placeholder="Tell your story... Supports: GitHub Flavored Markdown • LaTeX Math Equations • Mermaid Diagrams • Code Syntax Highlighting"
                         value={content}
-                        onChange={e => setPostKey('content', e.target.value)}
-                        className="min-h-[500px] font-mono text-sm resize-none"
+                        onChange={(e) => setPostKey('content', e.target.value)}
+                        className="min-h-[500px] resize-none font-mono text-sm"
                     />
                     {content.length > 100 ? (
                         <div className="flex items-center space-x-1 text-sm text-green-600">
-                            <CheckCircle className="w-4 h-4" />
+                            <CheckCircle className="h-4 w-4" />
                             <span>Good content length</span>
                         </div>
                     ) : (
                         <div className="flex items-center space-x-1 text-sm text-orange-500">
-                            <AlertCircle className="w-4 h-4" />
+                            <AlertCircle className="h-4 w-4" />
                             <span>Content too short</span>
                         </div>
                     )}
@@ -145,7 +90,7 @@ export const Content = () => {
                 {/* Preview */}
                 <div className="space-y-2">
                     <h3 className="text-sm font-medium">Preview</h3>
-                    <div className="border rounded-lg p-4 min-h-[500px] prose max-w-none overflow-auto">
+                    <div className="prose min-h-[500px] max-w-none overflow-auto rounded-lg border p-4">
                         {content ? (
                             <div
                                 dangerouslySetInnerHTML={{
@@ -162,9 +107,7 @@ export const Content = () => {
                                 }}
                             />
                         ) : (
-                            <p className="text-muted-foreground">
-                                Start writing to see a preview...
-                            </p>
+                            <p className="text-muted-foreground">Start writing to see a preview...</p>
                         )}
                     </div>
                 </div>

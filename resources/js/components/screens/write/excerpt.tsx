@@ -1,10 +1,10 @@
-import { useState } from 'react';
 import { useWriteStore } from '@/states/use-write-store';
+import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Sparkles, CheckCircle, AlertCircle } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
+import { AlertCircle, CheckCircle, Sparkles } from 'lucide-react';
 
 export const Excerpt = () => {
     const { post, setPostKey } = useWriteStore();
@@ -31,10 +31,8 @@ It automatically creates a summary that engages readers and encourages them to r
 
     return (
         <div>
-            <div className="flex items-center justify-between mb-4">
-                <p className="text-sm text-muted-foreground">
-                    Create a compelling preview of your article
-                </p>
+            <div className="mb-4 flex items-center justify-between">
+                <p className="text-sm text-muted-foreground">Create a compelling preview of your article</p>
                 <Button
                     variant="outline"
                     size="sm"
@@ -42,7 +40,7 @@ It automatically creates a summary that engages readers and encourages them to r
                     disabled={isGenerating}
                     className="flex items-center gap-2"
                 >
-                    <Sparkles className="w-4 h-4" />
+                    <Sparkles className="h-4 w-4" />
                     {isGenerating ? 'Generating...' : 'Generate with AI'}
                 </Button>
             </div>
@@ -57,11 +55,11 @@ It automatically creates a summary that engages readers and encourages them to r
                     <Textarea
                         placeholder="Write your article excerpt... (Markdown supported)"
                         value={post.excerpt}
-                        onChange={e => {
+                        onChange={(e) => {
                             setPostKey('excerpt', e.target.value);
                             setIsManual(true);
                         }}
-                        className="min-h-[120px] font-mono text-sm resize-none"
+                        className="min-h-[120px] resize-none font-mono text-sm"
                         onFocus={handleManualEdit}
                     />
                     <div className="flex items-center justify-between text-sm">
@@ -72,23 +70,23 @@ It automatically creates a summary that engages readers and encourages them to r
                         <div className="flex items-center space-x-2">
                             {!isManual && post.excerpt && (
                                 <div className="flex items-center space-x-1 text-blue-600">
-                                    <Sparkles className="w-4 h-4" />
+                                    <Sparkles className="h-4 w-4" />
                                     <span className="text-sm">AI Generated</span>
                                 </div>
                             )}
                             {post.excerpt.length >= 150 && post.excerpt.length <= 160 ? (
                                 <div className="flex items-center space-x-1 text-green-600">
-                                    <CheckCircle className="w-4 h-4" />
+                                    <CheckCircle className="h-4 w-4" />
                                     <span>Good length</span>
                                 </div>
                             ) : post.excerpt.length > 160 ? (
                                 <div className="flex items-center space-x-1 text-orange-500">
-                                    <AlertCircle className="w-4 h-4" />
+                                    <AlertCircle className="h-4 w-4" />
                                     <span>Too long</span>
                                 </div>
                             ) : post.excerpt.length > 0 ? (
                                 <div className="flex items-center space-x-1 text-orange-500">
-                                    <AlertCircle className="w-4 h-4" />
+                                    <AlertCircle className="h-4 w-4" />
                                     <span>Too short</span>
                                 </div>
                             ) : null}
@@ -97,7 +95,7 @@ It automatically creates a summary that engages readers and encourages them to r
                 </TabsContent>
 
                 <TabsContent value="preview" className="space-y-2">
-                    <div className="border rounded-lg p-4 min-h-[120px] prose max-w-none">
+                    <div className="prose min-h-[120px] max-w-none rounded-lg border p-4">
                         {post.excerpt ? (
                             <div
                                 dangerouslySetInnerHTML={{
@@ -114,9 +112,7 @@ It automatically creates a summary that engages readers and encourages them to r
                                 }}
                             />
                         ) : (
-                            <p className="text-muted-foreground">
-                                Write an excerpt to see a preview...
-                            </p>
+                            <p className="text-muted-foreground">Write an excerpt to see a preview...</p>
                         )}
                     </div>
                 </TabsContent>

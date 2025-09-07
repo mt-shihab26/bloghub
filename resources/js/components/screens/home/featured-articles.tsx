@@ -43,9 +43,7 @@ export const FeaturedArticles = ({ posts }: { posts: TIndexPost[] }) => {
                         className="h-64 w-full rounded-t-lg object-cover"
                     />
                 </a>
-                <Badge className="absolute top-4 left-4 bg-primary">
-                    {categoryName(post.category)}
-                </Badge>
+                <Badge className="absolute top-4 left-4 bg-primary">{categoryName(post.category)}</Badge>
                 <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 space-x-2">
                     {posts.map((_, index) => (
                         <button
@@ -66,16 +64,11 @@ export const FeaturedArticles = ({ posts }: { posts: TIndexPost[] }) => {
                         <AvatarImage src={imageLink(post.user.image)} />
                         <AvatarFallback>{formatInitials(post.user.name)}</AvatarFallback>
                     </Avatar>
-                    <Link
-                        href={authorLink(post.user)}
-                        className="text-sm font-medium hover:underline"
-                    >
+                    <Link href={authorLink(post.user)} className="text-sm font-medium hover:underline">
                         {post.user.name}
                     </Link>
                     <span className="text-sm text-muted-foreground">•</span>
-                    <time className="text-sm text-muted-foreground">
-                        {formatTimeAgo(post.published_at)}
-                    </time>
+                    <time className="text-sm text-muted-foreground">{formatTimeAgo(post.published_at)}</time>
                 </div>
                 <h2 className="mb-2 text-2xl font-semibold">
                     <Link href={postLink(post.user, post)} className="hover:underline">
@@ -117,12 +110,9 @@ export const FeaturedArticles = ({ posts }: { posts: TIndexPost[] }) => {
                 </div>
                 {post.tags && (
                     <div className="mt-4 flex flex-wrap gap-2">
-                        {post.tags.map(tag => (
+                        {post.tags.map((tag) => (
                             <Link key={tag.slug} href={tagLink(tag)}>
-                                <Badge
-                                    variant="secondary"
-                                    className="cursor-pointer hover:underline"
-                                >
+                                <Badge variant="secondary" className="cursor-pointer hover:underline">
                                     #{tag.name}
                                 </Badge>
                             </Link>

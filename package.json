@@ -58,11 +58,11 @@
         "vite": "^7.0.4",
         "zustand": "^5.0.8"
     },
-"devDependencies": {
+    "devDependencies": {
         "@types/node": "^22.13.5",
         "vitest": "^3.2.4",
         "@eslint/js": "^9.19.0",
-"eslint": "^9.17.0",
+        "eslint": "^9.17.0",
         "eslint-config-prettier": "^10.0.1",
         "eslint-plugin-react": "^7.37.3",
         "eslint-plugin-react-hooks": "^5.1.0",

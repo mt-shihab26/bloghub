@@ -1,24 +1,24 @@
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuTrigger,
     DropdownMenuItem,
     DropdownMenuSeparator,
+    DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
 import { formatDateTime } from '@/lib/format';
-import { useState } from 'react';
-import { useWriteStore } from '@/states/use-write-store';
 import { savePost } from '@/lib/links';
-import { createDateTime, extractDate, extractTime, now, safeDate } from '@/lib/utils';
 import { isScheduled } from '@/lib/post';
+import { createDateTime, extractDate, extractTime, now, safeDate } from '@/lib/utils';
+import { useWriteStore } from '@/states/use-write-store';
+import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { Calendar } from '@/components/ui/calendar';
-import { Send, CalendarIcon, CheckCircle, ChevronDown } from 'lucide-react';
+import { CalendarIcon, CheckCircle, ChevronDown, Send } from 'lucide-react';
 
 export const Publish = () => {
     const { post, setPostKey } = useWriteStore();
@@ -31,20 +31,18 @@ export const Publish = () => {
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button>
-                    <Send className="w-4 h-4 mr-2" />
+                    <Send className="mr-2 h-4 w-4" />
                     {post.status === 'published' ? 'Update' : 'Publish'}
-                    <ChevronDown className="w-4 h-4 ml-2" />
+                    <ChevronDown className="ml-2 h-4 w-4" />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-80" align="end">
-                <DropdownMenuItem
-                    onClick={() => savePost({ ...post, status: 'published', published_at: now() })}
-                >
-                    <Send className="w-4 h-4 mr-2" />
+                <DropdownMenuItem onClick={() => savePost({ ...post, status: 'published', published_at: now() })}>
+                    <Send className="mr-2 h-4 w-4" />
                     Publish Now
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <div className="p-4 space-y-4">
+                <div className="space-y-4 p-4">
                     <div className="flex items-center justify-between">
                         <Label htmlFor="schedule-publish" className="font-medium">
                             Schedule Publishing
@@ -57,7 +55,7 @@ export const Publish = () => {
                                 mode="single"
                                 selected={safeDate(post.published_at)}
                                 captionLayout="dropdown"
-                                onSelect={selectDate => {
+                                onSelect={(selectDate) => {
                                     if (!selectDate) return;
                                     const date = extractDate(selectDate);
                                     const time = extractTime(post.published_at);
@@ -72,24 +70,19 @@ export const Publish = () => {
                                 id="time-picker"
                                 step="1"
                                 value={extractTime(post.published_at)}
-                                onChange={e => {
+                                onChange={(e) => {
                                     const date = post.published_at
                                         ? extractDate(post.published_at)
                                         : extractDate(now());
-                                    setPostKey(
-                                        'published_at',
-                                        createDateTime(date, e.target.value) || null,
-                                    );
+                                    setPostKey('published_at', createDateTime(date, e.target.value) || null);
                                 }}
-                                className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+                                className="appearance-none bg-background [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
                             />
                             {scheduled && (
                                 <div className="space-y-3">
                                     <div className="flex items-center space-x-2 text-sm text-green-600">
-                                        <CheckCircle className="w-4 h-4" />
-                                        <span>
-                                            Scheduled for {formatDateTime(post.published_at)}
-                                        </span>
+                                        <CheckCircle className="h-4 w-4" />
+                                        <span>Scheduled for {formatDateTime(post.published_at)}</span>
                                     </div>
                                     <Button
                                         className="w-full"
@@ -102,7 +95,7 @@ export const Publish = () => {
                                             setOpen(false);
                                         }}
                                     >
-                                        <CalendarIcon className="w-4 h-4 mr-2" />
+                                        <CalendarIcon className="mr-2 h-4 w-4" />
                                         Schedule Publish
                                     </Button>
                                 </div>

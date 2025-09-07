@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { CheckCircle, Sparkles, FolderOpen } from 'lucide-react';
+import { CheckCircle, FolderOpen, Sparkles } from 'lucide-react';
 
 export const Category = () => {
     const [category, setCategory] = useState('');
@@ -14,13 +14,7 @@ export const Category = () => {
         setIsGenerating(true);
         // Simulate AI category selection based on content analysis
         setTimeout(() => {
-            const categories = [
-                'web-development',
-                'mobile-development', 
-                'data-science',
-                'tutorial',
-                'devops'
-            ];
+            const categories = ['web-development', 'mobile-development', 'data-science', 'tutorial', 'devops'];
             const randomCategory = categories[Math.floor(Math.random() * categories.length)];
             setCategory(randomCategory);
             setIsGenerating(false);
@@ -37,8 +31,10 @@ export const Category = () => {
         <div className="space-y-4">
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                    <FolderOpen className="w-5 h-5" />
-                    <Label htmlFor="category" className="font-medium">Category *</Label>
+                    <FolderOpen className="h-5 w-5" />
+                    <Label htmlFor="category" className="font-medium">
+                        Category *
+                    </Label>
                 </div>
                 <Button
                     variant="outline"
@@ -47,7 +43,7 @@ export const Category = () => {
                     disabled={isGenerating}
                     className="flex items-center gap-2"
                 >
-                    <Sparkles className="w-4 h-4" />
+                    <Sparkles className="h-4 w-4" />
                     {isGenerating ? 'Analyzing...' : 'Suggest with AI'}
                 </Button>
             </div>
@@ -71,13 +67,13 @@ export const Category = () => {
             <div className="flex items-center justify-between text-sm">
                 {category && (
                     <div className="flex items-center space-x-2 text-green-600">
-                        <CheckCircle className="w-4 h-4" />
+                        <CheckCircle className="h-4 w-4" />
                         <span>Category selected</span>
                     </div>
                 )}
                 {!isManual && category && (
                     <div className="flex items-center space-x-1 text-blue-600">
-                        <Sparkles className="w-4 h-4" />
+                        <Sparkles className="h-4 w-4" />
                         <span className="text-sm">AI Suggested</span>
                     </div>
                 )}

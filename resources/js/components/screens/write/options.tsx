@@ -2,20 +2,14 @@ import { useState } from 'react';
 
 import type React from 'react';
 
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
-import { X, CheckCircle, Calendar } from 'lucide-react';
+import { Calendar, CheckCircle, X } from 'lucide-react';
 
 import {
     Drawer,
@@ -25,7 +19,7 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from '@/components/ui/drawer';
-import { Settings, Image } from 'lucide-react';
+import { Image, Settings } from 'lucide-react';
 
 import { Dropzone, DropzoneContent, DropzoneEmptyState } from '@/components/ui/dropzone';
 
@@ -41,7 +35,7 @@ export const Options = () => {
 
         if (files.length > 0) {
             const reader = new FileReader();
-            reader.onload = e => {
+            reader.onload = (e) => {
                 if (typeof e.target?.result === 'string') {
                     setFilePreview(e.target?.result);
                 }
@@ -67,7 +61,7 @@ export const Options = () => {
     };
 
     const removeTag = (tagToRemove: string) => {
-        setTags(tags.filter(tag => tag !== tagToRemove));
+        setTags(tags.filter((tag) => tag !== tagToRemove));
     };
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -95,7 +89,7 @@ export const Options = () => {
         <Drawer open={isOpen} onOpenChange={setIsOpen} direction="bottom">
             <DrawerTrigger asChild>
                 <Button variant="outline" size="sm">
-                    <Settings className="w-4 h-4 mr-2" />
+                    <Settings className="mr-2 h-4 w-4" />
                     Options
                 </Button>
             </DrawerTrigger>
@@ -110,11 +104,11 @@ export const Options = () => {
                         </DrawerHeader>
 
                         <div className="px-4 pb-8">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                                 {/* Featured Image Section */}
                                 <div>
-                                    <div className="flex items-center gap-2 mb-4">
-                                        <Image className="w-5 h-5" />
+                                    <div className="mb-4 flex items-center gap-2">
+                                        <Image className="h-5 w-5" />
                                         <h3 className="font-medium">Featured Image</h3>
                                     </div>
                                     <Dropzone
@@ -140,51 +134,34 @@ export const Options = () => {
 
                                 {/* Publishing Options Section */}
                                 <div>
-                                    <div className="flex items-center gap-2 mb-4">
-                                        <Settings className="w-5 h-5" />
+                                    <div className="mb-4 flex items-center gap-2">
+                                        <Settings className="h-5 w-5" />
                                         <h3 className="font-medium">Publishing Options</h3>
                                     </div>
                                     <div>
                                         <div className="space-y-4">
                                             <div className="space-y-2">
                                                 <Label htmlFor="category">Category *</Label>
-                                                <Select
-                                                    value={category}
-                                                    onValueChange={setCategory}
-                                                >
+                                                <Select value={category} onValueChange={setCategory}>
                                                     <SelectTrigger>
                                                         <SelectValue placeholder="Select a category" />
                                                     </SelectTrigger>
                                                     <SelectContent>
-                                                        <SelectItem value="web-development">
-                                                            Web Development
-                                                        </SelectItem>
+                                                        <SelectItem value="web-development">Web Development</SelectItem>
                                                         <SelectItem value="mobile-development">
                                                             Mobile Development
                                                         </SelectItem>
-                                                        <SelectItem value="data-science">
-                                                            Data Science
-                                                        </SelectItem>
-                                                        <SelectItem value="devops">
-                                                            DevOps
-                                                        </SelectItem>
-                                                        <SelectItem value="design">
-                                                            Design
-                                                        </SelectItem>
-                                                        <SelectItem value="career">
-                                                            Career
-                                                        </SelectItem>
-                                                        <SelectItem value="tutorial">
-                                                            Tutorial
-                                                        </SelectItem>
-                                                        <SelectItem value="opinion">
-                                                            Opinion
-                                                        </SelectItem>
+                                                        <SelectItem value="data-science">Data Science</SelectItem>
+                                                        <SelectItem value="devops">DevOps</SelectItem>
+                                                        <SelectItem value="design">Design</SelectItem>
+                                                        <SelectItem value="career">Career</SelectItem>
+                                                        <SelectItem value="tutorial">Tutorial</SelectItem>
+                                                        <SelectItem value="opinion">Opinion</SelectItem>
                                                     </SelectContent>
                                                 </Select>
                                                 {category && (
                                                     <div className="flex items-center space-x-2 text-sm text-green-600">
-                                                        <CheckCircle className="w-4 h-4" />
+                                                        <CheckCircle className="h-4 w-4" />
                                                         <span>Category selected</span>
                                                     </div>
                                                 )}
@@ -199,12 +176,12 @@ export const Options = () => {
                                                     onChange={handleSlugChange}
                                                 />
                                                 <p className="text-xs text-muted-foreground">
-                                                    URL-friendly version of your title. Only
-                                                    lowercase letters, numbers, and hyphens allowed.
+                                                    URL-friendly version of your title. Only lowercase letters, numbers,
+                                                    and hyphens allowed.
                                                 </p>
                                                 {slug && (
                                                     <div className="flex items-center space-x-2 text-sm text-green-600">
-                                                        <CheckCircle className="w-4 h-4" />
+                                                        <CheckCircle className="h-4 w-4" />
                                                         <span>Slug: /blog/{slug}</span>
                                                     </div>
                                                 )}
@@ -217,23 +194,21 @@ export const Options = () => {
                                                         id="tags"
                                                         placeholder="Add a tag..."
                                                         value={newTag}
-                                                        onChange={e => setNewTag(e.target.value)}
+                                                        onChange={(e) => setNewTag(e.target.value)}
                                                         onKeyPress={handleKeyPress}
                                                         disabled={tags.length >= 5}
                                                     />
                                                     <Button
                                                         onClick={addTag}
                                                         size="sm"
-                                                        disabled={
-                                                            tags.length >= 5 || !newTag.trim()
-                                                        }
+                                                        disabled={tags.length >= 5 || !newTag.trim()}
                                                     >
                                                         Add
                                                     </Button>
                                                 </div>
                                                 {tags.length > 0 && (
-                                                    <div className="flex flex-wrap gap-2 mt-2">
-                                                        {tags.map(tag => (
+                                                    <div className="mt-2 flex flex-wrap gap-2">
+                                                        {tags.map((tag) => (
                                                             <Badge
                                                                 key={tag}
                                                                 variant="secondary"
@@ -241,7 +216,7 @@ export const Options = () => {
                                                             >
                                                                 #{tag}
                                                                 <X
-                                                                    className="w-3 h-3 cursor-pointer hover:text-destructive"
+                                                                    className="h-3 w-3 cursor-pointer hover:text-destructive"
                                                                     onClick={() => removeTag(tag)}
                                                                 />
                                                             </Badge>
@@ -250,7 +225,7 @@ export const Options = () => {
                                                 )}
                                                 {tags.length > 0 && (
                                                     <div className="flex items-center space-x-2 text-sm text-green-600">
-                                                        <CheckCircle className="w-4 h-4" />
+                                                        <CheckCircle className="h-4 w-4" />
                                                         <span>Tags added</span>
                                                     </div>
                                                 )}
@@ -262,7 +237,7 @@ export const Options = () => {
                                                         htmlFor="schedule-publish"
                                                         className="flex items-center gap-2"
                                                     >
-                                                        <Calendar className="w-4 h-4" />
+                                                        <Calendar className="h-4 w-4" />
                                                         Schedule Publishing
                                                     </Label>
                                                     <Switch
@@ -272,59 +247,39 @@ export const Options = () => {
                                                     />
                                                 </div>
                                                 {schedulePublish && (
-                                                    <div className="space-y-3 p-3 border rounded-lg bg-muted/20">
+                                                    <div className="space-y-3 rounded-lg border bg-muted/20 p-3">
                                                         <div className="grid grid-cols-2 gap-3">
                                                             <div className="space-y-1">
-                                                                <Label
-                                                                    htmlFor="publish-date"
-                                                                    className="text-sm"
-                                                                >
+                                                                <Label htmlFor="publish-date" className="text-sm">
                                                                     Date
                                                                 </Label>
                                                                 <Input
                                                                     id="publish-date"
                                                                     type="date"
                                                                     value={publishDate}
-                                                                    onChange={e =>
-                                                                        setPublishDate(
-                                                                            e.target.value,
-                                                                        )
-                                                                    }
-                                                                    min={
-                                                                        new Date()
-                                                                            .toISOString()
-                                                                            .split('T')[0]
-                                                                    }
+                                                                    onChange={(e) => setPublishDate(e.target.value)}
+                                                                    min={new Date().toISOString().split('T')[0]}
                                                                 />
                                                             </div>
                                                             <div className="space-y-1">
-                                                                <Label
-                                                                    htmlFor="publish-time"
-                                                                    className="text-sm"
-                                                                >
+                                                                <Label htmlFor="publish-time" className="text-sm">
                                                                     Time
                                                                 </Label>
                                                                 <Input
                                                                     id="publish-time"
                                                                     type="time"
                                                                     value={publishTime}
-                                                                    onChange={e =>
-                                                                        setPublishTime(
-                                                                            e.target.value,
-                                                                        )
-                                                                    }
+                                                                    onChange={(e) => setPublishTime(e.target.value)}
                                                                 />
                                                             </div>
                                                         </div>
                                                         {publishDate && publishTime && (
                                                             <div className="flex items-center space-x-2 text-sm text-green-600">
-                                                                <CheckCircle className="w-4 h-4" />
+                                                                <CheckCircle className="h-4 w-4" />
                                                                 <span>
                                                                     Scheduled for{' '}
                                                                     {new Date(
-                                                                        publishDate +
-                                                                            'T' +
-                                                                            publishTime,
+                                                                        publishDate + 'T' + publishTime,
                                                                     ).toLocaleString()}
                                                                 </span>
                                                             </div>
@@ -342,12 +297,10 @@ export const Options = () => {
                                                 <Label htmlFor="draft-mode">Save as draft</Label>
                                             </div>
 
-                                            <div className="pt-4 border-t">
+                                            <div className="border-t pt-4">
                                                 <div className="flex items-center justify-between text-sm">
                                                     <span>Status:</span>
-                                                    <Badge
-                                                        variant={isDraft ? 'secondary' : 'default'}
-                                                    >
+                                                    <Badge variant={isDraft ? 'secondary' : 'default'}>
                                                         {isDraft ? 'Draft' : 'Ready to Publish'}
                                                     </Badge>
                                                 </div>

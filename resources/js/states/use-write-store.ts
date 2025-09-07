@@ -22,11 +22,11 @@ export const useWriteStore = create<{
     post: TPost;
     setPost: (post: TPost) => void;
     setPostKey: <K extends keyof TPost>(key: K, value: TPost[K]) => void;
-}>(set => ({
+}>((set) => ({
     post: defaultPost,
-    setPost: post => set({ post }),
+    setPost: (post) => set({ post }),
     setPostKey: (key, value) => {
-        set(state => {
+        set((state) => {
             const post = { ...state.post, [key]: value };
             if (key === 'title') {
                 post.slug = formatSlug(value);

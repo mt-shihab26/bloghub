@@ -1,9 +1,9 @@
-import { useState } from 'react';
 import { useWriteStore } from '@/states/use-write-store';
+import { useState } from 'react';
 
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, AlertCircle, Sparkles } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { AlertCircle, CheckCircle, Sparkles } from 'lucide-react';
 
 export const Title = () => {
     const { post, setPostKey } = useWriteStore();
@@ -35,10 +35,8 @@ export const Title = () => {
 
     return (
         <div className="space-y-2">
-            <div className="flex items-center justify-between mb-2">
-                <p className="text-sm text-muted-foreground">
-                    Create an engaging title for your article
-                </p>
+            <div className="mb-2 flex items-center justify-between">
+                <p className="text-sm text-muted-foreground">Create an engaging title for your article</p>
                 <Button
                     variant="outline"
                     size="sm"
@@ -46,7 +44,7 @@ export const Title = () => {
                     disabled={isGenerating}
                     className="flex items-center gap-2"
                 >
-                    <Sparkles className="w-4 h-4" />
+                    <Sparkles className="h-4 w-4" />
                     {isGenerating ? 'Generating...' : 'Generate with AI'}
                 </Button>
             </div>
@@ -54,7 +52,7 @@ export const Title = () => {
                 id="title"
                 placeholder="Enter your article title..."
                 value={post.title}
-                onChange={e => {
+                onChange={(e) => {
                     setPostKey('title', e.target.value);
                     setIsManual(true);
                 }}
@@ -64,22 +62,20 @@ export const Title = () => {
             <div className="flex items-center justify-between text-sm">
                 <div className="flex items-center space-x-2">
                     {post.title.length > 10 ? (
-                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        <CheckCircle className="h-4 w-4 text-green-500" />
                     ) : post.title.length > 0 ? (
-                        <AlertCircle className="w-4 h-4 text-orange-500" />
+                        <AlertCircle className="h-4 w-4 text-orange-500" />
                     ) : null}
                     {post.title.length > 0 && (
                         <span className="text-muted-foreground">
-                            {post.title.length > 10
-                                ? 'Good title length'
-                                : 'Title should be more descriptive'}
+                            {post.title.length > 10 ? 'Good title length' : 'Title should be more descriptive'}
                         </span>
                     )}
                 </div>
                 <div className="flex items-center space-x-2">
                     {!isManual && post.title && (
                         <div className="flex items-center space-x-1 text-blue-600">
-                            <Sparkles className="w-4 h-4" />
+                            <Sparkles className="h-4 w-4" />
                             <span className="text-sm">AI Generated</span>
                         </div>
                     )}

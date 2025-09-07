@@ -3,8 +3,8 @@ import type { TShowPost } from '@/types/home';
 import { useAuthUser } from '@/hooks/use-auth-user';
 import { togglePostBookmark, togglePostLike } from '@/lib/links';
 
-import { Link } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
+import { Link } from '@inertiajs/react';
 import { BookmarkIcon, Edit, HeartIcon, MessageCircleIcon } from 'lucide-react';
 import { Share } from './share';
 

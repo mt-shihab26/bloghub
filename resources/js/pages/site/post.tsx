@@ -1,10 +1,9 @@
 import type { TShowPost } from '@/types/home';
 
-import { usePostStore } from '@/states/use-post-store';
 import { useAuthUser } from '@/hooks/use-auth-user';
+import { usePostStore } from '@/states/use-post-store';
 
-import { Link } from '@inertiajs/react';
-import { SiteLayout } from '@/layouts/site-layout';
+import { PostStatus } from '@/components/composite/post-status';
 import { Actions } from '@/components/screens/post/actions';
 import { AuthorBio } from '@/components/screens/post/author-bio';
 import { Back } from '@/components/screens/post/back';
@@ -14,7 +13,8 @@ import { Content } from '@/components/screens/post/content';
 import { Header } from '@/components/screens/post/header';
 import { ZenMode } from '@/components/screens/post/zen-mode';
 import { Button } from '@/components/ui/button';
-import { PostStatus } from '@/components/composite/post-status';
+import { SiteLayout } from '@/layouts/site-layout';
+import { Link } from '@inertiajs/react';
 import { Edit } from 'lucide-react';
 
 const Show = ({ post }: { post: TShowPost }) => {

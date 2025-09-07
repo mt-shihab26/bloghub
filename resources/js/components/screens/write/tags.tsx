@@ -2,11 +2,11 @@ import { useState } from 'react';
 
 import type React from 'react';
 
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
-import { X, CheckCircle, Sparkles, Hash } from 'lucide-react';
+import { CheckCircle, Hash, Sparkles, X } from 'lucide-react';
 
 export const Tags = () => {
     const [tags, setTags] = useState<string[]>([]);
@@ -64,8 +64,10 @@ export const Tags = () => {
         <div className="space-y-4">
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                    <Hash className="w-5 h-5" />
-                    <Label htmlFor="tags" className="font-medium">Tags ({tags.length}/5)</Label>
+                    <Hash className="h-5 w-5" />
+                    <Label htmlFor="tags" className="font-medium">
+                        Tags ({tags.length}/5)
+                    </Label>
                 </div>
                 <Button
                     variant="outline"
@@ -74,7 +76,7 @@ export const Tags = () => {
                     disabled={isGenerating}
                     className="flex items-center gap-2"
                 >
-                    <Sparkles className="w-4 h-4" />
+                    <Sparkles className="h-4 w-4" />
                     {isGenerating ? 'Generating...' : 'Generate with AI'}
                 </Button>
             </div>
@@ -100,7 +102,7 @@ export const Tags = () => {
                             <Badge key={tag} variant="secondary" className="flex items-center gap-1">
                                 #{tag}
                                 <X
-                                    className="w-3 h-3 cursor-pointer hover:text-destructive"
+                                    className="h-3 w-3 cursor-pointer hover:text-destructive"
                                     onClick={() => handleManualRemove(tag)}
                                 />
                             </Badge>
@@ -108,12 +110,12 @@ export const Tags = () => {
                     </div>
                     <div className="flex items-center justify-between text-sm">
                         <div className="flex items-center space-x-2 text-green-600">
-                            <CheckCircle className="w-4 h-4" />
+                            <CheckCircle className="h-4 w-4" />
                             <span>Tags added</span>
                         </div>
                         {!isManual && tags.length > 0 && (
                             <div className="flex items-center space-x-1 text-blue-600">
-                                <Sparkles className="w-4 h-4" />
+                                <Sparkles className="h-4 w-4" />
                                 <span className="text-sm">AI Generated</span>
                             </div>
                         )}

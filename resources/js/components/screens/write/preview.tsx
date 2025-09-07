@@ -11,7 +11,7 @@ export const Preview = ({ post }: { post: TPost }) => {
     return (
         <a href={route('site.post', { user, post })} target="_blank">
             <Button variant="outline">
-                <XIcon className="w-4 h-4 mr-2" />
+                <XIcon className="mr-2 h-4 w-4" />
                 Preview
             </Button>
         </a>

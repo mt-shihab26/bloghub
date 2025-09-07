@@ -14,7 +14,7 @@ export const wordCount = (content: string): number => {
     return content
         .trim()
         .split(/\s+/)
-        .filter(word => word.length > 0).length;
+        .filter((word) => word.length > 0).length;
 };
 
 export const readingTime = (content: string): number => {

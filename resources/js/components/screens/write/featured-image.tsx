@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Dropzone, DropzoneContent, DropzoneEmptyState } from '@/components/ui/dropzone';
-import { Sparkles, Image } from 'lucide-react';
+import { Image, Sparkles } from 'lucide-react';
 
 export const FeaturedImage = () => {
     const [files, setFiles] = useState<File[] | undefined>();
@@ -39,7 +39,7 @@ export const FeaturedImage = () => {
         <div className="space-y-4">
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                    <Image className="w-5 h-5" />
+                    <Image className="h-5 w-5" />
                     <h3 className="font-medium">Featured Image</h3>
                 </div>
                 <Button
@@ -49,7 +49,7 @@ export const FeaturedImage = () => {
                     disabled={isGenerating}
                     className="flex items-center gap-2"
                 >
-                    <Sparkles className="w-4 h-4" />
+                    <Sparkles className="h-4 w-4" />
                     {isGenerating ? 'Generating...' : 'Generate with AI'}
                 </Button>
             </div>
@@ -66,7 +66,7 @@ export const FeaturedImage = () => {
                         <div className="h-[200px] w-full">
                             <img
                                 alt="Preview"
-                                className="absolute top-0 left-0 h-full w-full object-cover rounded"
+                                className="absolute top-0 left-0 h-full w-full rounded object-cover"
                                 src={filePreview}
                             />
                         </div>
