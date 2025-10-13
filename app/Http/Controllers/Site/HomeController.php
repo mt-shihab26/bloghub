@@ -40,11 +40,20 @@ class HomeController extends Controller
             ->limit(10)
             ->get();
 
+        $activeDiscussions = Post::query()
+            ->select(['id', 'user_id', 'title', 'slug'])
+            ->with('user:id,username')
+            ->withCount('comments')
+            ->orderByDesc('comments_count')
+            ->limit(5)
+            ->get();
+
         return inertia('site/home', [
             'posts' => $posts,
             'categories' => $categories,
             'users' => $users,
             'tags' => $tags,
+            'activeDiscussions' => $activeDiscussions,
         ]);
     }
 

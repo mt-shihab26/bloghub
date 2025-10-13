@@ -23,7 +23,7 @@ export const SiteLayout = ({
         <BaseLayout>
             <div className="flex flex-col bg-background">
                 <Head title={title} />
-                {header && <Header className="h-[4.5rem]" />}
+                {header && <Header className="h-[3.5rem]" />}
                 <main className={cn('container mx-auto px-4 py-8', className)}>{children}</main>
                 {footer && <Footer className="min-h-[27.5rem]" />}
             </div>

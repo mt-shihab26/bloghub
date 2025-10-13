@@ -9,19 +9,7 @@ export const authorLink = (user?: TUser | null): string => {
     return route('site.profile.show', { user });
 };
 
-export const profileMeLink = (): string => {
-    return route('site.profile.me');
-};
-
-export const profileWriteLink = (): string => {
-    return route('site.write.create');
-};
-
-export const profileSettingsLink = (): string => {
-    return route('site.profile.settings');
-};
-
-export const postLink = (user: TUser, post: TPost, extra?: string): string => {
+export const postLink = (user: Pick<TUser, 'username'>, post: Pick<TPost, 'slug'>, extra?: string): string => {
     const link = route('site.post', { user, post });
     if (!extra) {
         return link;

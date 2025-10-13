@@ -43,3 +43,8 @@ export type TShowPost = TPost & {
     bookmarked_by_user: boolean;
     followed_by_user?: boolean;
 };
+
+export type TActiveDiscussionPost = Pick<TPost, 'id' | 'title' | 'slug' | 'user_id'> & {
+    user: Pick<TUser, 'id' | 'username'>;
+    comments_count: number;
+};

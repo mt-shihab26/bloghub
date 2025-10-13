@@ -117,23 +117,30 @@ Route::prefix('/newsletter')->group(function () {
     Route::post('/subscribe', [NewsletterController::class, 'store'])->name('site.newsletter.subscribe');
 });
 
-// write routes
+Route::prefix('/settings')->group(function () {
+    Route::get('/', [ProfileController::class, 'settings'])->middleware('auth')->name('site.settings.index');
+});
+
+Route::prefix('/reading-list')->middleware('auth')->group(function () {
+    Route::get('/', [WriteController::class, 'create'])->name('site.reading-list.index');
+});
+
 Route::prefix('/write')->middleware('auth')->group(function () {
     Route::get('/{post}', [WriteController::class, 'edit'])->name('site.write.edit');
     Route::patch('/{post}', [WriteController::class, 'update'])->name('site.write.update');
-
     Route::get('/', [WriteController::class, 'create'])->name('site.write.create');
     Route::post('/', [WriteController::class, 'store'])->name('site.write.store');
 });
 
-// profile routes
+Route::prefix('/dashboard')->middleware('auth')->group(function () {
+    Route::get('/', [WriteController::class, 'create'])->name('site.dashboard.index');
+});
+
 Route::prefix('/')->group(function () {
     Route::get('/profile/me', [ProfileController::class, 'me'])->middleware('auth')->name('site.profile.me');
-    Route::get('/profile/settings', [ProfileController::class, 'settings'])->middleware('auth')->name('site.profile.settings');
     Route::get('/{user:username}', [ProfileController::class, 'show'])->name('site.profile.show');
 });
 
-// home routes
 Route::prefix('/')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/{user:username}/{post:slug}', [HomeController::class, 'show'])->name('site.post');
