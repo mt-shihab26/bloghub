@@ -31,16 +31,11 @@ class HomeController extends Controller
             ->limit(10)
             ->get();
 
-        $users = User::query()
-            ->with('image')
-            ->limit(10)
-            ->get();
-
         $tags = Tag::query()
             ->limit(10)
             ->get();
 
-        $activeDiscussions = Post::query()
+        $discussions = Post::query()
             ->select(['id', 'user_id', 'title', 'slug'])
             ->with('user:id,username')
             ->withCount('comments')
@@ -51,9 +46,8 @@ class HomeController extends Controller
         return inertia('site/home', [
             'posts' => $posts,
             'categories' => $categories,
-            'users' => $users,
             'tags' => $tags,
-            'activeDiscussions' => $activeDiscussions,
+            'discussions' => $discussions,
         ]);
     }
 

@@ -44,7 +44,7 @@ export type TShowPost = TPost & {
     followed_by_user?: boolean;
 };
 
-export type TActiveDiscussionPost = Pick<TPost, 'id' | 'title' | 'slug' | 'user_id'> & {
+export type TIndexDiscussion = Pick<TPost, 'id' | 'title' | 'slug' | 'user_id'> & {
     user: Pick<TUser, 'id' | 'username'>;
     comments_count: number;
 };

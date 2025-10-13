@@ -1,10 +1,10 @@
-import type { TActiveDiscussionPost } from '@/types/home';
+import type { TIndexDiscussion } from '@/types/home';
 
 import { postLink } from '@/lib/links';
 
 import { Link } from '@inertiajs/react';
 
-export const ActiveDiscussions = ({ posts }: { posts: TActiveDiscussionPost[] }) => {
+export const Discussions = ({ posts }: { posts: TIndexDiscussion[] }) => {
     if (!posts || posts.length === 0) {
         return null;
     }

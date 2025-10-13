@@ -5,7 +5,7 @@ import { tagLink } from '@/lib/links';
 import { Badge } from '@/components/ui/badge';
 import { Link } from '@inertiajs/react';
 
-export const PopularTags = ({ tags }: { tags: TTag[] }) => {
+export const Tags = ({ tags }: { tags: TTag[] }) => {
     return (
         <div className="overflow-hidden rounded-lg border p-5">
             <h2 className="mb-4 text-lg font-semibold">Popular Tags</h2>

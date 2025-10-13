@@ -27,7 +27,7 @@ const Write = ({ post: passPost }: { post?: TPost }) => {
         if (passPost) {
             setPost(passPost);
         }
-    }, []);
+    }, [passPost, setPost]);
 
     return (
         <SiteLayout title="Write" footer={false}>
