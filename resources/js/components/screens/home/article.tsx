@@ -1,8 +1,7 @@
-import type { TIndexPost } from '@/types/home';
-
-import { formatInitials, formatTimeAgo } from '@/lib/format';
 import {
     authorLink,
+    categoryLink,
+    categoryName,
     imageLink,
     postComments,
     postLikes,
@@ -11,6 +10,10 @@ import {
     togglePostBookmark,
     togglePostLike,
 } from '@/lib/links';
+
+import type { TIndexPost } from '@/types/home';
+
+import { formatInitials, formatTimeAgo } from '@/lib/format';
 import { readingTime } from '@/lib/utils';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -46,6 +49,19 @@ export const Article = ({ post }: { post: TIndexPost }) => {
                         <span className="text-sm text-muted-foreground">•</span>
                         <span className="text-sm text-muted-foreground">{formatTimeAgo(post.published_at)}</span>
                     </div>
+
+                    {post.category && (
+                        <div className="mb-2">
+                            <Link href={categoryLink(post.category)}>
+                                <Badge
+                                    variant="outline"
+                                    className="cursor-pointer hover:bg-primary hover:text-primary-foreground"
+                                >
+                                    {categoryName(post.category)}
+                                </Badge>
+                            </Link>
+                        </div>
+                    )}
 
                     <h2 className="mb-2 text-xl font-semibold">
                         <Link href={postLink(post.user, post)} className="hover:underline">

@@ -33,6 +33,7 @@ export type TShowComment = TComment & {
 export type TShowPost = TPost & {
     user: TUser & { image?: TImage | null };
     image?: TImage | null;
+    category?: TCategory | null;
     tags?: TTag[];
     comments?: TShowComment[];
 

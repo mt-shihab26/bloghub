@@ -4,6 +4,7 @@ import type { TTag } from '@/types/models';
 import { Articles } from '@/components/screens/home/articles';
 import { Categories } from '@/components/screens/home/categories';
 import { Discussions } from '@/components/screens/home/discussions';
+import { Filters } from '@/components/screens/home/filters';
 import { Tags } from '@/components/screens/home/tags';
 import { SiteLayout } from '@/layouts/site-layout';
 
@@ -26,6 +27,7 @@ const Index = ({
                     <Tags tags={tags} />
                 </aside>
                 <main className="scrollbar-hide h-full overflow-y-auto lg:col-span-4">
+                    <Filters />
                     <Articles posts={posts} />
                 </main>
                 <aside className="scrollbar-hide h-full space-y-6 overflow-y-auto lg:col-span-2">

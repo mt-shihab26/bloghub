@@ -56,7 +56,7 @@ class HomeController extends Controller
      */
     public function show(Request $request, User $user, Post $post)
     {
-        $post->load(['image', 'tags'])
+        $post->load(['image', 'category', 'tags'])
             ->loadCount(['likes', 'comments'])
             ->loadExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $request->user()?->id)])
             ->loadExists(['bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $request->user()?->id)]);
