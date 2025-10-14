@@ -12,6 +12,14 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
+        // $this->factory();
+    }
+
+    /**
+     * Use the factory to create categories.
+     */
+    private function factory(): void
+    {
         Category::factory(5)->create();
     }
 }

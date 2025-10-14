@@ -14,6 +14,14 @@ class PostSeeder extends Seeder
      */
     public function run(): void
     {
+        // $this->factory();
+    }
+
+    /**
+     * Use factory to create posts with tags and likes.
+     */
+    private function factory(): void
+    {
         Post::factory()
             ->count(20)
             ->create()

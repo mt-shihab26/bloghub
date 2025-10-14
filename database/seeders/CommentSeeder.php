@@ -9,7 +9,18 @@ use Illuminate\Database\Seeder;
 
 class CommentSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     */
     public function run(): void
+    {
+        // $this->factory();
+    }
+
+    /**
+     * Use the factory to create comments with nested replies.
+     */
+    private function factory(): void
     {
         $firstPost = Post::first();
 
