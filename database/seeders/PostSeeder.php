@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Enums\PostStatus;
 use App\Models\Category;
+use App\Models\Image;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\User;
@@ -1703,10 +1704,12 @@ Authentication is complex—use battle-tested libraries and follow security best
         foreach ($posts as $postData) {
             $user = $users->where('username', $postData['user'])->first();
             $category = $categories->where('slug', $postData['category'])->first();
+            $image = Image::factory()->create();
 
             $post = Post::query()->create([
                 'user_id' => $user->id,
                 'category_id' => $category->id,
+                'image_id' => $image->id,
                 'title' => $postData['title'],
                 'slug' => Str::slug($postData['title']),
                 'excerpt' => $postData['excerpt'],
