@@ -16,7 +16,7 @@ export const SearchBar = () => {
     useDebounce(
         () => {
             const query = search?.trim();
-            if (query) performSearch({ ...params, query });
+            if (query) performSearch({ query, type: params?.type });
         },
         400,
         [search],
