@@ -1,5 +1,3 @@
-import { SearchIcon } from 'lucide-react';
-
 import type { TIndexPost } from '@/types/home';
 import type { TSearchPaginated } from '@/types/search';
 
@@ -7,6 +5,7 @@ import { router } from '@inertiajs/react';
 
 import { Articles } from '@/components/screens/home/articles';
 import { Button } from '@/components/ui/button';
+import { SearchIcon } from 'lucide-react';
 
 export const PostsList = ({ posts }: { posts: TSearchPaginated<TIndexPost> }) => {
     const handleLoadMore = () => {
