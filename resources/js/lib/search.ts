@@ -24,6 +24,7 @@ export const performSearch = ({
             },
             {
                 preserveState: true,
+                preserveScroll: true,
             },
         );
     }

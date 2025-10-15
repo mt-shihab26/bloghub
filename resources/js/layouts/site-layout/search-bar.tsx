@@ -1,7 +1,7 @@
 import type { TSearchParams } from '@/types/search';
 
 import { useDebounce } from '@/hooks/use-debounce';
-import { performSearch } from '@/lib/routes';
+import { performSearch } from '@/lib/search';
 import { router, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 

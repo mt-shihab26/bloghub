@@ -1,39 +1,17 @@
 import type { TSearchFacets, TSearchParams } from '@/types/search';
 
-import { performSearch } from '@/lib/routes';
+import { performSearch } from '@/lib/search';
 import { cn } from '@/lib/utils';
 
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { Skeleton } from '@/components/ui/skeleton';
 import { FolderIcon, TagIcon, UserIcon } from 'lucide-react';
 
-export const FiltersFacets = ({
-    params,
-    facets,
-    loading = false,
-}: {
-    params: TSearchParams;
-    facets: TSearchFacets;
-    loading?: boolean;
-}) => {
+export const FiltersFacets = ({ params, facets }: { params: TSearchParams; facets: TSearchFacets }) => {
     return (
         <div className="space-y-4">
-            {loading && (
-                <Card>
-                    <CardHeader>
-                        <Skeleton className="h-5 w-24" />
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                        {[...Array(5)].map((_, i) => (
-                            <Skeleton key={i} className="h-8 w-full" />
-                        ))}
-                    </CardContent>
-                </Card>
-            )}
-
-            {!loading && facets.authors && facets.authors.length > 0 && (
+            {facets?.authors && facets.authors.length > 0 && (
                 <Card>
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2 text-base">
@@ -71,7 +49,7 @@ export const FiltersFacets = ({
                 </Card>
             )}
 
-            {!loading && facets.categories && facets.categories.length > 0 && (
+            {facets?.categories && facets.categories.length > 0 && (
                 <Card>
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2 text-base">
@@ -109,7 +87,7 @@ export const FiltersFacets = ({
                 </Card>
             )}
 
-            {!loading && facets.tags && facets.tags.length > 0 && (
+            {facets?.tags && facets.tags.length > 0 && (
                 <Card>
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2 text-base">

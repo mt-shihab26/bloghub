@@ -22,15 +22,13 @@ const Search = ({
 }) => {
     return (
         <SiteLayout title={params.query ? `Search results for "${params.query}"` : 'Search'} footer={false}>
-            <div className="space-y-6">
+            <div className="w-full space-y-6">
                 <FiltersType params={params} />
 
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
-                    {params.type === 'posts' && (
-                        <aside className="space-y-4">
-                            <FiltersFacets params={params} facets={facets} />
-                        </aside>
-                    )}
+                    <aside className="space-y-4">
+                        <FiltersFacets params={params} facets={facets} />
+                    </aside>
 
                     <div className={cn(params.type === 'posts' ? 'lg:col-span-3' : 'lg:col-span-4')}>
                         {params.query ? (
