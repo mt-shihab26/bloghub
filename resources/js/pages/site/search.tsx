@@ -17,8 +17,8 @@ const Search = ({
     posts,
 }: {
     params: TSearchParams;
-    facets: TSearchFacets;
-    posts: TSearchPaginated<TIndexPost>;
+    facets?: TSearchFacets;
+    posts?: TSearchPaginated<TIndexPost>;
 }) => {
     return (
         <SiteLayout title={params.query ? `Search results for "${params.query}"` : 'Search'} footer={false}>
@@ -26,9 +26,7 @@ const Search = ({
                 <FiltersType params={params} />
 
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
-                    <aside className="space-y-4">
-                        <FiltersFacets params={params} facets={facets} />
-                    </aside>
+                    <aside className="space-y-4">{facets && <FiltersFacets params={params} facets={facets} />}</aside>
 
                     <div className={cn(params.type === 'posts' ? 'lg:col-span-3' : 'lg:col-span-4')}>
                         {params.query ? (
@@ -39,14 +37,14 @@ const Search = ({
                                             Search results for &quot;{params.query}&quot;
                                         </h1>
                                         <p className="mt-2 text-muted-foreground">
-                                            Found {posts.total} {posts.total === 1 ? 'result' : 'results'}
+                                            Found {posts?.total || 0} {posts?.total === 1 ? 'result' : 'results'}
                                         </p>
                                     </div>
 
                                     <SortTabs params={params} />
                                 </div>
 
-                                <PostsList posts={posts} />
+                                {posts && <PostsList posts={posts} />}
                             </>
                         ) : (
                             <div className="rounded-lg border border-dashed p-12 text-center">
