@@ -16,6 +16,7 @@ use App\Http\Controllers\Site\HomeController;
 use App\Http\Controllers\Site\NewsletterController;
 use App\Http\Controllers\Site\PostController;
 use App\Http\Controllers\Site\ProfileController;
+use App\Http\Controllers\Site\SearchController;
 use App\Http\Controllers\Site\TagController;
 use App\Http\Controllers\Site\UserController;
 use App\Http\Controllers\Site\WriteController;
@@ -134,6 +135,10 @@ Route::prefix('/write')->middleware('auth')->group(function () {
 
 Route::prefix('/dashboard')->middleware('auth')->group(function () {
     Route::get('/', [WriteController::class, 'create'])->name('site.dashboard.index');
+});
+
+Route::prefix('/search')->group(function () {
+    Route::get('/', [SearchController::class, 'index'])->name('site.search.index');
 });
 
 Route::prefix('/')->group(function () {
