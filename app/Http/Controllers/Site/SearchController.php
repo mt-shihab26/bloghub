@@ -101,7 +101,8 @@ class SearchController extends Controller
         $this->applySorting($postsQuery, $sort, $query);
 
         $posts = $postsQuery->paginate(10)->withQueryString();
-        $facets = $query ? $this->generateFacets($query, $myPostsOnly ? $request->user()?->id : null) : null;
+
+        $facets = $query ? $this->generateFacetsFromPosts($postsQuery->get()) : null;
 
         return [
             'data' => $posts,
@@ -199,55 +200,79 @@ class SearchController extends Controller
     }
 
     /**
-     * Generate facets for post search results.
+     * Generate facets from the paginated posts collection.
      */
-    protected function generateFacets(string $query, ?string $userId = null): array
+    protected function generateFacetsFromPosts($posts): array
     {
-        $facetsQuery = Post::query()
-            ->when($userId, function ($q) use ($userId) {
-                $q->where('posts.user_id', $userId);
-            })
-            ->when($query, function ($q) use ($query) {
-                $q->where(function ($q) use ($query) {
-                    $q->where('posts.title', 'like', "%{$query}%")
-                        ->orWhere('posts.excerpt', 'like', "%{$query}%")
-                        ->orWhere('posts.content', 'like', "%{$query}%");
-                });
-            });
+        $authors = [];
+        $categories = [];
+        $tags = [];
 
-        $facets = [
-            'categories' => (clone $facetsQuery)
-                ->join('categories', 'posts.category_id', '=', 'categories.id')
-                ->selectRaw('categories.id, categories.name, categories.slug, COUNT(posts.id) as count')
-                ->groupBy('categories.id', 'categories.name', 'categories.slug')
-                ->orderByDesc('count')
-                ->limit(10)
-                ->get()
-                ->toArray(),
+        foreach ($posts as $post) {
+            // Collect authors
+            if ($post->user) {
+                $username = $post->user->username;
+                if (! isset($authors[$username])) {
+                    $authors[$username] = [
+                        'id' => $post->user->id,
+                        'name' => $post->user->name,
+                        'username' => $post->user->username,
+                        'count' => 0,
+                    ];
+                }
+                $authors[$username]['count']++;
+            }
 
-            'tags' => (clone $facetsQuery)
-                ->join('post_tag', 'posts.id', '=', 'post_tag.post_id')
-                ->join('tags', 'post_tag.tag_id', '=', 'tags.id')
-                ->selectRaw('tags.id, tags.name, tags.slug, COUNT(DISTINCT posts.id) as count')
-                ->groupBy('tags.id', 'tags.name', 'tags.slug')
-                ->orderByDesc('count')
-                ->limit(10)
-                ->get()
-                ->toArray(),
-        ];
+            // Collect categories
+            if ($post->category) {
+                $categorySlug = $post->category->slug;
+                if (! isset($categories[$categorySlug])) {
+                    $categories[$categorySlug] = [
+                        'id' => $post->category->id,
+                        'name' => $post->category->name,
+                        'slug' => $post->category->slug,
+                        'count' => 0,
+                    ];
+                }
+                $categories[$categorySlug]['count']++;
+            }
 
-        // Only include authors facet if not filtering by user
-        if (! $userId) {
-            $facets['authors'] = (clone $facetsQuery)
-                ->join('users', 'posts.user_id', '=', 'users.id')
-                ->selectRaw('users.id, users.name, users.username, COUNT(posts.id) as count')
-                ->groupBy('users.id', 'users.name', 'users.username')
-                ->orderByDesc('count')
-                ->limit(10)
-                ->get()
-                ->toArray();
+            // Collect tags
+            if ($post->tags) {
+                foreach ($post->tags as $tag) {
+                    $tagSlug = $tag->slug;
+                    if (! isset($tags[$tagSlug])) {
+                        $tags[$tagSlug] = [
+                            'id' => $tag->id,
+                            'name' => $tag->name,
+                            'slug' => $tag->slug,
+                            'count' => 0,
+                        ];
+                    }
+                    $tags[$tagSlug]['count']++;
+                }
+            }
         }
 
-        return $facets;
+        // Sort by count and take top 10
+        $sortByCount = fn ($a, $b) => $b['count'] <=> $a['count'];
+
+        $authors = array_values($authors);
+        usort($authors, $sortByCount);
+        $authors = array_slice($authors, 0, 10);
+
+        $categories = array_values($categories);
+        usort($categories, $sortByCount);
+        $categories = array_slice($categories, 0, 10);
+
+        $tags = array_values($tags);
+        usort($tags, $sortByCount);
+        $tags = array_slice($tags, 0, 10);
+
+        return [
+            'authors' => $authors,
+            'categories' => $categories,
+            'tags' => $tags,
+        ];
     }
 }

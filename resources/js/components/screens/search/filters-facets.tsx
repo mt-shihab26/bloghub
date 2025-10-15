@@ -11,7 +11,7 @@ import { FolderIcon, TagIcon, UserIcon } from 'lucide-react';
 export const FiltersFacets = ({ params, facets }: { params: TSearchParams; facets: TSearchFacets }) => {
     return (
         <div className="space-y-4">
-            {facets?.authors && facets.authors.length > 0 && (
+            {facets?.authors && params.type !== 'my-posts' && facets.authors.length > 0 && (
                 <Card>
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2 text-base">
