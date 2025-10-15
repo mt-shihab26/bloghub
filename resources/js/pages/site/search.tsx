@@ -11,11 +11,11 @@ import type { TIndexPost } from '@/types/home';
 
 import { cn } from '@/lib/utils';
 
+import { ArticlesList } from '@/components/screens/search/articles-list';
+import { AuthorsList } from '@/components/screens/search/authors-list';
 import { CategoriesList } from '@/components/screens/search/categories-list';
 import { FiltersFacets } from '@/components/screens/search/filters-facets';
 import { FiltersType } from '@/components/screens/search/filters-type';
-import { PeopleList } from '@/components/screens/search/people-list';
-import { PostsList } from '@/components/screens/search/posts-list';
 import { SortTabs } from '@/components/screens/search/sort-tabs';
 import { TagsList } from '@/components/screens/search/tags-list';
 import { SiteLayout } from '@/layouts/site-layout';
@@ -83,9 +83,9 @@ const Search = ({
                                 </div>
 
                                 {(params.type === 'articles' || params.type === 'my-articles') && articles && (
-                                    <PostsList articles={articles} />
+                                    <ArticlesList articles={articles} />
                                 )}
-                                {params.type === 'authors' && authors && <PeopleList authors={authors} />}
+                                {params.type === 'authors' && authors && <AuthorsList authors={authors} />}
                                 {params.type === 'categories' && categories && (
                                     <CategoriesList categories={categories} />
                                 )}

@@ -7,7 +7,7 @@ import { Articles } from '@/components/screens/home/articles';
 import { Button } from '@/components/ui/button';
 import { SearchIcon } from 'lucide-react';
 
-export const PostsList = ({ articles }: { articles: TSearchPaginated<TIndexPost> }) => {
+export const ArticlesList = ({ articles }: { articles: TSearchPaginated<TIndexPost> }) => {
     const handleLoadMore = () => {
         if (articles.next_page_url) {
             router.get(

@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
 import { SearchIcon, UsersIcon } from 'lucide-react';
 
-export const PeopleList = ({ authors }: { authors: TSearchPaginated<TSearchUser> }) => {
+export const AuthorsList = ({ authors }: { authors: TSearchPaginated<TSearchUser> }) => {
     const { auth } = usePage<TPublicPage>().props;
 
     const handleLoadMore = () => {
