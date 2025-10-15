@@ -21,3 +21,9 @@ export type TSearchFacets = {
     categories?: TFacetCategory[];
     tags?: TFacetTag[];
 };
+
+export type TSearchPaginated<T> = {
+    data: T[];
+    total: number;
+    next_page_url: string | null;
+};
