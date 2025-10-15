@@ -8,9 +8,14 @@ use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
+    /**
+     * Handle the incoming request.
+     */
     public function index(Request $request)
     {
         $query = $request->input('q', '');
+        $sort = $request->input('sort', 'relevant');
+        $type = $request->input('type', 'posts');
 
         $posts = Post::query()
             ->with(['user.image', 'image', 'category', 'tags'])
@@ -25,13 +30,37 @@ class SearchController extends Controller
                         ->orWhere('content', 'like', "%{$query}%");
                 });
             })
-            ->latest('published_at')
+            ->when($type === 'my-posts' && $request->user(), function ($q) use ($request) {
+                $q->where('user_id', $request->user()->id);
+            })
+            ->when($sort === 'newest', function ($q) {
+                $q->latest('published_at');
+            })
+            ->when($sort === 'oldest', function ($q) {
+                $q->oldest('published_at');
+            })
+            ->when($sort === 'relevant' && $query, function ($q) use ($query) {
+                // For relevant sorting, prioritize title matches over content matches
+                $q->orderByRaw('
+                    CASE
+                        WHEN title LIKE ? THEN 1
+                        WHEN excerpt LIKE ? THEN 2
+                        ELSE 3
+                    END
+                ', ["%{$query}%", "%{$query}%"])
+                    ->latest('published_at');
+            })
+            ->when($sort === 'relevant' && ! $query, function ($q) {
+                $q->latest('published_at');
+            })
             ->paginate(10)
             ->withQueryString();
 
         return inertia('site/search', [
             'posts' => $posts,
             'query' => $query,
+            'sort' => $sort,
+            'type' => $type,
         ]);
     }
 }

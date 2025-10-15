@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
 import { Notification } from './notification';
 import { Profile } from './profile';
-import { Search } from './search';
+import { SearchBar } from './search-bar';
 
 export const Header = ({ className }: { className: string }) => {
     const { name, auth } = usePage<TPublicPage>().props;
@@ -26,7 +26,7 @@ export const Header = ({ className }: { className: string }) => {
                         <Link href="/" className="text-2xl font-bold text-primary">
                             {name}
                         </Link>
-                        <Search />
+                        <SearchBar />
                     </div>
                     <div className="flex items-center space-x-4">
                         {user ? (
