@@ -70,39 +70,29 @@ class SearchController extends Controller
     /**
      * Search for posts with facets.
      */
-    protected function searchArticles(Request $request, string $query, string $sort, ?string $author, ?string $category, ?string $tag, bool $myPostsOnly = false): array
+    private function searchArticles(Request $request, string $query, string $sort, ?string $author, ?string $category, ?string $tag, bool $myPostsOnly = false): array
     {
-        $postsQuery = Post::query()
+        $baseQuery = Post::query()
             ->with(['user.image', 'image', 'category', 'tags'])
             ->withCount(['likes', 'comments'])
             ->withExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $request->user()?->id)])
             ->withExists(['comments as commented_by_user' => fn ($q) => $q->where('user_id', $request->user()?->id)])
             ->withExists(['bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $request->user()?->id)])
-            ->when($myPostsOnly && $request->user(), function ($q) use ($request) {
-                $q->where('user_id', $request->user()->id);
-            })
-            ->when($query, function ($q) use ($query) {
-                $q->where(function ($q) use ($query) {
-                    $q->where('title', 'like', "%{$query}%")
-                        ->orWhere('excerpt', 'like', "%{$query}%")
-                        ->orWhere('content', 'like', "%{$query}%");
-                });
-            })
-            ->when($author, function ($q) use ($author) {
-                $q->whereHas('user', fn ($q) => $q->where('username', $author));
-            })
-            ->when($category, function ($q) use ($category) {
-                $q->whereHas('category', fn ($q) => $q->where('slug', $category));
-            })
-            ->when($tag, function ($q) use ($tag) {
-                $q->whereHas('tags', fn ($q) => $q->where('slug', $tag));
-            });
+            ->when($myPostsOnly && $request->user(), fn ($q) => $q->where('user_id', $request->user()->id))
+            ->when($query, fn ($q) => $q->where(fn ($q) => $q->where('title', 'like', "%{$query}%")
+                ->orWhere('excerpt', 'like', "%{$query}%")
+                ->orWhere('content', 'like', "%{$query}%")));
+
+        $postsQuery = (clone $baseQuery)
+            ->when($author, fn ($q) => $q->whereHas('user', fn ($q) => $q->where('username', $author)))
+            ->when($category, fn ($q) => $q->whereHas('category', fn ($q) => $q->where('slug', $category)))
+            ->when($tag, fn ($q) => $q->whereHas('tags', fn ($q) => $q->where('slug', $tag)));
 
         $this->applySorting($postsQuery, $sort, $query);
 
         $posts = $postsQuery->paginate(10)->withQueryString();
 
-        $facets = $query ? $this->generateFacetsFromPosts($postsQuery->get()) : null;
+        $facets = $query ? $this->generateFacetsFromPosts((clone $baseQuery)->get()) : null;
 
         return [
             'data' => $posts,
@@ -113,7 +103,7 @@ class SearchController extends Controller
     /**
      * Search for people/users.
      */
-    protected function searchPeople(string $query, string $sort): array
+    private function searchPeople(string $query, string $sort): array
     {
         $usersQuery = User::query()
             ->with(['image'])
@@ -138,7 +128,7 @@ class SearchController extends Controller
     /**
      * Search for tags.
      */
-    protected function searchTags(string $query, string $sort): array
+    private function searchTags(string $query, string $sort): array
     {
         $tagsQuery = Tag::query()
             ->withCount(['posts'])
@@ -158,7 +148,7 @@ class SearchController extends Controller
     /**
      * Search for categories.
      */
-    protected function searchCategories(string $query, string $sort): array
+    private function searchCategories(string $query, string $sort): array
     {
         $categoriesQuery = Category::query()
             ->withCount(['posts'])
@@ -181,7 +171,7 @@ class SearchController extends Controller
     /**
      * Apply sorting to a query.
      */
-    protected function applySorting($query, string $sort, string $searchQuery): void
+    private function applySorting($query, string $sort, string $searchQuery): void
     {
         match ($sort) {
             'newest' => $query->latest('published_at'),
@@ -202,7 +192,7 @@ class SearchController extends Controller
     /**
      * Generate facets from the paginated posts collection.
      */
-    protected function generateFacetsFromPosts($posts): array
+    private function generateFacetsFromPosts($posts): array
     {
         $authors = [];
         $categories = [];
