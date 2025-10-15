@@ -9,8 +9,8 @@ export type TFacetTag = Pick<TTag, 'id' | 'name' | 'slug'> & { count: number };
 
 export type TSearchParams = {
     query?: string;
-    sort?: TSearchSort;
     type?: TSearchType;
+    sort?: TSearchSort;
     author?: string | null;
     category?: string | null;
     tag?: string | null;
