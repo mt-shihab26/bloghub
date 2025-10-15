@@ -6,6 +6,8 @@ import { useEffect, useRef, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { SearchIcon, XIcon } from 'lucide-react';
 
+const TIMEOUT_DELAY_MILLISECONDS = 250;
+
 export const SearchBar = () => {
     const { props } = usePage<{ query?: string; sort?: TSearchSort; type?: TSearchType }>();
     const { query = '', sort = 'relevant', type = 'posts' } = props;
@@ -15,9 +17,10 @@ export const SearchBar = () => {
     const debounceTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const performSearch = (searchQuery: string) => {
-        if (searchQuery.trim()) {
+        const q = searchQuery.trim();
+        if (q) {
             router.get(route('site.search.index'), {
-                q: searchQuery.trim(),
+                q,
                 sort: sort !== 'relevant' ? sort : undefined,
                 type: type !== 'posts' ? type : undefined,
             });
@@ -31,8 +34,10 @@ export const SearchBar = () => {
             clearTimeout(debounceTimeoutRef.current);
         }
 
-        if (value.trim()) {
-            debounceTimeoutRef.current = setTimeout(() => performSearch(value), 500);
+        const searchQuery = value.trim();
+
+        if (searchQuery) {
+            debounceTimeoutRef.current = setTimeout(() => performSearch(searchQuery), TIMEOUT_DELAY_MILLISECONDS);
         }
     };
 
@@ -56,7 +61,7 @@ export const SearchBar = () => {
             <SearchIcon className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
             <Input
                 placeholder="Search articles..."
-                value={query}
+                value={search}
                 onChange={(e) => handleSearchChange(e.target.value)}
                 className="w-160 pr-10 pl-10"
             />
