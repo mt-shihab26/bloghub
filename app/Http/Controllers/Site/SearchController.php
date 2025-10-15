@@ -100,7 +100,7 @@ class SearchController extends Controller
                     ->toArray(),
 
                 'tags' => (clone $facetsQuery)
-                    ->jFacetsoin('post_tag', 'posts.id', '=', 'post_tag.post_id')
+                    ->join('post_tag', 'posts.id', '=', 'post_tag.post_id')
                     ->join('tags', 'post_tag.tag_id', '=', 'tags.id')
                     ->selectRaw('tags.id, tags.name, tags.slug, COUNT(DISTINCT posts.id) as count')
                     ->groupBy('tags.id', 'tags.name', 'tags.slug')

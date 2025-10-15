@@ -11,7 +11,7 @@ import { SearchIcon, XIcon } from 'lucide-react';
 export const SearchBar = () => {
     const { params } = usePage<{ params: TSearchParams }>().props;
 
-    const [search, setSearch] = useState(params.query || '');
+    const [search, setSearch] = useState(params?.query || '');
 
     useDebounce(
         () => {

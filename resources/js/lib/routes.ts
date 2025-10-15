@@ -18,6 +18,9 @@ export const performSearch = ({
                 q,
                 sort: sort !== 'relevant' ? sort : undefined,
                 type: type !== 'posts' ? type : undefined,
+                author: author || undefined,
+                category: category || undefined,
+                tag: tag || undefined,
             },
             {
                 preserveState: true,
