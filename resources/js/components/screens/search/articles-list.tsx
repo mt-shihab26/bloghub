@@ -16,7 +16,7 @@ export const ArticlesList = ({ articles }: { articles: TSearchPaginated<TIndexPo
                 {
                     preserveState: true,
                     preserveScroll: true,
-                    only: ['posts'],
+                    only: ['articles'],
                 },
             );
         }

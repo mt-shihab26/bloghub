@@ -21,7 +21,7 @@ export const AuthorsList = ({ authors }: { authors: TSearchPaginated<TSearchUser
                 {
                     preserveState: true,
                     preserveScroll: true,
-                    only: ['people'],
+                    only: ['authors'],
                 },
             );
         }
