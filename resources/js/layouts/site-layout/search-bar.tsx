@@ -1,31 +1,20 @@
 import type { TSearchSort, TSearchType } from '@/types/header';
 
+import { performSearch } from '@/lib/routes';
 import { router, usePage } from '@inertiajs/react';
 import { useEffect, useRef, useState } from 'react';
 
 import { Input } from '@/components/ui/input';
 import { SearchIcon, XIcon } from 'lucide-react';
 
-const TIMEOUT_DELAY_MILLISECONDS = 250;
+const TIMEOUT_DELAY_MILLISECONDS = 350;
 
 export const SearchBar = () => {
-    const { props } = usePage<{ query?: string; sort?: TSearchSort; type?: TSearchType }>();
-    const { query = '', sort = 'relevant', type = 'posts' } = props;
+    const { query, sort, type } = usePage<{ query?: string; sort?: TSearchSort; type?: TSearchType }>().props;
 
     const [search, setSearch] = useState(query);
 
     const debounceTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-    const performSearch = (searchQuery: string) => {
-        const q = searchQuery.trim();
-        if (q) {
-            router.get(route('site.search.index'), {
-                q,
-                sort: sort !== 'relevant' ? sort : undefined,
-                type: type !== 'posts' ? type : undefined,
-            });
-        }
-    };
 
     const handleSearchChange = (value: string) => {
         setSearch(value);
@@ -37,7 +26,10 @@ export const SearchBar = () => {
         const searchQuery = value.trim();
 
         if (searchQuery) {
-            debounceTimeoutRef.current = setTimeout(() => performSearch(searchQuery), TIMEOUT_DELAY_MILLISECONDS);
+            debounceTimeoutRef.current = setTimeout(
+                () => performSearch(searchQuery, sort, type),
+                TIMEOUT_DELAY_MILLISECONDS,
+            );
         }
     };
 
