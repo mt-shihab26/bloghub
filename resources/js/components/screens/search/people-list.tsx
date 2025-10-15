@@ -10,13 +10,13 @@ import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
 import { SearchIcon, UsersIcon } from 'lucide-react';
 
-export const PeopleList = ({ people }: { people: TSearchPaginated<TSearchUser> }) => {
+export const PeopleList = ({ authors }: { authors: TSearchPaginated<TSearchUser> }) => {
     const { auth } = usePage<TPublicPage>().props;
 
     const handleLoadMore = () => {
-        if (people.next_page_url) {
+        if (authors.next_page_url) {
             router.get(
-                people.next_page_url,
+                authors.next_page_url,
                 {},
                 {
                     preserveState: true,
@@ -29,10 +29,10 @@ export const PeopleList = ({ people }: { people: TSearchPaginated<TSearchUser> }
 
     return (
         <>
-            {people.data.length > 0 ? (
+            {authors.data.length > 0 ? (
                 <>
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        {people.data.map((user) => (
+                        {authors.data.map((user) => (
                             <div key={user.id} className="overflow-hidden rounded-lg border p-6">
                                 <div className="flex items-start gap-4">
                                     <Avatar className="h-16 w-16">
@@ -79,7 +79,7 @@ export const PeopleList = ({ people }: { people: TSearchPaginated<TSearchUser> }
                         ))}
                     </div>
 
-                    {people.next_page_url && (
+                    {authors.next_page_url && (
                         <div className="mt-8 flex justify-center">
                             <Button onClick={handleLoadMore} variant="outline" size="lg">
                                 Load More

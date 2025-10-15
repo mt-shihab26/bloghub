@@ -1,7 +1,7 @@
 import type { TCategory, TTag, TUser } from './models';
 
 export type TSearchSort = 'relevant' | 'newest' | 'oldest';
-export type TSearchType = 'posts' | 'people' | 'tags' | 'categories' | 'my-posts';
+export type TSearchType = 'articles' | 'authors' | 'tags' | 'categories' | 'my-articles';
 
 export type TFacetUser = Pick<TUser, 'id' | 'name' | 'username'> & { count: number };
 export type TFacetCategory = Pick<TCategory, 'id' | 'name' | 'slug'> & { count: number };

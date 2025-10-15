@@ -24,15 +24,15 @@ import { SearchIcon } from 'lucide-react';
 const Search = ({
     params,
     facets,
-    posts,
-    people,
+    articles,
+    authors,
     categories,
     tags,
 }: {
     params: TSearchParams;
     facets?: TSearchFacets;
-    posts?: TSearchPaginated<TIndexPost>;
-    people?: TSearchPaginated<TSearchUser>;
+    articles?: TSearchPaginated<TIndexPost>;
+    authors?: TSearchPaginated<TSearchUser>;
     categories?: TSearchPaginated<TSearchCategory>;
     tags?: TSearchPaginated<TSearchTag>;
 }) => {
@@ -46,7 +46,9 @@ const Search = ({
 
                     <div
                         className={cn(
-                            params.type === 'posts' || params.type === 'my-posts' ? 'lg:col-span-3' : 'lg:col-span-4',
+                            params.type === 'articles' || params.type === 'my-articles'
+                                ? 'lg:col-span-3'
+                                : 'lg:col-span-4',
                         )}
                     >
                         {params.query ? (
@@ -58,17 +60,17 @@ const Search = ({
                                         </h1>
                                         <p className="mt-2 text-muted-foreground">
                                             Found{' '}
-                                            {params.type === 'posts' || params.type === 'my-posts'
-                                                ? posts?.total || 0
-                                                : params.type === 'people'
-                                                  ? people?.total || 0
+                                            {params.type === 'articles' || params.type === 'my-articles'
+                                                ? articles?.total || 0
+                                                : params.type === 'authors'
+                                                  ? authors?.total || 0
                                                   : params.type === 'categories'
                                                     ? categories?.total || 0
                                                     : tags?.total || 0}{' '}
-                                            {(params.type === 'posts' || params.type === 'my-posts'
-                                                ? posts?.total || 0
-                                                : params.type === 'people'
-                                                  ? people?.total || 0
+                                            {(params.type === 'articles' || params.type === 'my-articles'
+                                                ? articles?.total || 0
+                                                : params.type === 'authors'
+                                                  ? authors?.total || 0
                                                   : params.type === 'categories'
                                                     ? categories?.total || 0
                                                     : tags?.total || 0) === 1
@@ -80,10 +82,10 @@ const Search = ({
                                     <SortTabs params={params} />
                                 </div>
 
-                                {(params.type === 'posts' || params.type === 'my-posts') && posts && (
-                                    <PostsList posts={posts} />
+                                {(params.type === 'articles' || params.type === 'my-articles') && articles && (
+                                    <PostsList articles={articles} />
                                 )}
-                                {params.type === 'people' && people && <PeopleList people={people} />}
+                                {params.type === 'authors' && authors && <PeopleList authors={authors} />}
                                 {params.type === 'categories' && categories && (
                                     <CategoriesList categories={categories} />
                                 )}

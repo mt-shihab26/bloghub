@@ -7,11 +7,11 @@ import { Articles } from '@/components/screens/home/articles';
 import { Button } from '@/components/ui/button';
 import { SearchIcon } from 'lucide-react';
 
-export const PostsList = ({ posts }: { posts: TSearchPaginated<TIndexPost> }) => {
+export const PostsList = ({ articles }: { articles: TSearchPaginated<TIndexPost> }) => {
     const handleLoadMore = () => {
-        if (posts.next_page_url) {
+        if (articles.next_page_url) {
             router.get(
-                posts.next_page_url,
+                articles.next_page_url,
                 {},
                 {
                     preserveState: true,
@@ -24,11 +24,11 @@ export const PostsList = ({ posts }: { posts: TSearchPaginated<TIndexPost> }) =>
 
     return (
         <>
-            {posts.data.length > 0 ? (
+            {articles.data.length > 0 ? (
                 <>
-                    <Articles posts={posts.data} />
+                    <Articles posts={articles.data} />
 
-                    {posts.next_page_url && (
+                    {articles.next_page_url && (
                         <div className="mt-8 flex justify-center">
                             <Button onClick={handleLoadMore} variant="outline" size="lg">
                                 Load More

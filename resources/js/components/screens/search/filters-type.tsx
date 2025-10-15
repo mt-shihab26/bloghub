@@ -11,16 +11,16 @@ export const FiltersType = ({ params }: { params: TSearchParams }) => {
     const { auth } = usePage<TPublicPage>().props;
 
     const options: { type: TSearchType; label: string; icon: LucideIcon }[] = [
-        { type: 'posts', label: 'Posts', icon: FileTextIcon },
-        { type: 'people', label: 'People', icon: UserIcon },
+        { type: 'articles', label: 'Articles', icon: FileTextIcon },
+        { type: 'authors', label: 'Authors', icon: UserIcon },
         { type: 'categories', label: 'Categories', icon: FolderIcon },
         { type: 'tags', label: 'Tags', icon: TagIcon },
     ];
 
     if (auth?.user) {
         options.push({
-            type: 'my-posts',
-            label: 'My Posts',
+            type: 'my-articles',
+            label: 'My Articles',
             icon: BookmarkIcon,
         });
     }
@@ -35,7 +35,7 @@ export const FiltersType = ({ params }: { params: TSearchParams }) => {
                     return (
                         <button
                             key={option.type}
-                            onClick={() => performSearch({ ...params, type: option.type })}
+                            onClick={() => performSearch({ query: params.query, type: option.type })}
                             className={cn(
                                 'flex shrink-0 items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors',
                                 active

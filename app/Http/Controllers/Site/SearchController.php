@@ -17,8 +17,8 @@ class SearchController extends Controller
     public function index(Request $request)
     {
         $query = $request->input('q', '');
+        $type = $request->input('type', 'articles');
         $sort = $request->input('sort', 'relevant');
-        $type = $request->input('type', 'posts');
         $author = $request->input('author');
         $category = $request->input('category');
         $tag = $request->input('tag');
@@ -33,22 +33,22 @@ class SearchController extends Controller
         ];
 
         $facets = null;
-        $posts = null;
-        $people = null;
+        $articles = null;
+        $authors = null;
         $categories = null;
         $tags = null;
 
-        if ($type === 'posts') {
-            $results = $this->searchPosts($request, $query, $sort, $author, $category, $tag, false);
-            $posts = $results['data'] ?? null;
+        if ($type === 'articles') {
+            $results = $this->searchArticles($request, $query, $sort, $author, $category, $tag, false);
+            $articles = $results['data'] ?? null;
             $facets = $results['facets'] ?? null;
-        } elseif ($type === 'my-posts' && $request->user()) {
-            $results = $this->searchPosts($request, $query, $sort, $author, $category, $tag, true);
-            $posts = $results['data'] ?? null;
+        } elseif ($type === 'my-articles' && $request->user()) {
+            $results = $this->searchArticles($request, $query, $sort, $author, $category, $tag, true);
+            $articles = $results['data'] ?? null;
             $facets = $results['facets'] ?? null;
-        } elseif ($type === 'people') {
+        } elseif ($type === 'authors') {
             $results = $this->searchPeople($query, $sort);
-            $people = $results['data'] ?? null;
+            $authors = $results['data'] ?? null;
         } elseif ($type === 'categories') {
             $results = $this->searchCategories($query, $sort);
             $categories = $results['data'] ?? null;
@@ -60,8 +60,8 @@ class SearchController extends Controller
         return inertia('site/search', [
             'params' => $params,
             'facets' => $facets,
-            'posts' => $posts,
-            'people' => $people,
+            'articles' => $articles,
+            'authors' => $authors,
             'categories' => $categories,
             'tags' => $tags,
         ]);
@@ -70,7 +70,7 @@ class SearchController extends Controller
     /**
      * Search for posts with facets.
      */
-    protected function searchPosts(Request $request, string $query, string $sort, ?string $author, ?string $category, ?string $tag, bool $myPostsOnly = false): array
+    protected function searchArticles(Request $request, string $query, string $sort, ?string $author, ?string $category, ?string $tag, bool $myPostsOnly = false): array
     {
         $postsQuery = Post::query()
             ->with(['user.image', 'image', 'category', 'tags'])

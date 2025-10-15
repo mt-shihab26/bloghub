@@ -4,7 +4,7 @@ import { router } from '@inertiajs/react';
 
 export const performSearch = ({
     query = '',
-    type = 'posts',
+    type = 'articles',
     sort = 'relevant',
     author = null,
     category = null,
@@ -16,7 +16,7 @@ export const performSearch = ({
             route('site.search.index'),
             {
                 q,
-                type: type !== 'posts' ? type : undefined,
+                type: type !== 'articles' ? type : undefined,
                 sort: sort !== 'relevant' ? sort : undefined,
                 author: author || undefined,
                 category: category || undefined,
