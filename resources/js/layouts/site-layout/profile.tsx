@@ -20,7 +20,7 @@ export const Profile = ({ user, image }: { user: TUser; image?: TImage }) => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="h-8 w-8 rounded-full p-0">
+                <Button variant="ghost" size="icon" className="rounded-full">
                     <Avatar className="h-8 w-8">
                         <AvatarImage src={imageLink(image)} alt={user.name} />
                         <AvatarFallback>{formatInitials(user.name)}</AvatarFallback>
