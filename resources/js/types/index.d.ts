@@ -1,7 +1,7 @@
 import type { Config } from 'ziggy-js';
 import type { TImage, TUser } from './models';
 
-export type TPublicPage<T = {}> = {
+export type TPublicPage<T extends object = object> = {
     name: string;
     quote: { message: string; author: string };
     auth: { user?: TUser; image?: TImage };
@@ -9,7 +9,7 @@ export type TPublicPage<T = {}> = {
     sidebarOpen: boolean;
 } & T;
 
-export type TAuthPage<T = {}> = {
+export type TAuthPage<T extends object = object> = {
     name: string;
     quote: { message: string; author: string };
     auth: { user: TUser; image?: TImage };
