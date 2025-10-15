@@ -28,7 +28,11 @@ const Search = ({
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
                     <aside className="space-y-4">{facets && <FiltersFacets params={params} facets={facets} />}</aside>
 
-                    <div className={cn(params.type === 'posts' ? 'lg:col-span-3' : 'lg:col-span-4')}>
+                    <div
+                        className={cn(
+                            params.type === 'posts' || params.type === 'my-posts' ? 'lg:col-span-3' : 'lg:col-span-4',
+                        )}
+                    >
                         {params.query ? (
                             <>
                                 <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

@@ -42,7 +42,7 @@ class SearchController extends Controller
             $results = $this->searchPosts($request, $query, $sort, $author, $category, $tag, false);
             $posts = $results['data'] ?? null;
             $facets = $results['facets'] ?? null;
-        } elseif ($type === 'my-posts' && ! $request->user()) {
+        } elseif ($type === 'my-posts' && $request->user()) {
             $results = $this->searchPosts($request, $query, $sort, $author, $category, $tag, true);
             $posts = $results['data'] ?? null;
             $facets = $results['facets'] ?? null;
@@ -205,13 +205,13 @@ class SearchController extends Controller
     {
         $facetsQuery = Post::query()
             ->when($userId, function ($q) use ($userId) {
-                $q->where('user_id', $userId);
+                $q->where('posts.user_id', $userId);
             })
             ->when($query, function ($q) use ($query) {
                 $q->where(function ($q) use ($query) {
-                    $q->where('title', 'like', "%{$query}%")
-                        ->orWhere('excerpt', 'like', "%{$query}%")
-                        ->orWhere('content', 'like', "%{$query}%");
+                    $q->where('posts.title', 'like', "%{$query}%")
+                        ->orWhere('posts.excerpt', 'like', "%{$query}%")
+                        ->orWhere('posts.content', 'like', "%{$query}%");
                 });
             });
 
