@@ -2,7 +2,7 @@ import type { TCategory, TComment, TImage, TPost, TTag, TUser } from '@/types/mo
 
 import { router } from '@inertiajs/react';
 
-export const authorLink = (user?: TUser | null): string => {
+export const authorLink = (user?: Pick<TUser, 'username'> | null): string => {
     if (!user) {
         return '';
     }
@@ -36,7 +36,7 @@ export const postComments = (post: (TPost & { comments_count?: number }) | null 
     return post?.comments_count || 0;
 };
 
-export const categoryLink = (category: TCategory, extra?: string): string => {
+export const categoryLink = (category: Pick<TCategory, 'slug'>, extra?: string): string => {
     const link = route('site.categories.show', { category });
     if (!extra) {
         return link;
@@ -44,7 +44,7 @@ export const categoryLink = (category: TCategory, extra?: string): string => {
     return `${link}${extra}`;
 };
 
-export const tagLink = (tag: TTag, extra?: string): string => {
+export const tagLink = (tag: Pick<TTag, 'slug'>, extra?: string): string => {
     const link = route('site.tags.show', { tag });
     if (!extra) {
         return link;
@@ -52,7 +52,7 @@ export const tagLink = (tag: TTag, extra?: string): string => {
     return `${link}${extra}`;
 };
 
-export const toggleFollowLink = (user: TUser, authUser?: TUser | null): void => {
+export const toggleFollowLink = (user: Pick<TUser, 'id'>, authUser?: Pick<TUser, 'id'> | null): void => {
     if (!authUser?.id) {
         return router.visit(route('login'));
     }

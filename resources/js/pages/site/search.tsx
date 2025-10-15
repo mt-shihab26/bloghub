@@ -1,24 +1,40 @@
-import { SearchIcon } from 'lucide-react';
+import type {
+    TSearchCategory,
+    TSearchFacets,
+    TSearchPaginated,
+    TSearchParams,
+    TSearchTag,
+    TSearchUser,
+} from '@/types/search';
 
 import type { TIndexPost } from '@/types/home';
-import type { TSearchFacets, TSearchPaginated, TSearchParams } from '@/types/search';
 
 import { cn } from '@/lib/utils';
 
+import { CategoriesList } from '@/components/screens/search/categories-list';
 import { FiltersFacets } from '@/components/screens/search/filters-facets';
 import { FiltersType } from '@/components/screens/search/filters-type';
+import { PeopleList } from '@/components/screens/search/people-list';
 import { PostsList } from '@/components/screens/search/posts-list';
 import { SortTabs } from '@/components/screens/search/sort-tabs';
+import { TagsList } from '@/components/screens/search/tags-list';
 import { SiteLayout } from '@/layouts/site-layout';
+import { SearchIcon } from 'lucide-react';
 
 const Search = ({
     params,
     facets,
     posts,
+    people,
+    categories,
+    tags,
 }: {
     params: TSearchParams;
     facets?: TSearchFacets;
     posts?: TSearchPaginated<TIndexPost>;
+    people?: TSearchPaginated<TSearchUser>;
+    categories?: TSearchPaginated<TSearchCategory>;
+    tags?: TSearchPaginated<TSearchTag>;
 }) => {
     return (
         <SiteLayout title={params.query ? `Search results for "${params.query}"` : 'Search'} footer={false}>
@@ -41,14 +57,37 @@ const Search = ({
                                             Search results for &quot;{params.query}&quot;
                                         </h1>
                                         <p className="mt-2 text-muted-foreground">
-                                            Found {posts?.total || 0} {posts?.total === 1 ? 'result' : 'results'}
+                                            Found{' '}
+                                            {params.type === 'posts' || params.type === 'my-posts'
+                                                ? posts?.total || 0
+                                                : params.type === 'people'
+                                                  ? people?.total || 0
+                                                  : params.type === 'categories'
+                                                    ? categories?.total || 0
+                                                    : tags?.total || 0}{' '}
+                                            {(params.type === 'posts' || params.type === 'my-posts'
+                                                ? posts?.total || 0
+                                                : params.type === 'people'
+                                                  ? people?.total || 0
+                                                  : params.type === 'categories'
+                                                    ? categories?.total || 0
+                                                    : tags?.total || 0) === 1
+                                                ? 'result'
+                                                : 'results'}
                                         </p>
                                     </div>
 
                                     <SortTabs params={params} />
                                 </div>
 
-                                {posts && <PostsList posts={posts} />}
+                                {(params.type === 'posts' || params.type === 'my-posts') && posts && (
+                                    <PostsList posts={posts} />
+                                )}
+                                {params.type === 'people' && people && <PeopleList people={people} />}
+                                {params.type === 'categories' && categories && (
+                                    <CategoriesList categories={categories} />
+                                )}
+                                {params.type === 'tags' && tags && <TagsList tags={tags} />}
                             </>
                         ) : (
                             <div className="rounded-lg border border-dashed p-12 text-center">

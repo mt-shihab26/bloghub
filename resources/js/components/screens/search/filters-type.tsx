@@ -13,8 +13,8 @@ export const FiltersType = ({ params }: { params: TSearchParams }) => {
     const options: { type: TSearchType; label: string; icon: LucideIcon }[] = [
         { type: 'posts', label: 'Posts', icon: FileTextIcon },
         { type: 'people', label: 'People', icon: UserIcon },
-        { type: 'tags', label: 'Tags', icon: TagIcon },
         { type: 'categories', label: 'Categories', icon: FolderIcon },
+        { type: 'tags', label: 'Tags', icon: TagIcon },
     ];
 
     if (auth?.user) {

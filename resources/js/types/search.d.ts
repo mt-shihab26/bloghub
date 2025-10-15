@@ -27,3 +27,17 @@ export type TSearchPaginated<T> = {
     total: number;
     next_page_url: string | null;
 };
+
+export type TSearchUser = Pick<TUser, 'id' | 'name' | 'username' | 'bio'> & {
+    image?: TUser['image'];
+    posts_count?: number;
+    followers_count?: number;
+};
+
+export type TSearchCategory = Pick<TCategory, 'id' | 'name' | 'slug' | 'description'> & {
+    posts_count?: number;
+};
+
+export type TSearchTag = Pick<TTag, 'id' | 'name' | 'slug'> & {
+    posts_count?: number;
+};
