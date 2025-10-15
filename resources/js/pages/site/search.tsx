@@ -1,20 +1,27 @@
 import { SearchIcon } from 'lucide-react';
 
-import type { TSearchSort, TSearchType } from '@/types/header';
 import type { TIndexPost } from '@/types/home';
+import type { TSearchFacets, TSearchParams } from '@/types/search';
 import type { TPaginated } from '@/types/utils';
 
 import { router } from '@inertiajs/react';
 
 import { Articles } from '@/components/screens/home/articles';
+import { FiltersFacets } from '@/components/screens/search/filters-facets';
 import { FiltersType } from '@/components/screens/search/filters-type';
 import { SortTabs } from '@/components/screens/search/sort-tabs';
 import { Button } from '@/components/ui/button';
 import { SiteLayout } from '@/layouts/site-layout';
 
-type TProps = { posts: TPaginated<TIndexPost>; query: string; sort?: TSearchSort; type?: TSearchType };
-
-const Search = ({ posts, query = '', sort = 'relevant', type = 'posts' }: TProps) => {
+const Search = ({
+    params,
+    facets,
+    posts,
+}: {
+    params: TSearchParams;
+    facets: TSearchFacets;
+    posts: TPaginated<TIndexPost>;
+}) => {
     const handleLoadMore = () => {
         if (posts.next_page_url) {
             router.get(
@@ -30,22 +37,27 @@ const Search = ({ posts, query = '', sort = 'relevant', type = 'posts' }: TProps
     };
 
     return (
-        <SiteLayout title={query ? `Search results for "${query}"` : 'Search'} footer={false}>
+        <SiteLayout title={params.query ? `Search results for "${params.query}"` : 'Search'} footer={false}>
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
-                <FiltersType query={query} sort={sort} type={type} />
+                <aside className="space-y-4">
+                    <FiltersType params={params} />
+                    {params.type === 'posts' && <FiltersFacets params={params} facets={facets} />}
+                </aside>
 
                 <div className="lg:col-span-3">
-                    {query ? (
+                    {params.query ? (
                         <>
                             <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                                 <div>
-                                    <h1 className="text-2xl font-bold">Search results for &quot;{query}&quot;</h1>
+                                    <h1 className="text-2xl font-bold">
+                                        Search results for &quot;{params.query}&quot;
+                                    </h1>
                                     <p className="mt-2 text-muted-foreground">
                                         Found {posts.total} {posts.total === 1 ? 'result' : 'results'}
                                     </p>
                                 </div>
 
-                                <SortTabs query={query} sort={sort} type={type} />
+                                <SortTabs params={params} />
                             </div>
 
                             {posts.data.length > 0 ? (

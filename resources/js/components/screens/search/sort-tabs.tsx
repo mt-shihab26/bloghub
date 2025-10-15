@@ -1,16 +1,16 @@
 import { ClockIcon, SparklesIcon } from 'lucide-react';
 
-import type { TSearchSort, TSearchType } from '@/types/header';
+import type { TSearchParams, TSearchSort } from '@/types/search';
 
 import { performSearch } from '@/lib/routes';
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-export const SortTabs = ({ query, sort, type }: { query: string; sort?: TSearchSort; type?: TSearchType }) => {
+export const SortTabs = ({ params }: { params: TSearchParams }) => {
     return (
         <Tabs
-            value={sort}
-            onValueChange={(sort) => performSearch(query, sort as TSearchSort, type)}
+            value={params.sort}
+            onValueChange={(sort) => performSearch({ ...params, sort: sort as TSearchSort })}
             className="w-full sm:w-auto"
         >
             <TabsList>

@@ -1,8 +1,15 @@
+import type { TSearchParams } from '@/types/search';
+
 import { router } from '@inertiajs/react';
 
-import type { TSearchSort, TSearchType } from '@/types/header';
-
-export const performSearch = (query: string = '', sort: TSearchSort = 'relevant', type: TSearchType = 'posts') => {
+export const performSearch = ({
+    query = '',
+    sort = 'relevant',
+    type = 'posts',
+    author = null,
+    category = null,
+    tag = null,
+}: TSearchParams) => {
     const q = query.trim();
     if (q) {
         router.get(

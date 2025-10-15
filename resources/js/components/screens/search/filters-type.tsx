@@ -1,5 +1,5 @@
 import type { TPublicPage } from '@/types';
-import type { TSearchSort, TSearchType } from '@/types/header';
+import type { TSearchParams, TSearchType } from '@/types/search';
 
 import { performSearch } from '@/lib/routes';
 import { cn } from '@/lib/utils';
@@ -8,7 +8,7 @@ import { usePage } from '@inertiajs/react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BookmarkIcon, FileTextIcon, FolderIcon, LucideIcon, TagIcon, UserIcon } from 'lucide-react';
 
-export const FiltersType = ({ query, sort, type }: { query?: string; sort?: TSearchSort; type?: TSearchType }) => {
+export const FiltersType = ({ params }: { params: TSearchParams }) => {
     const { auth } = usePage<TPublicPage>().props;
 
     const options: { type: TSearchType; label: string; icon: LucideIcon; description: string }[] = [
@@ -36,12 +36,12 @@ export const FiltersType = ({ query, sort, type }: { query?: string; sort?: TSea
                 <CardContent className="space-y-2">
                     {options.map((option) => {
                         const Icon = option.icon;
-                        const active = type === option.type;
+                        const active = params.type === option.type;
 
                         return (
                             <button
                                 key={option.type}
-                                onClick={() => performSearch(query, sort, option.type)}
+                                onClick={() => performSearch({ ...params, type: option.type })}
                                 className={cn(
                                     'flex w-full items-start gap-3 rounded-lg p-3 text-left transition-colors',
                                     active ? 'bg-primary text-primary-foreground' : 'hover:bg-muted',
