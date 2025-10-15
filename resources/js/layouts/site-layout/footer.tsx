@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils';
 
+import { AppLogoIcon } from '@/components/icons/app-logo-icon';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
@@ -20,8 +21,8 @@ export const Footer = ({ className }: { className: string }) => {
                 <div className="mb-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5">
                     {/* Brand Section */}
                     <div className="lg:col-span-2">
-                        <Link href="/" className="mb-4 block text-2xl font-bold text-primary">
-                            BlogHub
+                        <Link href="/" className="mb-4 flex space-x-2 text-2xl font-bold text-primary">
+                            <AppLogoIcon /> <div>BlogHub</div>
                         </Link>
                         <p className="mb-6 max-w-md text-muted-foreground">
                             A community-driven platform where developers, designers, and tech enthusiasts share
@@ -192,7 +193,10 @@ export const Footer = ({ className }: { className: string }) => {
                         <p>© {currentYear} BlogHub. All rights reserved.</p>
                         <span className="hidden md:inline">•</span>
                         <p className="hidden items-center md:flex">
-                            Made with <Heart className="mx-1 h-4 w-4 text-red-500" /> by the community
+                            Made with <Heart className="mx-1 h-4 w-4 text-red-500" /> by the{' '}
+                            <a className="ml-1 underline" href="https://developershihab.com" target="_blank">
+                                Shihab Mahamud
+                            </a>
                         </p>
                     </div>
 
@@ -260,7 +264,10 @@ export const Footer = ({ className }: { className: string }) => {
                 {/* Mobile Copyright */}
                 <div className="mt-4 text-center md:hidden">
                     <p className="flex items-center justify-center text-xs text-muted-foreground">
-                        Made with <Heart className="mx-1 h-3 w-3 text-red-500" /> by the community
+                        Made with <Heart className="mx-1 h-3 w-3 text-red-500" /> by the{' '}
+                        <a className="underline" href="https://developershihab.com" target="_blank">
+                            Shihab Mahamud
+                        </a>
                     </p>
                 </div>
             </div>

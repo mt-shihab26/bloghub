@@ -1,4 +1,4 @@
-import AppLogoIcon from '@/components/elements/app-logo-icon';
+import { AppLogoIcon } from '@/components/icons/app-logo-icon';
 
 export default function AppLogo() {
     return (

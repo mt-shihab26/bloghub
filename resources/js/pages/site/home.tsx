@@ -20,7 +20,7 @@ const Index = ({
     discussions: TIndexDiscussion[];
 }) => {
     return (
-        <SiteLayout title="Home" footer={false}>
+        <SiteLayout title="Home">
             <div className="grid h-full grid-cols-1 gap-8 lg:grid-cols-8">
                 <aside className="h-full space-y-6 lg:col-span-2">
                     <Categories categories={categories} />

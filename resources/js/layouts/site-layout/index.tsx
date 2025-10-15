@@ -1,8 +1,9 @@
 import type { ReactNode } from 'react';
 
 import { cn } from '@/lib/utils';
+
+import { BaseLayout } from '@/layouts/base-layout';
 import { Head } from '@inertiajs/react';
-import { BaseLayout } from '../base-layout';
 import { Footer } from './footer';
 import { Header } from './header';
 

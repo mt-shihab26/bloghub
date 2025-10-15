@@ -7,6 +7,7 @@ import { imageLink } from '@/lib/links';
 import { cn } from '@/lib/utils';
 import { usePage } from '@inertiajs/react';
 
+import { AppLogoIcon } from '@/components/icons/app-logo-icon';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -20,7 +21,6 @@ import { Breadcrumbs } from './breadcrumbs';
 import { Icon } from './icon';
 import { UserMenuContent } from './user-menu-content';
 
-import AppLogoIcon from '@/components/elements/app-logo-icon';
 import AppLogo from './app-logo';
 
 const mainNavItems: TNavItem[] = [

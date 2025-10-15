@@ -3,6 +3,7 @@ import type { TPublicPage } from '@/types';
 import { cn } from '@/lib/utils';
 import { usePage } from '@inertiajs/react';
 
+import { AppLogoIcon } from '@/components/icons/app-logo-icon';
 import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
 import { Notification } from './notification';
@@ -10,7 +11,7 @@ import { Profile } from './profile';
 import { SearchBar } from './search-bar';
 
 export const Header = ({ className }: { className: string }) => {
-    const { name, auth } = usePage<TPublicPage>().props;
+    const { auth } = usePage<TPublicPage>().props;
     const { user, image } = auth;
 
     return (
@@ -24,7 +25,7 @@ export const Header = ({ className }: { className: string }) => {
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
                         <Link href="/" className="text-2xl font-bold text-primary">
-                            {name}
+                            <AppLogoIcon />
                         </Link>
                         <SearchBar />
                     </div>
