@@ -16,8 +16,7 @@ return new class extends Migration
             $table->foreignUuid('comment_id')->constrained('comments')->cascadeOnDelete();
             $table->timestamps();
 
-            $table->unique(['user_id', 'comment_id']);
-            $table->index(['user_id', 'comment_id']);
+            $table->primary(['user_id', 'comment_id']);
         });
     }
 

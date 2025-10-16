@@ -16,8 +16,12 @@ return new class extends Migration
             $table->foreignUuid('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('name');
             $table->string('alt')->nullable();
-            $table->string('memtype'); // e.g., 'image/jpeg', 'image/png', 'image/gif'
+            $table->string('memtype');
             $table->timestamps();
+        });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreign('image_id')->references('id')->on('images')->nullOnDelete();
         });
     }
 
@@ -26,6 +30,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign(['image_id']);
+        });
+
         Schema::dropIfExists('images');
     }
 };

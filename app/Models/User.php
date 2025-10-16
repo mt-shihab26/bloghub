@@ -84,9 +84,9 @@ class User extends Authenticatable
     /**
      * Get the tags created by the user.
      */
-    public function tags(): BelongsToMany
+    public function tags(): HasMany
     {
-        return $this->belongsToMany(Tag::class);
+        return $this->hasMany(Tag::class);
     }
 
     /**
@@ -140,7 +140,7 @@ class User extends Authenticatable
     /**
      * Users that are following this user (followers)
      */
-    public function followers()
+    public function followers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'followers', 'following_id', 'user_id')->withTimestamps();
     }

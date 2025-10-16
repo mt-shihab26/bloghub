@@ -16,8 +16,7 @@ return new class extends Migration
             $table->foreignUuid('following_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
 
-            $table->unique(['user_id', 'following_id']);
-            $table->index(['user_id', 'following_id']);
+            $table->primary(['user_id', 'following_id']);
         });
     }
 

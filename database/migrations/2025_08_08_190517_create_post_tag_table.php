@@ -16,8 +16,7 @@ return new class extends Migration
             $table->foreignUuid('tag_id')->constrained('tags')->cascadeOnDelete();
             $table->timestamps();
 
-            $table->unique(['post_id', 'tag_id']);
-            $table->index(['post_id', 'tag_id']);
+            $table->primary(['post_id', 'tag_id']);
         });
     }
 
