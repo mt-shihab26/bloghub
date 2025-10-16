@@ -41,7 +41,7 @@ export const FiltersFacetsItems = ({
 
                     return (
                         <Link
-                            key={item.value}
+                            key={`${field}-${item.value}`}
                             href={searchRoute({ ...params, [field]: value })}
                             preserveState={true}
                             preserveScroll={true}

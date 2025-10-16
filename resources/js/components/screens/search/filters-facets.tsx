@@ -15,7 +15,7 @@ export const FiltersFacets = ({ params, facets }: { params: TSearchParams; facet
                     icon={UserIcon}
                     title="Authors"
                     field="author"
-                    items={facets.authors?.map((a) => ({ value: a.username, label: a.name, count: a.count })) || []}
+                    items={facets.authors?.map((a) => ({ value: a.id, label: a.name, count: a.count })) || []}
                     selects={params.author || []}
                     params={params}
                 />

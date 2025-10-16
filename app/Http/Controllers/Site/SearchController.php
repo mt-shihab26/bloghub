@@ -20,109 +20,100 @@ class SearchController extends Controller
         $query = $request->input('q', '');
 
         if (! $query) {
-            return redirect()->route('home')->with('error', 'Please enter a search query.');
+            return redirect()
+                ->route('home')
+                ->with('error', 'Please enter a search query.');
         }
-
-        $type = $request->input('type', 'articles');
-        $sort = $request->input('sort', 'relevant');
-
-        $parseFilter = fn ($input) => is_array($input)
-            ? array_values(array_filter($input))
-            : array_values(array_filter(explode(',', $input ?? '')));
-
-        $author = $parseFilter($request->input('author')) ?: null;
-        $category = $parseFilter($request->input('category')) ?: null;
-        $tag = $parseFilter($request->input('tag')) ?: null;
 
         $params = [
             'query' => $query,
-            'sort' => $sort,
-            'type' => $type,
-            'author' => $author,
-            'category' => $category,
-            'tag' => $tag,
+            'type' => $request->input('type', 'articles'),
+            'sort' => $request->input('sort', 'relevant'),
+            'author' => $this->parseFilterArray($request->input('author')) ?: null,
+            'category' => $this->parseFilterArray($request->input('category')) ?: null,
+            'tag' => $this->parseFilterArray($request->input('tag')) ?: null,
         ];
 
-        $facets = null;
-        $articles = null;
-        $authors = null;
-        $categories = null;
-        $tags = null;
+        $facets = [];
 
-        if ($type === 'articles') {
-            $results = $this->searchArticles($request, $query ?? '', $sort, $author, $category, $tag, false);
-            $articles = $results['data'] ?? null;
-            $facets = $results['facets'] ?? null;
-        } elseif ($type === 'my-articles' && $request->user()) {
-            $results = $this->searchArticles($request, $query ?? '', $sort, $author, $category, $tag, true);
-            $articles = $results['data'] ?? null;
-            $facets = $results['facets'] ?? null;
-        } elseif ($type === 'authors') {
-            $results = $this->searchPeople($query, $sort);
-            $authors = $results['data'] ?? null;
-        } elseif ($type === 'categories') {
-            $results = $this->searchCategories($query, $sort);
-            $categories = $results['data'] ?? null;
-        } elseif ($type === 'tags') {
-            $results = $this->searchTags($query, $sort);
-            $tags = $results['data'] ?? null;
+        $lists = [];
+
+        switch ($params['type']) {
+            case 'articles':
+                $results = $this->searchArticles(params: $params, user: $request->user());
+                $lists['articles'] = $results['data'] ?? null;
+                $facets['articles'] = $results['facets'] ?? null;
+                break;
+            case 'my-articles':
+                $results = $this->searchArticles(params: $params, user: $request->user(), mine: true);
+                $lists['articles'] = $results['data'] ?? null;
+                $facets['articles'] = $results['facets'] ?? null;
+                break;
+            case 'authors':
+                $results = $this->searchPeople(params: $params);
+                $lists['authors'] = $results['data'] ?? null;
+                break;
+            case 'categories':
+                $results = $this->searchCategories(params: $params);
+                $lists['categories'] = $results['data'] ?? null;
+                break;
+            case 'tags':
+                $results = $this->searchTags(params: $params);
+                $lists['tags'] = $results['data'] ?? null;
+                break;
+            default:
+                break;
         }
 
         return inertia('site/search', [
             'params' => $params,
             'facets' => $facets,
-            'articles' => $articles,
-            'authors' => $authors,
-            'categories' => $categories,
-            'tags' => $tags,
+            'lists' => $lists,
         ]);
+    }
+
+    /**
+     * Parse filter input into an array.
+     *
+     * @param  string|string[]|null  $input
+     * @return string[]
+     */
+    public function parseFilterArray($input)
+    {
+        return is_array($input)
+            ? array_values(array_filter($input))
+            : array_values(array_filter(explode(',', $input ?? '')));
     }
 
     /**
      * Search for posts with facets.
      *
-     * @param  string[]|null  $author
-     * @param  string[]|null  $category
-     * @param  string[]|null  $tag
+     * @param  array  $params
+     * @param  string  $params['query']
+     * @param  string  $params['sort']
+     * @param  string[]|null  $params['author']
+     * @param  string[]|null  $params['category']
+     * @param  string[]|null  $params['tag']
+     * @param  bool  $mine
+     * @param  User|null  $user
      */
-    private function searchArticles(
-        Request $request,
-        string $query,
-        string $sort,
-        ?array $author,
-        ?array $category,
-        ?array $tag,
-        bool $myPostsOnly = false
-    ): array {
-        $baseQuery = Post::query()
+    private function searchArticles($params, $user, $mine = false): array
+    {
+        $userId = $user?->id;
+
+        $builder = fn (Builder $query) => $query
             ->with(['user.image', 'image', 'category', 'tags'])
             ->withCount(['likes', 'comments'])
-            ->withExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $request->user()?->id)])
-            ->withExists(['comments as commented_by_user' => fn ($q) => $q->where('user_id', $request->user()?->id)])
-            ->withExists(['bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $request->user()?->id)])
-            ->when($myPostsOnly && $request->user(), fn ($q) => $q->where('user_id', $request->user()->id))
-            ->when($query, fn ($q) => $q->where(fn ($q) => $q->where('title', 'like', "%{$query}%")
-                ->orWhere('excerpt', 'like', "%{$query}%")
-                ->orWhere('content', 'like', "%{$query}%")));
+            ->withExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $userId)])
+            ->withExists(['comments as commented_by_user' => fn ($q) => $q->where('user_id', $userId)])
+            ->withExists(['bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $userId)]);
 
-        $postsQuery = (clone $baseQuery)
-            ->when($author && count(array_filter($author)), fn ($q) => $q->whereHas('user', fn ($q) => $q->whereIn('username', $author)))
-            ->when($category && count(array_filter($category)), fn ($q) => $q->whereHas('category', fn ($q) => $q->whereIn('slug', $category)))
-            ->when($tag && count(array_filter($tag)), fn ($q) => $q->whereHas('tags', fn ($q) => $q->whereIn('slug', $tag)));
+        $posts = Post::search($params['query'])
+            ->query($builder)
+            ->paginate(10)
+            ->withQueryString();
 
-        $this->applySorting($postsQuery, $sort, $query);
-
-        $posts = Post::search($query)
-            ->query(fn (Builder $query) => $query
-                ->with(['user.image', 'image', 'category', 'tags'])
-                ->withCount(['likes', 'comments'])
-                ->withExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $request->user()?->id)])
-                ->withExists(['comments as commented_by_user' => fn ($q) => $q->where('user_id', $request->user()?->id)])
-                ->withExists(['bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $request->user()?->id)])
-            )
-            ->paginate(10)->withQueryString();
-
-        $facets = $query ? $this->generateFacetsFromPosts((clone $baseQuery)->get()) : null;
+        $facets = null;
 
         return [
             'data' => $posts,
