@@ -36,6 +36,8 @@ const Search = ({
     categories?: TSearchPaginated<TSearchCategory>;
     tags?: TSearchPaginated<TSearchTag>;
 }) => {
+    console.log({ params });
+
     return (
         <SiteLayout title={params.query ? `Search results for "${params.query}"` : 'Search'} footer={false}>
             <div className="w-full space-y-6">
