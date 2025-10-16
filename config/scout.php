@@ -207,11 +207,24 @@ return [
             // ],
             Post::class => [
                 'collection-schema' => [
-                    'enable_nested_fields' => true,
                     'fields' => [
                         [
                             'name' => 'id',
                             'type' => 'string',
+                        ],
+                        [
+                            'name' => 'user_id',
+                            'type' => 'string',
+                        ],
+                        [
+                            'name' => 'image_id',
+                            'type' => 'string',
+                            'optional' => true,
+                        ],
+                        [
+                            'name' => 'category_id',
+                            'type' => 'string',
+                            'optional' => true,
                         ],
                         [
                             'name' => 'slug',
@@ -219,6 +232,10 @@ return [
                         ],
                         [
                             'name' => 'title',
+                            'type' => 'string',
+                        ],
+                        [
+                            'name' => 'status',
                             'type' => 'string',
                         ],
                         [
@@ -234,47 +251,6 @@ return [
                             'type' => 'int64',
                         ],
                         [
-                            'name' => 'user.username',
-                            'type' => 'string',
-                        ],
-                        [
-                            'name' => 'user.name',
-                            'type' => 'string',
-                        ],
-                        [
-                            'name' => 'user.image.name',
-                            'type' => 'string',
-                            'optional' => true,
-                        ],
-                        [
-                            'name' => 'image.name',
-                            'type' => 'string',
-                            'optional' => true,
-                        ],
-                        [
-                            'name' => 'category.slug',
-                            'type' => 'string',
-                            'optional' => true,
-                        ],
-                        [
-                            'name' => 'category.name',
-                            'type' => 'string',
-                            'optional' => true,
-                        ],
-                        [
-                            'name' => 'tags',
-                            'type' => 'object[]',
-                            'optional' => true,
-                        ],
-                        [
-                            'name' => 'likes_count',
-                            'type' => 'int32',
-                        ],
-                        [
-                            'name' => 'comments_count',
-                            'type' => 'int32',
-                        ],
-                        [
                             'name' => 'created_at',
                             'type' => 'int64',
                         ],
@@ -286,7 +262,7 @@ return [
                     'default_sorting_field' => 'published_at',
                 ],
                 'search-parameters' => [
-                    'query_by' => 'title,content,excerpt,user.name,user.username,category.name',
+                    'query_by' => 'title,content,excerpt',
                 ],
             ],
         ],

@@ -22,19 +22,19 @@ import { Badge } from '@/components/ui/badge';
 import { Link } from '@inertiajs/react';
 import { BookmarkIcon, Clock, HeartIcon, MessageCircleIcon } from 'lucide-react';
 
-export type TArticleCard = Pick<TPost, 'id' | 'slug' | 'title' | 'published_at' | 'excerpt' | 'content'> & {
+export type TPostCard = Pick<TPost, 'id' | 'slug' | 'title' | 'published_at' | 'excerpt' | 'content'> & {
     user: Pick<TUser, 'username' | 'name'> & { image?: Pick<TImage, 'name'> | null };
     image?: Pick<TImage, 'name'> | null;
     category?: Pick<TCategory, 'slug' | 'name'> | null;
     tags?: Pick<TTag, 'slug' | 'name'>[] | null;
     likes_count: number;
-    liked_by_user: boolean;
     comments_count: number;
+    liked_by_user: boolean;
     commented_by_user: boolean;
     bookmarked_by_user: boolean;
 };
 
-export const ArticleCard = ({ post }: { post: TArticleCard }) => {
+export const ArticleCard = ({ post }: { post: TPostCard }) => {
     return (
         <div key={post.id} className="overflow-hidden rounded-lg border">
             <div className="flex flex-col md:flex-row">

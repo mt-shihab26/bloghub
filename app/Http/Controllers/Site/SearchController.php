@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
@@ -111,7 +112,15 @@ class SearchController extends Controller
 
         $this->applySorting($postsQuery, $sort, $query);
 
-        $posts = $postsQuery->paginate(10)->withQueryString();
+        $posts = Post::search($query)
+            ->query(fn (Builder $query) => $query
+                ->with(['user.image', 'image', 'category', 'tags'])
+                ->withCount(['likes', 'comments'])
+                ->withExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $request->user()?->id)])
+                ->withExists(['comments as commented_by_user' => fn ($q) => $q->where('user_id', $request->user()?->id)])
+                ->withExists(['bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $request->user()?->id)])
+            )
+            ->paginate(10)->withQueryString();
 
         $facets = $query ? $this->generateFacetsFromPosts((clone $baseQuery)->get()) : null;
 
