@@ -17,6 +17,11 @@ class SearchController extends Controller
     public function index(Request $request)
     {
         $query = $request->input('q', '');
+
+        if (! $query) {
+            return redirect()->route('home')->with('error', 'Please enter a search query.');
+        }
+
         $type = $request->input('type', 'articles');
         $sort = $request->input('sort', 'relevant');
 
