@@ -29,7 +29,7 @@ export const FiltersFacets = ({ params, facets }: { params: TSearchParams; facet
                     params={params}
                     selects={params.category || []}
                     items={
-                        facets.articles.categories.map((c) => ({ value: c.slug, label: c.name, count: c.count })) || []
+                        facets.articles.categories.map((c) => ({ value: c.id, label: c.name, count: c.count })) || []
                     }
                 />
             )}
@@ -41,7 +41,7 @@ export const FiltersFacets = ({ params, facets }: { params: TSearchParams; facet
                     field="tag"
                     params={params}
                     selects={params.tag || []}
-                    items={facets.articles.tags.map((t) => ({ value: t.slug, label: t.name, count: t.count })) || []}
+                    items={facets.articles.tags.map((t) => ({ value: t.id, label: t.name, count: t.count })) || []}
                 />
             )}
 

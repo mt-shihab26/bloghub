@@ -1,11 +1,7 @@
 import type { TCategory, TTag, TUser } from './models';
 
-export type TSearchSort = 'relevant' | 'newest' | 'oldest';
 export type TSearchType = 'articles' | 'authors' | 'tags' | 'categories' | 'my-articles';
-
-export type TFacetUser = Pick<TUser, 'id' | 'name' | 'username'> & { count: number };
-export type TFacetCategory = Pick<TCategory, 'id' | 'name' | 'slug'> & { count: number };
-export type TFacetTag = Pick<TTag, 'id' | 'name' | 'slug'> & { count: number };
+export type TSearchSort = 'relevant' | 'newest' | 'oldest';
 
 export type TSearchParams = {
     query?: string;
@@ -16,14 +12,12 @@ export type TSearchParams = {
     tag?: string[] | null;
 };
 
-export type TSearchArticlesFacets = {
-    authors?: TFacetUser[];
-    categories?: TFacetCategory[];
-    tags?: TFacetTag[];
-};
-
 export type TSearchFacets = {
-    articles?: TSearchArticlesFacets;
+    articles?: {
+        authors?: (Pick<TUser, 'id' | 'name'> & { count: number })[];
+        categories?: (Pick<TCategory, 'id' | 'name'> & { count: number })[];
+        tags?: (Pick<TTag, 'id' | 'name'> & { count: number })[];
+    };
     authors?: null;
     categories?: null;
     tags?: null;
