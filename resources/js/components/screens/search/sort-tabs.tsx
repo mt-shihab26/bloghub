@@ -1,30 +1,29 @@
 import type { TSearchParams, TSearchSort } from '@/types/search';
 
-import { performSearch } from '@/lib/search';
+import { searchRoute } from '@/lib/search';
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Link } from '@inertiajs/react';
 import { ClockIcon, SparklesIcon } from 'lucide-react';
 
 export const SortTabs = ({ params }: { params: TSearchParams }) => {
+    const tabs = [
+        { value: 'relevant', label: 'Most Relevant', icon: SparklesIcon },
+        { value: 'newest', label: 'Newest', icon: ClockIcon },
+        { value: 'oldest', label: 'Oldest', icon: ClockIcon },
+    ];
+
     return (
-        <Tabs
-            value={params.sort}
-            onValueChange={(sort) => performSearch({ ...params, sort: sort as TSearchSort })}
-            className="w-full sm:w-auto"
-        >
+        <Tabs value={params.sort} className="w-full sm:w-auto">
             <TabsList>
-                <TabsTrigger value="relevant">
-                    <SparklesIcon className="h-4 w-4" />
-                    Most Relevant
-                </TabsTrigger>
-                <TabsTrigger value="newest">
-                    <ClockIcon className="h-4 w-4" />
-                    Newest
-                </TabsTrigger>
-                <TabsTrigger value="oldest">
-                    <ClockIcon className="h-4 w-4" />
-                    Oldest
-                </TabsTrigger>
+                {tabs.map((tab) => (
+                    <TabsTrigger key={tab.value} value={tab.value} asChild>
+                        <Link href={searchRoute({ ...params, sort: tab.value as TSearchSort })} preserveState={true}>
+                            <tab.icon className="size-4" />
+                            {tab.label}
+                        </Link>
+                    </TabsTrigger>
+                ))}
             </TabsList>
         </Tabs>
     );

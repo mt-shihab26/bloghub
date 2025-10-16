@@ -20,7 +20,7 @@ class SearchController extends Controller
         $type = $request->input('type', 'articles');
         $sort = $request->input('sort', 'relevant');
 
-        $parseFilter = fn($input) => is_array($input)
+        $parseFilter = fn ($input) => is_array($input)
             ? array_values(array_filter($input))
             : array_values(array_filter(explode(',', $input ?? '')));
 
@@ -44,11 +44,11 @@ class SearchController extends Controller
         $tags = null;
 
         if ($type === 'articles') {
-            $results = $this->searchArticles($request, $query, $sort, $author, $category, $tag, false);
+            $results = $this->searchArticles($request, $query ?? '', $sort, $author, $category, $tag, false);
             $articles = $results['data'] ?? null;
             $facets = $results['facets'] ?? null;
         } elseif ($type === 'my-articles' && $request->user()) {
-            $results = $this->searchArticles($request, $query, $sort, $author, $category, $tag, true);
+            $results = $this->searchArticles($request, $query ?? '', $sort, $author, $category, $tag, true);
             $articles = $results['data'] ?? null;
             $facets = $results['facets'] ?? null;
         } elseif ($type === 'authors') {

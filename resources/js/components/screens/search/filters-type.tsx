@@ -36,6 +36,7 @@ export const FiltersType = ({ params }: { params: TSearchParams }) => {
                         <Link
                             key={option.type}
                             href={searchRoute({ query: params.query, type: option.type })}
+                            preserveState={true}
                             className={cn(
                                 'flex shrink-0 items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors',
                                 active
