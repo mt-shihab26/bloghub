@@ -20,7 +20,7 @@ export const SearchBar = () => {
         }
     };
 
-    useDebounce(handler, 500, [search]);
+    useDebounce(handler, 300, [search]);
 
     return (
         <div className="relative hidden md:block">
