@@ -11,9 +11,9 @@ export type TSearchParams = {
     query?: string;
     type?: TSearchType;
     sort?: TSearchSort;
-    author?: string | null;
-    category?: string | null;
-    tag?: string | null;
+    author?: string[] | null;
+    category?: string[] | null;
+    tag?: string[] | null;
 };
 
 export type TSearchFacets = {

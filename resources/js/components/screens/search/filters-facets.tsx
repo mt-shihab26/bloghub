@@ -1,10 +1,10 @@
 import type { TSearchFacets, TSearchParams } from '@/types/search';
 
 import { performSearch } from '@/lib/search';
-import { cn } from '@/lib/utils';
 
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Separator } from '@/components/ui/separator';
 import { FolderIcon, TagIcon, UserIcon } from 'lucide-react';
 
@@ -19,30 +19,34 @@ export const FiltersFacets = ({ params, facets }: { params: TSearchParams; facet
                             Authors
                         </CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-1">
+                    <CardContent className="space-y-2">
                         {facets.authors.map((a) => {
-                            const selected = params.author === a.username;
+                            const selected = params.author?.includes(a.username) ?? false;
+                            const newAuthors = selected
+                                ? (params.author?.filter((username) => username !== a.username) ?? [])
+                                : [...(params.author ?? []), a.username];
 
                             return (
-                                <button
+                                <label
                                     key={a.id}
-                                    onClick={() => performSearch({ ...params, author: selected ? null : a.username })}
-                                    className={cn(
-                                        'flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition-colors',
-                                        selected ? 'bg-primary text-primary-foreground' : 'hover:bg-muted',
-                                    )}
+                                    className="flex cursor-pointer items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors hover:bg-muted"
                                 >
-                                    <span className="truncate">{a.name}</span>
-                                    <Badge
-                                        variant={selected ? 'secondary' : 'outline'}
-                                        className={cn(
-                                            'ml-2 shrink-0',
-                                            selected && 'bg-primary-foreground/20 text-primary-foreground',
-                                        )}
-                                    >
+                                    <div className="flex items-center gap-3">
+                                        <Checkbox
+                                            checked={selected}
+                                            onCheckedChange={() =>
+                                                performSearch({
+                                                    ...params,
+                                                    author: newAuthors.length > 0 ? newAuthors : null,
+                                                })
+                                            }
+                                        />
+                                        <span className="truncate">{a.name}</span>
+                                    </div>
+                                    <Badge variant="outline" className="ml-2 shrink-0">
                                         {a.count}
                                     </Badge>
-                                </button>
+                                </label>
                             );
                         })}
                     </CardContent>
@@ -57,30 +61,34 @@ export const FiltersFacets = ({ params, facets }: { params: TSearchParams; facet
                             Categories
                         </CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-1">
+                    <CardContent className="space-y-2">
                         {facets.categories.map((c) => {
-                            const selected = params.category === c.slug;
+                            const selected = params.category?.includes(c.slug) ?? false;
+                            const newCategories = selected
+                                ? (params.category?.filter((slug) => slug !== c.slug) ?? [])
+                                : [...(params.category ?? []), c.slug];
 
                             return (
-                                <button
+                                <label
                                     key={c.id}
-                                    onClick={() => performSearch({ ...params, category: selected ? null : c.slug })}
-                                    className={cn(
-                                        'flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition-colors',
-                                        selected ? 'bg-primary text-primary-foreground' : 'hover:bg-muted',
-                                    )}
+                                    className="flex cursor-pointer items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors hover:bg-muted"
                                 >
-                                    <span className="truncate">{c.name}</span>
-                                    <Badge
-                                        variant={selected ? 'secondary' : 'outline'}
-                                        className={cn(
-                                            'ml-2 shrink-0',
-                                            selected && 'bg-primary-foreground/20 text-primary-foreground',
-                                        )}
-                                    >
+                                    <div className="flex items-center gap-3">
+                                        <Checkbox
+                                            checked={selected}
+                                            onCheckedChange={() =>
+                                                performSearch({
+                                                    ...params,
+                                                    category: newCategories.length > 0 ? newCategories : null,
+                                                })
+                                            }
+                                        />
+                                        <span className="truncate">{c.name}</span>
+                                    </div>
+                                    <Badge variant="outline" className="ml-2 shrink-0">
                                         {c.count}
                                     </Badge>
-                                </button>
+                                </label>
                             );
                         })}
                     </CardContent>
@@ -95,37 +103,43 @@ export const FiltersFacets = ({ params, facets }: { params: TSearchParams; facet
                             Tags
                         </CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-1">
+                    <CardContent className="space-y-2">
                         {facets.tags.map((t) => {
-                            const selected = params.tag === t.slug;
+                            const selected = params.tag?.includes(t.slug) ?? false;
+                            const newTags = selected
+                                ? (params.tag?.filter((slug) => slug !== t.slug) ?? [])
+                                : [...(params.tag ?? []), t.slug];
 
                             return (
-                                <button
+                                <label
                                     key={t.id}
-                                    onClick={() => performSearch({ ...params, tag: selected ? null : t.slug })}
-                                    className={cn(
-                                        'flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition-colors',
-                                        selected ? 'bg-primary text-primary-foreground' : 'hover:bg-muted',
-                                    )}
+                                    className="flex cursor-pointer items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors hover:bg-muted"
                                 >
-                                    <span className="truncate">{t.name}</span>
-                                    <Badge
-                                        variant={selected ? 'secondary' : 'outline'}
-                                        className={cn(
-                                            'ml-2 shrink-0',
-                                            selected && 'bg-primary-foreground/20 text-primary-foreground',
-                                        )}
-                                    >
+                                    <div className="flex items-center gap-3">
+                                        <Checkbox
+                                            checked={selected}
+                                            onCheckedChange={() =>
+                                                performSearch({
+                                                    ...params,
+                                                    tag: newTags.length > 0 ? newTags : null,
+                                                })
+                                            }
+                                        />
+                                        <span className="truncate">{t.name}</span>
+                                    </div>
+                                    <Badge variant="outline" className="ml-2 shrink-0">
                                         {t.count}
                                     </Badge>
-                                </button>
+                                </label>
                             );
                         })}
                     </CardContent>
                 </Card>
             )}
 
-            {(params.author || params.category || params.tag) && (
+            {((params.author && params.author.length > 0) ||
+                (params.category && params.category.length > 0) ||
+                (params.tag && params.tag.length > 0)) && (
                 <>
                     <Separator />
                     <button

@@ -1,9 +1,9 @@
 import type { TPublicPage } from '@/types';
 import type { TSearchParams, TSearchType } from '@/types/search';
 
-import { performSearch } from '@/lib/search';
+import { searchRoute } from '@/lib/search';
 import { cn } from '@/lib/utils';
-import { usePage } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 
 import { BookmarkIcon, FileTextIcon, FolderIcon, LucideIcon, TagIcon, UserIcon } from 'lucide-react';
 
@@ -33,9 +33,9 @@ export const FiltersType = ({ params }: { params: TSearchParams }) => {
                     const active = params.type === option.type;
 
                     return (
-                        <button
+                        <Link
                             key={option.type}
-                            onClick={() => performSearch({ query: params.query, type: option.type })}
+                            href={searchRoute({ query: params.query, type: option.type })}
                             className={cn(
                                 'flex shrink-0 items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors',
                                 active
@@ -45,7 +45,7 @@ export const FiltersType = ({ params }: { params: TSearchParams }) => {
                         >
                             <Icon className="h-4 w-4" />
                             {option.label}
-                        </button>
+                        </Link>
                     );
                 })}
             </div>

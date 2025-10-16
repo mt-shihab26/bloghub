@@ -1,10 +1,9 @@
-import { ClockIcon, SparklesIcon } from 'lucide-react';
-
 import type { TSearchParams, TSearchSort } from '@/types/search';
 
 import { performSearch } from '@/lib/search';
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ClockIcon, SparklesIcon } from 'lucide-react';
 
 export const SortTabs = ({ params }: { params: TSearchParams }) => {
     return (

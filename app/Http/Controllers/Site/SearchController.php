@@ -19,9 +19,14 @@ class SearchController extends Controller
         $query = $request->input('q', '');
         $type = $request->input('type', 'articles');
         $sort = $request->input('sort', 'relevant');
-        $author = $request->input('author');
-        $category = $request->input('category');
-        $tag = $request->input('tag');
+
+        $parseFilter = fn($input) => is_array($input)
+            ? array_values(array_filter($input))
+            : array_values(array_filter(explode(',', $input ?? '')));
+
+        $author = $parseFilter($request->input('author')) ?: null;
+        $category = $parseFilter($request->input('category')) ?: null;
+        $tag = $parseFilter($request->input('tag')) ?: null;
 
         $params = [
             'query' => $query,
@@ -69,9 +74,20 @@ class SearchController extends Controller
 
     /**
      * Search for posts with facets.
+     *
+     * @param  string[]|null  $author
+     * @param  string[]|null  $category
+     * @param  string[]|null  $tag
      */
-    private function searchArticles(Request $request, string $query, string $sort, ?string $author, ?string $category, ?string $tag, bool $myPostsOnly = false): array
-    {
+    private function searchArticles(
+        Request $request,
+        string $query,
+        string $sort,
+        ?array $author,
+        ?array $category,
+        ?array $tag,
+        bool $myPostsOnly = false
+    ): array {
         $baseQuery = Post::query()
             ->with(['user.image', 'image', 'category', 'tags'])
             ->withCount(['likes', 'comments'])
@@ -84,9 +100,9 @@ class SearchController extends Controller
                 ->orWhere('content', 'like', "%{$query}%")));
 
         $postsQuery = (clone $baseQuery)
-            ->when($author, fn ($q) => $q->whereHas('user', fn ($q) => $q->where('username', $author)))
-            ->when($category, fn ($q) => $q->whereHas('category', fn ($q) => $q->where('slug', $category)))
-            ->when($tag, fn ($q) => $q->whereHas('tags', fn ($q) => $q->where('slug', $tag)));
+            ->when($author && count(array_filter($author)), fn ($q) => $q->whereHas('user', fn ($q) => $q->whereIn('username', $author)))
+            ->when($category && count(array_filter($category)), fn ($q) => $q->whereHas('category', fn ($q) => $q->whereIn('slug', $category)))
+            ->when($tag && count(array_filter($tag)), fn ($q) => $q->whereHas('tags', fn ($q) => $q->whereIn('slug', $tag)));
 
         $this->applySorting($postsQuery, $sort, $query);
 
