@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Post;
+
 return [
 
     /*
@@ -203,6 +205,60 @@ return [
             //         'query_by' => 'name'
             //     ],
             // ],
+            Post::class => [
+                'collection-schema' => [
+                    'fields' => [
+                        [
+                            'name' => 'id',
+                            'type' => 'string',
+                        ],
+                        [
+                            'name' => 'user_id',
+                            'type' => 'string',
+                        ],
+                        [
+                            'name' => 'image_id',
+                            'type' => 'string',
+                        ],
+                        [
+                            'name' => 'category_id',
+                            'type' => 'string',
+                        ],
+                        [
+                            'name' => 'title',
+                            'type' => 'string',
+                        ],
+                        [
+                            'name' => 'slug',
+                            'type' => 'string',
+                        ],
+                        [
+                            'name' => 'content',
+                            'type' => 'string',
+                        ],
+                        [
+                            'name' => 'excerpt',
+                            'type' => 'string',
+                        ],
+                        [
+                            'name' => 'status',
+                            'type' => 'string',
+                        ],
+                        [
+                            'name' => 'published_at',
+                            'type' => 'int64',
+                        ],
+                        [
+                            'name' => 'created_at',
+                            'type' => 'int64',
+                        ],
+                    ],
+                    'default_sorting_field' => 'created_at',
+                ],
+                'search-parameters' => [
+                    'query_by' => 'name',
+                ],
+            ],
         ],
     ],
 

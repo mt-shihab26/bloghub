@@ -1,7 +1,6 @@
 <?php
 
 use App\Enums\UserRole;
-use App\Models\Image;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,8 +14,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignIdFor(Image::class)->nullable()->constrained('images')->onDelete('set null');
-
+            $table->foreignUuid('image_id')->nullable()->constrained('images')->nullOnDelete();
             $table->string('username')->unique();
             $table->string('role')->default(UserRole::AUTHOR->value);
             $table->string('name');
@@ -25,7 +23,6 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-
             $table->timestamps();
         });
 
