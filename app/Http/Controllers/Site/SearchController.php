@@ -34,36 +34,52 @@ class SearchController extends Controller
             'tag' => $this->parseFilterArray($request->input('tag')) ?: null,
         ];
 
-        $facets = [];
+        [$lists, $facets] = match ($params['type']) {
+            'articles' => (function () use ($params, $request) {
+                [$articles, $facets] = $this->searchArticles(params: $params, user: $request->user());
 
-        $lists = [];
+                return [
+                    ['articles' => $articles ?? null],
+                    ['articles' => $facets ?? null],
+                ];
+            })(),
+            'my-articles' => (function () use ($params, $request) {
+                [$articles, $facets] = $this->searchArticles(params: $params, user: $request->user(), mine: true);
 
-        switch ($params['type']) {
-            case 'articles':
-                $results = $this->searchArticles(params: $params, user: $request->user());
-                $lists['articles'] = $results['data'] ?? null;
-                $facets['articles'] = $results['facets'] ?? null;
-                break;
-            case 'my-articles':
-                $results = $this->searchArticles(params: $params, user: $request->user(), mine: true);
-                $lists['articles'] = $results['data'] ?? null;
-                $facets['articles'] = $results['facets'] ?? null;
-                break;
-            case 'authors':
-                $results = $this->searchPeople(params: $params);
-                $lists['authors'] = $results['data'] ?? null;
-                break;
-            case 'categories':
-                $results = $this->searchCategories(params: $params);
-                $lists['categories'] = $results['data'] ?? null;
-                break;
-            case 'tags':
-                $results = $this->searchTags(params: $params);
-                $lists['tags'] = $results['data'] ?? null;
-                break;
-            default:
-                break;
-        }
+                return [
+                    ['articles' => $articles ?? null],
+                    ['articles' => $facets ?? null],
+                ];
+            })(),
+            'authors' => (function () use ($params) {
+                [$authors, $facets] = $this->searchAuthors(params: $params);
+
+                return [
+                    ['authors' => $authors ?? null],
+                    ['authors' => $facets ?? null],
+                ];
+            })(),
+            'categories' => (function () use ($params) {
+                [$categories, $facets] = $this->searchCategories(params: $params);
+
+                return [
+                    ['categories' => $categories ?? null],
+                    ['categories' => $facets ?? null],
+                ];
+            })(),
+            'tags' => (function () use ($params) {
+                [$tags, $facets] = $this->searchTags(params: $params);
+
+                return [
+                    ['tags' => $tags ?? null],
+                    ['tags' => $facets ?? null],
+                ];
+            })(),
+            default => [
+                [],
+                [],
+            ],
+        };
 
         return inertia('site/search', [
             'params' => $params,
@@ -88,16 +104,9 @@ class SearchController extends Controller
     /**
      * Search for posts with facets.
      *
-     * @param  array  $params
-     * @param  string  $params['query']
-     * @param  string  $params['sort']
-     * @param  string[]|null  $params['author']
-     * @param  string[]|null  $params['category']
-     * @param  string[]|null  $params['tag']
-     * @param  bool  $mine
-     * @param  User|null  $user
+     * @param  array{query: string, sort: string, author: string[]|null, category: string[]|null, tag: string[]|null}  $params
      */
-    private function searchArticles($params, $user, $mine = false): array
+    private function searchArticles(array $params, ?User $user, bool $mine = false): array
     {
         $userId = $user?->id;
 
@@ -123,9 +132,14 @@ class SearchController extends Controller
 
     /**
      * Search for people/users.
+     *
+     * @param  array{query: string, sort: string}  $params
      */
-    private function searchPeople(string $query, string $sort): array
+    private function searchAuthors(array $params): array
     {
+        $query = $params['query'];
+        $sort = $params['sort'];
+
         $usersQuery = User::query()
             ->with(['image'])
             ->withCount(['posts', 'followers'])
@@ -148,9 +162,14 @@ class SearchController extends Controller
 
     /**
      * Search for tags.
+     *
+     * @param  array{query: string, sort: string}  $params
      */
-    private function searchTags(string $query, string $sort): array
+    private function searchTags(array $params): array
     {
+        $query = $params['query'];
+        $sort = $params['sort'];
+
         $tagsQuery = Tag::query()
             ->withCount(['posts'])
             ->when($query, function ($q) use ($query) {
@@ -168,9 +187,14 @@ class SearchController extends Controller
 
     /**
      * Search for categories.
+     *
+     * @param  array{query: string, sort: string}  $params
      */
-    private function searchCategories(string $query, string $sort): array
+    private function searchCategories(array $params): array
     {
+        $query = $params['query'];
+        $sort = $params['sort'];
+
         $categoriesQuery = Category::query()
             ->withCount(['posts'])
             ->when($query, function ($q) use ($query) {
