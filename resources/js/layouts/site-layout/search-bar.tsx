@@ -15,10 +15,12 @@ export const SearchBar = () => {
 
     const handler = () => {
         const query = search?.trim();
-        if (query && params.query !== query) performSearch({ query, type: params?.type });
+        if (query && params.query !== query) {
+            performSearch({ query, type: params?.type });
+        }
     };
 
-    useDebounce(handler, 400, [search]);
+    useDebounce(handler, 500, [search]);
 
     return (
         <div className="relative hidden md:block">
@@ -28,6 +30,12 @@ export const SearchBar = () => {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="w-160 pr-10 pl-10"
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        handler();
+                    }
+                }}
             />
             {search && (
                 <button
