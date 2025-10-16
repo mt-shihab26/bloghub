@@ -13,23 +13,15 @@ export const SearchBar = () => {
 
     const [search, setSearch] = useState(params?.query || '');
 
-    useDebounce(
-        () => {
-            const query = search?.trim();
-            if (query) performSearch({ query, type: params?.type });
-        },
-        400,
-        [search],
-    );
+    const handler = () => {
+        const query = search?.trim();
+        if (query && params.query !== query) performSearch({ query, type: params?.type });
+    };
+
+    useDebounce(handler, 400, [search]);
 
     return (
-        <form
-            className="relative hidden md:block"
-            onSubmit={(e) => {
-                e.preventDefault();
-                performSearch({ ...params, query: search.trim() });
-            }}
-        >
+        <div className="relative hidden md:block">
             <SearchIcon className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
             <Input
                 placeholder="Search articles, authors, categories, tags..."
@@ -49,6 +41,6 @@ export const SearchBar = () => {
                     <XIcon className="h-4 w-4" />
                 </button>
             )}
-        </form>
+        </div>
     );
 };
