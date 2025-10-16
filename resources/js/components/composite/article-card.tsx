@@ -11,18 +11,30 @@ import {
     togglePostLike,
 } from '@/lib/links';
 
-import type { TIndexPost } from '@/types/home';
+import type { TCategory, TImage, TPost, TTag, TUser } from '@/types/models';
 
 import { formatInitials, formatTimeAgo } from '@/lib/format';
 import { readingTime } from '@/lib/utils';
 
+import { IconButton } from '@/components/screens/home/icon-button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Link } from '@inertiajs/react';
 import { BookmarkIcon, Clock, HeartIcon, MessageCircleIcon } from 'lucide-react';
-import { IconButton } from './icon-button';
 
-export const Article = ({ post }: { post: TIndexPost }) => {
+export type TArticleCard = Pick<TPost, 'id' | 'slug' | 'title' | 'published_at' | 'excerpt' | 'content'> & {
+    user: Pick<TUser, 'username' | 'name'> & { image?: Pick<TImage, 'name'> | null };
+    image?: Pick<TImage, 'name'> | null;
+    category?: Pick<TCategory, 'slug' | 'name'> | null;
+    tags?: Pick<TTag, 'slug' | 'name'>[] | null;
+    likes_count: number;
+    liked_by_user: boolean;
+    comments_count: number;
+    commented_by_user: boolean;
+    bookmarked_by_user: boolean;
+};
+
+export const ArticleCard = ({ post }: { post: TArticleCard }) => {
     return (
         <div key={post.id} className="overflow-hidden rounded-lg border">
             <div className="flex flex-col md:flex-row">

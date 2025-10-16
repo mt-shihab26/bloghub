@@ -7,7 +7,7 @@ import type {
     TSearchUser,
 } from '@/types/search';
 
-import type { TIndexPost } from '@/types/home';
+import type { TArticleCard } from '@/components/composite/article-card';
 
 import { cn } from '@/lib/utils';
 
@@ -31,7 +31,7 @@ const Search = ({
 }: {
     params: TSearchParams;
     facets?: TSearchFacets;
-    articles?: TSearchPaginated<TIndexPost>;
+    articles?: TSearchPaginated<TArticleCard>;
     authors?: TSearchPaginated<TSearchUser>;
     categories?: TSearchPaginated<TSearchCategory>;
     tags?: TSearchPaginated<TSearchTag>;

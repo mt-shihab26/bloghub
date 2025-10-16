@@ -17,22 +17,22 @@ export const postLink = (user: Pick<TUser, 'username'>, post: Pick<TPost, 'slug'
     return `${link}${extra}`;
 };
 
-export const imageLink = (image: TImage | null | undefined): string => {
+export const imageLink = (image: Pick<TImage, 'name'> | null | undefined): string => {
     if (!image) {
         return '';
     }
     return image?.name;
 };
 
-export const categoryName = (category: TCategory | null | undefined): string => {
+export const categoryName = (category: Pick<TCategory, 'name'> | null | undefined): string => {
     return category?.name || 'Uncategorized';
 };
 
-export const postLikes = (post: (TPost & { likes_count?: number }) | null | undefined): number => {
+export const postLikes = (post: { likes_count?: number } | null | undefined): number => {
     return post?.likes_count || 0;
 };
 
-export const postComments = (post: (TPost & { comments_count?: number }) | null | undefined): number => {
+export const postComments = (post: { comments_count?: number } | null | undefined): number => {
     return post?.comments_count || 0;
 };
 
@@ -59,13 +59,13 @@ export const toggleFollowLink = (user: Pick<TUser, 'id'>, authUser?: Pick<TUser,
     return router.patch(route('site.users.follow', user), undefined, { preserveScroll: true });
 };
 
-export const togglePostLike = (post: TPost): void => {
+export const togglePostLike = (post: Pick<TPost, 'id'>): void => {
     return router.patch(route('site.posts.like', post), undefined, {
         preserveScroll: true,
     });
 };
 
-export const togglePostBookmark = (post: TPost): void => {
+export const togglePostBookmark = (post: Pick<TPost, 'id'>): void => {
     return router.patch(route('site.posts.bookmark', post), undefined, {
         preserveScroll: true,
     });

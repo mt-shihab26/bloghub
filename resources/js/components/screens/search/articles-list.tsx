@@ -1,13 +1,13 @@
-import type { TIndexPost } from '@/types/home';
+import type { TArticleCard } from '@/components/composite/article-card';
 import type { TSearchPaginated } from '@/types/search';
 
 import { router } from '@inertiajs/react';
 
-import { Articles } from '@/components/screens/home/articles';
+import { ArticleCard } from '@/components/composite/article-card';
 import { Button } from '@/components/ui/button';
 import { SearchIcon } from 'lucide-react';
 
-export const ArticlesList = ({ articles }: { articles: TSearchPaginated<TIndexPost> }) => {
+export const ArticlesList = ({ articles }: { articles: TSearchPaginated<TArticleCard> }) => {
     const handleLoadMore = () => {
         if (articles.next_page_url) {
             router.get(
@@ -26,8 +26,11 @@ export const ArticlesList = ({ articles }: { articles: TSearchPaginated<TIndexPo
         <>
             {articles.data.length > 0 ? (
                 <>
-                    <Articles posts={articles.data} />
-
+                    <div className="space-y-6">
+                        {articles.data.map((post) => (
+                            <ArticleCard key={post.id} post={post} />
+                        ))}
+                    </div>
                     {articles.next_page_url && (
                         <div className="mt-8 flex justify-center">
                             <Button onClick={handleLoadMore} variant="outline" size="lg">

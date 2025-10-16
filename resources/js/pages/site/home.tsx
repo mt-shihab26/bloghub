@@ -1,7 +1,7 @@
 import type { TIndexCategory, TIndexDiscussion, TIndexPost } from '@/types/home';
 import type { TTag } from '@/types/models';
 
-import { Articles } from '@/components/screens/home/articles';
+import { ArticleCard } from '@/components/composite/article-card';
 import { Categories } from '@/components/screens/home/categories';
 import { Discussions } from '@/components/screens/home/discussions';
 import { Filters } from '@/components/screens/home/filters';
@@ -28,7 +28,11 @@ const Index = ({
                 </aside>
                 <main className="h-full lg:col-span-4">
                     <Filters />
-                    <Articles posts={posts} />
+                    <div className="space-y-6">
+                        {posts.map((post) => (
+                            <ArticleCard key={post.id} post={post} />
+                        ))}
+                    </div>
                 </main>
                 <aside className="h-full space-y-6 lg:col-span-2">
                     <Discussions posts={discussions} />
