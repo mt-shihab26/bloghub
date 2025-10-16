@@ -21,6 +21,14 @@ return new class extends Migration
             $table->string('status')->default(CommentStatus::APPROVED->value);
             $table->timestamps();
         });
+
+        Schema::create('comment_user_likes', function (Blueprint $table) {
+            $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignUuid('comment_id')->constrained('comments')->cascadeOnDelete();
+            $table->timestamps();
+
+            $table->primary(['user_id', 'comment_id']);
+        });
     }
 
     /**
@@ -28,6 +36,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('comment_user_likes');
         Schema::dropIfExists('comments');
     }
 };

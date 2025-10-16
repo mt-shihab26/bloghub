@@ -25,6 +25,22 @@ return new class extends Migration
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });
+
+        Schema::create('post_user_likes', function (Blueprint $table) {
+            $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignUuid('post_id')->constrained('posts')->cascadeOnDelete();
+            $table->timestamps();
+
+            $table->primary(['user_id', 'post_id']);
+        });
+
+        Schema::create('post_user_bookmarks', function (Blueprint $table) {
+            $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignUuid('post_id')->constrained('posts')->cascadeOnDelete();
+            $table->timestamps();
+
+            $table->primary(['user_id', 'post_id']);
+        });
     }
 
     /**
@@ -32,6 +48,8 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('post_user_bookmarks');
+        Schema::dropIfExists('post_user_likes');
         Schema::dropIfExists('posts');
     }
 };

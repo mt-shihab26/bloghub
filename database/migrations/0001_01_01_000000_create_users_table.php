@@ -40,6 +40,14 @@ return new class extends Migration
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
+
+        Schema::create('followers', function (Blueprint $table) {
+            $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignUuid('following_id')->constrained('users')->cascadeOnDelete();
+            $table->timestamps();
+
+            $table->primary(['user_id', 'following_id']);
+        });
     }
 
     /**
@@ -50,5 +58,6 @@ return new class extends Migration
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
+        Schema::dropIfExists('followers');
     }
 };
