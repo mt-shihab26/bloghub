@@ -47,6 +47,21 @@ class Post extends Model
     }
 
     /**
+     * Get the indexable data array for the model.
+     *
+     * @return array<string, mixed>
+     */
+    public function toSearchableArray(): array
+    {
+        return [
+            ...$this->toArray(),
+            'published_at' => $this->published_at->timestamp,
+            'created_at' => $this->created_at->timestamp,
+            'updated_at' => $this->updated_at->timestamp,
+        ];
+    }
+
+    /**
      * Determine if the model should be searchable.
      */
     public function shouldBeSearchable(): bool

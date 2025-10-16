@@ -31,7 +31,7 @@ return [
     |
     */
 
-    'prefix' => env('SCOUT_PREFIX', ''),
+    'prefix' => env('SCOUT_PREFIX', 'bloghub-'),
 
     /*
     |--------------------------------------------------------------------------
@@ -250,6 +250,10 @@ return [
                         ],
                         [
                             'name' => 'created_at',
+                            'type' => 'int64',
+                        ],
+                        [
+                            'name' => 'updated_at',
                             'type' => 'int64',
                         ],
                     ],
