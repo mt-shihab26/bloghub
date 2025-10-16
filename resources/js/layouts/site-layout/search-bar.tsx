@@ -26,6 +26,7 @@ export const SearchBar = () => {
         <div className="relative hidden md:block">
             <SearchIcon className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
             <Input
+                id="search"
                 placeholder="Search articles, authors, categories, tags..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
