@@ -53,9 +53,32 @@ class Post extends Model
      */
     public function toSearchableArray(): array
     {
+        $this->loadMissing(['user.image', 'image', 'category', 'tags']);
+
+        $user = [
+            'username' => $this->user->username,
+            'name' => $this->user->name,
+            'image' => $this->user->image ? ['name' => $this->user->image->name] : null,
+        ];
+
+        $category = $this->category ? [
+            'slug' => $this->category->slug,
+            'name' => $this->category->name,
+        ] : null;
+
         return [
-            ...$this->toArray(),
+            'id' => $this->id,
+            'slug' => $this->slug,
+            'title' => $this->title,
             'published_at' => $this->published_at->timestamp,
+            'excerpt' => $this->excerpt,
+            'content' => $this->content,
+            'user' => $user,
+            'image' => $this->image ? ['name' => $this->image->name] : null,
+            'category' => $category,
+            'tags' => $this->tags->map(fn ($tag) => ['slug' => $tag->slug, 'name' => $tag->name])->toArray(),
+            'likes_count' => $this->likes()->count(),
+            'comments_count' => $this->comments()->count(),
             'created_at' => $this->created_at->timestamp,
             'updated_at' => $this->updated_at->timestamp,
         ];
