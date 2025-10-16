@@ -260,7 +260,7 @@ return [
                     'default_sorting_field' => 'created_at',
                 ],
                 'search-parameters' => [
-                    'query_by' => 'name',
+                    'query_by' => 'title,content,excerpt',
                 ],
             ],
         ],

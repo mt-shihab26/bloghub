@@ -15,7 +15,7 @@ export const SearchBar = () => {
 
     const handler = () => {
         const query = search?.trim();
-        if (query && params.query !== query) {
+        if (query && params?.query !== query) {
             router.visit(searchRoute({ ...params, query }), { preserveState: true });
         }
     };
