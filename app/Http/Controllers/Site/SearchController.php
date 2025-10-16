@@ -110,15 +110,21 @@ class SearchController extends Controller
     {
         $userId = $user?->id;
 
-        $builder = fn (Builder $query) => $query
+        $queryBuilder = fn (Builder $query) => $query
             ->with(['user.image', 'image', 'category', 'tags'])
             ->withCount(['likes', 'comments'])
             ->withExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $userId)])
             ->withExists(['comments as commented_by_user' => fn ($q) => $q->where('user_id', $userId)])
             ->withExists(['bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $userId)]);
 
-        $articles = Post::search($params['query'])
-            ->query($builder)
+        $searchBuilder = Post::search($params['query'])
+            ->query($queryBuilder);
+
+        if ($mine) {
+            $searchBuilder->where('user_id', $user->id);
+        }
+
+        $articles = $searchBuilder
             ->paginate(10)
             ->withQueryString();
 
