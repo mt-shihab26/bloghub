@@ -111,24 +111,27 @@ class SearchController extends Controller
     {
         $userId = $user?->id;
 
-        $searchBuilder = Post::search($params['query'])->query(fn (Builder $query) => $query
+        $load = fn (Builder $query) => $query
             ->with(['user.image', 'image', 'category', 'tags'])
             ->withCount(['likes', 'comments'])
             ->withExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $userId)])
             ->withExists(['comments as commented_by_user' => fn ($q) => $q->where('user_id', $userId)])
-            ->withExists(['bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $userId)]));
+            ->withExists(['bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $userId)]);
 
-        if ($mine) {
-            $searchBuilder->where('user_id', $user->id);
-        }
+        $articles = Post::search($params['query'])
+            ->when($mine, fn ($builder) => $builder->where('user_id', $user->id))
+            ->when($params['author'], fn ($builder) => $builder->whereIn('user_id', $params['author']))
+            ->when($params['category'], fn ($builder) => $builder->whereIn('category_id', $params['category']))
+            ->when($params['tag'], fn ($builder) => $builder->whereIn('tag_id', $params['tag']))
+            ->when($params['sort'] === 'newest', fn ($builder) => $builder->latest('published_at'))
+            ->when($params['sort'] === 'oldest', fn ($builder) => $builder->oldest('published_at'))
+            ->query($load)
+            ->paginate(10)
+            ->withQueryString();
 
-        $articles = $searchBuilder->paginate(10)->withQueryString();
         $facets = $this->generateFacetsFromArticles($articles);
 
-        return [
-            $articles,
-            $facets,
-        ];
+        return [$articles, $facets];
     }
 
     /**
@@ -309,26 +312,5 @@ class SearchController extends Controller
             $tags,
             $facets,
         ];
-    }
-
-    /**
-     * Apply sorting to a query.
-     */
-    private function applySorting($query, string $sort, string $searchQuery): void
-    {
-        match ($sort) {
-            'newest' => $query->latest('published_at'),
-            'oldest' => $query->oldest('published_at'),
-            'relevant' => $searchQuery
-                ? $query->orderByRaw('
-                    CASE
-                        WHEN title LIKE ? THEN 1
-                        WHEN excerpt LIKE ? THEN 2
-                        ELSE 3
-                    END
-                ', ["%{$searchQuery}%", "%{$searchQuery}%"])->latest('published_at')
-                : $query->latest('published_at'),
-            default => $query->latest('published_at'),
-        };
     }
 }
