@@ -3,8 +3,9 @@ import type { TSearchParams, TSearchType } from '@/types/search';
 
 import { searchRoute } from '@/lib/search';
 import { cn } from '@/lib/utils';
-import { Link, usePage } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 
+import { Link } from '@inertiajs/react';
 import { BookmarkIcon, FileTextIcon, FolderIcon, LucideIcon, TagIcon, UserIcon } from 'lucide-react';
 
 export const FiltersType = ({ params }: { params: TSearchParams }) => {

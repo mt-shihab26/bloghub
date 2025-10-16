@@ -1,7 +1,7 @@
 import type { TSearchParams } from '@/types/search';
 
 import { useDebounce } from '@/hooks/use-debounce';
-import { performSearch } from '@/lib/search';
+import { searchRoute } from '@/lib/search';
 import { router, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
@@ -16,11 +16,11 @@ export const SearchBar = () => {
     const handler = () => {
         const query = search?.trim();
         if (query && params.query !== query) {
-            performSearch({ query, type: params?.type });
+            router.visit(searchRoute({ ...params, query }), { preserveState: true });
         }
     };
 
-    useDebounce(handler, 300, [search]);
+    useDebounce(handler, 400, [search]);
 
     return (
         <div className="relative hidden md:block">

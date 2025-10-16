@@ -1,7 +1,5 @@
 import type { TSearchParams } from '@/types/search';
 
-import { router } from '@inertiajs/react';
-
 export const searchRoute = ({
     query = '',
     type = 'articles',
@@ -18,18 +16,4 @@ export const searchRoute = ({
         category: category && category.length > 0 ? category.join(',') : undefined,
         tag: tag && tag.length > 0 ? tag.join(',') : undefined,
     });
-};
-
-export const performSearch = (params: TSearchParams) => {
-    const query = params.query?.trim();
-    if (query) {
-        router.get(
-            searchRoute({ ...params, query }),
-            {},
-            {
-                preserveState: true,
-                preserveScroll: true,
-            },
-        );
-    }
 };
