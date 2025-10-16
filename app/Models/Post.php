@@ -68,8 +68,12 @@ class Post extends Model
 
         return [
             'id' => $this->id,
+            'user_id' => $this->user_id,
+            'image_id' => $this->image_id,
+            'category_id' => $this->category_id,
             'slug' => $this->slug,
             'title' => $this->title,
+            'status' => $this->status->value,
             'published_at' => $this->published_at->timestamp,
             'excerpt' => $this->excerpt,
             'content' => $this->content,

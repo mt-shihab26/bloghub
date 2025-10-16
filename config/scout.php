@@ -207,6 +207,7 @@ return [
             // ],
             Post::class => [
                 'collection-schema' => [
+                    'enable_nested_fields' => true,
                     'fields' => [
                         [
                             'name' => 'id',
