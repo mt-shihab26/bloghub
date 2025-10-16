@@ -16,10 +16,17 @@ export type TSearchParams = {
     tag?: string[] | null;
 };
 
-export type TSearchFacets = {
+export type TSearchArticlesFacets = {
     authors?: TFacetUser[];
     categories?: TFacetCategory[];
     tags?: TFacetTag[];
+};
+
+export type TSearchFacets = {
+    articles?: TSearchArticlesFacets;
+    authors?: null;
+    categories?: null;
+    tags?: null;
 };
 
 export type TSearchPaginated<T> = {
@@ -40,4 +47,11 @@ export type TSearchCategory = Pick<TCategory, 'id' | 'name' | 'slug' | 'descript
 
 export type TSearchTag = Pick<TTag, 'id' | 'name' | 'slug'> & {
     posts_count?: number;
+};
+
+export type TSearchLists = {
+    articles?: TSearchPaginated<TPostCard>;
+    authors?: TSearchPaginated<TSearchUser>;
+    categories?: TSearchPaginated<TSearchCategory>;
+    tags?: TSearchPaginated<TSearchTag>;
 };

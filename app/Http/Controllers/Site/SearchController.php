@@ -117,7 +117,7 @@ class SearchController extends Controller
             ->withExists(['comments as commented_by_user' => fn ($q) => $q->where('user_id', $userId)])
             ->withExists(['bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $userId)]);
 
-        $posts = Post::search($params['query'])
+        $articles = Post::search($params['query'])
             ->query($builder)
             ->paginate(10)
             ->withQueryString();
@@ -125,8 +125,8 @@ class SearchController extends Controller
         $facets = null;
 
         return [
-            'data' => $posts,
-            'facets' => $facets,
+            $articles,
+            $facets,
         ];
     }
 
@@ -157,32 +157,13 @@ class SearchController extends Controller
             default => $usersQuery->orderByDesc('posts_count')->latest('created_at'),
         };
 
-        return ['data' => $usersQuery->paginate(10)->withQueryString()];
-    }
+        $authors = $usersQuery->paginate(10)->withQueryString();
+        $facets = null;
 
-    /**
-     * Search for tags.
-     *
-     * @param  array{query: string, sort: string}  $params
-     */
-    private function searchTags(array $params): array
-    {
-        $query = $params['query'];
-        $sort = $params['sort'];
-
-        $tagsQuery = Tag::query()
-            ->withCount(['posts'])
-            ->when($query, function ($q) use ($query) {
-                $q->where('name', 'like', "%{$query}%");
-            });
-
-        match ($sort) {
-            'newest' => $tagsQuery->latest('created_at'),
-            'oldest' => $tagsQuery->oldest('created_at'),
-            default => $tagsQuery->orderByDesc('posts_count')->latest('created_at'),
-        };
-
-        return ['data' => $tagsQuery->paginate(10)->withQueryString()];
+        return [
+            $authors,
+            $facets,
+        ];
     }
 
     /**
@@ -210,7 +191,44 @@ class SearchController extends Controller
             default => $categoriesQuery->orderByDesc('posts_count')->latest('created_at'),
         };
 
-        return ['data' => $categoriesQuery->paginate(10)->withQueryString()];
+        $categories = $categoriesQuery->paginate(10)->withQueryString();
+        $facets = null;
+
+        return [
+            $categories,
+            $facets,
+        ];
+    }
+
+    /**
+     * Search for tags.
+     *
+     * @param  array{query: string, sort: string}  $params
+     */
+    private function searchTags(array $params): array
+    {
+        $query = $params['query'];
+        $sort = $params['sort'];
+
+        $tagsQuery = Tag::query()
+            ->withCount(['posts'])
+            ->when($query, function ($q) use ($query) {
+                $q->where('name', 'like', "%{$query}%");
+            });
+
+        match ($sort) {
+            'newest' => $tagsQuery->latest('created_at'),
+            'oldest' => $tagsQuery->oldest('created_at'),
+            default => $tagsQuery->orderByDesc('posts_count')->latest('created_at'),
+        };
+
+        $tags = $tagsQuery->paginate(10)->withQueryString();
+        $facets = null;
+
+        return [
+            $tags,
+            $facets,
+        ];
     }
 
     /**

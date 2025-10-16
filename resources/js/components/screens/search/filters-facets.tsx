@@ -10,36 +10,38 @@ import { FiltersFacetsItems } from './filters-facets-items';
 export const FiltersFacets = ({ params, facets }: { params: TSearchParams; facets: TSearchFacets }) => {
     return (
         <div className="space-y-4">
-            {facets?.authors && params.type !== 'my-articles' && facets.authors.length > 0 && (
+            {params.type !== 'my-articles' && facets?.articles?.authors && facets?.articles?.authors.length > 0 && (
                 <FiltersFacetsItems
                     icon={UserIcon}
                     title="Authors"
                     field="author"
-                    items={facets.authors?.map((a) => ({ value: a.id, label: a.name, count: a.count })) || []}
-                    selects={params.author || []}
                     params={params}
+                    selects={params.author || []}
+                    items={facets.articles.authors.map((a) => ({ value: a.id, label: a.name, count: a.count })) || []}
                 />
             )}
 
-            {facets?.categories && facets.categories.length > 0 && (
+            {facets?.articles?.categories && facets?.articles?.categories.length > 0 && (
                 <FiltersFacetsItems
                     icon={FolderIcon}
                     title="Categories"
                     field="category"
-                    items={facets.categories?.map((a) => ({ value: a.slug, label: a.name, count: a.count })) || []}
-                    selects={params.category || []}
                     params={params}
+                    selects={params.category || []}
+                    items={
+                        facets.articles.categories.map((c) => ({ value: c.slug, label: c.name, count: c.count })) || []
+                    }
                 />
             )}
 
-            {facets?.tags && facets.tags.length > 0 && (
+            {facets?.articles?.tags && facets.articles.tags.length > 0 && (
                 <FiltersFacetsItems
                     icon={TagIcon}
                     title="Tags"
                     field="tag"
-                    items={facets.tags?.map((a) => ({ value: a.slug, label: a.name, count: a.count })) || []}
-                    selects={params.tag || []}
                     params={params}
+                    selects={params.tag || []}
+                    items={facets.articles.tags.map((t) => ({ value: t.slug, label: t.name, count: t.count })) || []}
                 />
             )}
 
