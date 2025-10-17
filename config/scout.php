@@ -258,6 +258,11 @@ return [
                             'name' => 'updated_at',
                             'type' => 'int64',
                         ],
+                        [
+                            'name' => 'tags',
+                            'type' => 'string[]',
+                            'optional' => true,
+                        ],
                     ],
                     'default_sorting_field' => 'published_at',
                 ],

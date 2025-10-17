@@ -66,6 +66,7 @@ class Post extends Model
             'published_at' => $this->published_at->timestamp,
             'created_at' => $this->created_at->timestamp,
             'updated_at' => $this->updated_at->timestamp,
+            'tags' => $this->tags->pluck('id')->toArray(),
         ];
     }
 

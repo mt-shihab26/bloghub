@@ -122,7 +122,7 @@ class SearchController extends Controller
             ->when($mine, fn ($builder) => $builder->where('user_id', $user->id))
             ->when($params['author'], fn ($builder) => $builder->whereIn('user_id', $params['author']))
             ->when($params['category'], fn ($builder) => $builder->whereIn('category_id', $params['category']))
-            ->when($params['tag'], fn ($builder) => $builder->whereIn('tag_id', $params['tag']))
+            ->when($params['tag'], fn ($builder) => $builder->whereIn('tags', $params['tag']))
             ->when($params['sort'] === 'newest', fn ($builder) => $builder->latest('published_at'))
             ->when($params['sort'] === 'oldest', fn ($builder) => $builder->oldest('published_at'))
             ->query($load)
