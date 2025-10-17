@@ -53,6 +53,8 @@ class Post extends Model
      */
     public function toSearchableArray(): array
     {
+        $this->loadMissing('tags');
+
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
