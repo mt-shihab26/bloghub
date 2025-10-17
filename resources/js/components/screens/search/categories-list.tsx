@@ -11,12 +11,15 @@ export const CategoriesList = ({ categories }: { categories: TSearchPaginated<TS
             {categories.data.length > 0 ? (
                 <InfiniteScroll data="categories" preserveUrl>
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        {categories.data.map((category) => (
+                        {categories.data.map((category, index) => (
                             <Link
                                 key={category.id}
                                 href={categoryLink(category)}
-                                className="group overflow-hidden rounded-lg border p-6 transition-colors hover:border-primary"
+                                className="group relative overflow-hidden rounded-lg border p-6 transition-colors hover:border-primary"
                             >
+                                <div className="absolute right-2 top-2 rounded-full bg-black/70 px-2.5 py-1 text-sm font-semibold text-white">
+                                    {index + 1}
+                                </div>
                                 <div className="mb-3 flex items-start justify-between">
                                     <div className="flex items-center gap-3">
                                         <div className="rounded-lg bg-primary/10 p-2">

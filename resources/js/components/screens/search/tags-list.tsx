@@ -11,12 +11,15 @@ export const TagsList = ({ tags }: { tags: TSearchPaginated<TSearchTag> }) => {
             {tags.data.length > 0 ? (
                 <InfiniteScroll data="tags" preserveUrl>
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        {tags.data.map((tag) => (
+                        {tags.data.map((tag, index) => (
                             <Link
                                 key={tag.id}
                                 href={tagLink(tag)}
-                                className="group overflow-hidden rounded-lg border p-6 transition-colors hover:border-primary"
+                                className="group relative overflow-hidden rounded-lg border p-6 transition-colors hover:border-primary"
                             >
+                                <div className="absolute right-2 top-2 rounded-full bg-black/70 px-2.5 py-1 text-sm font-semibold text-white">
+                                    {index + 1}
+                                </div>
                                 <div className="flex items-center gap-3">
                                     <div className="rounded-lg bg-primary/10 p-2">
                                         <HashIcon className="h-5 w-5 text-primary" />
