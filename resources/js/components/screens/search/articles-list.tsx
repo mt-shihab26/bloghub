@@ -24,7 +24,7 @@ export const ArticlesList = ({ articles }: { articles: TSearchPaginated<TPostCar
                             href={articles.next_page_url}
                             preserveState={true}
                             preserveScroll={true}
-                            only={['articles']}
+                            only={['lists']}
                             className="mt-8 flex justify-center"
                         >
                             <Button variant="outline" size="lg">
