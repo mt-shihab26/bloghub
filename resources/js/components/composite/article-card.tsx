@@ -34,11 +34,11 @@ export type TPostCard = Pick<TPost, 'id' | 'slug' | 'title' | 'published_at' | '
     bookmarked_by_user: boolean;
 };
 
-export const ArticleCard = ({ post }: { post: TPostCard }) => {
+export const ArticleCard = ({ ith, post }: { ith: number; post: TPostCard }) => {
     return (
         <div key={post.id} className="overflow-hidden rounded-lg border">
             <div className="flex flex-col md:flex-row">
-                <div className="md:w-1/3">
+                <div className="relative md:w-1/3">
                     <Link href={postLink(post.user, post)}>
                         <img
                             src={imageLink(post.image)}
@@ -48,6 +48,9 @@ export const ArticleCard = ({ post }: { post: TPostCard }) => {
                             className="h-48 w-full object-cover md:h-full"
                         />
                     </Link>
+                    <div className="absolute top-2 left-2 rounded-full bg-black/70 px-2.5 py-1 text-sm font-semibold text-white">
+                        {ith}
+                    </div>
                 </div>
                 <div className="p-4 md:w-2/3">
                     <div className="mb-2 flex items-center space-x-2">

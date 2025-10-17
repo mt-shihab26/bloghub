@@ -12,10 +12,7 @@ export const ArticlesList = ({ articles }: { articles: TSearchPaginated<TPostCar
                 <InfiniteScroll data="articles">
                     <div className="space-y-6">
                         {articles.data.map((post, index) => (
-                            <div key={post.id}>
-                                {index + 1}
-                                <ArticleCard key={post.id} post={post} />
-                            </div>
+                            <ArticleCard ith={index + 1} key={post.id} post={post} />
                         ))}
                     </div>
                 </InfiniteScroll>

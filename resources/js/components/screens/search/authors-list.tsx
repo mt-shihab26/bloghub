@@ -18,7 +18,7 @@ export const AuthorsList = ({ authors }: { authors: TSearchPaginated<TSearchUser
             {authors.data.length > 0 ? (
                 <InfiniteScroll data="authors" preserveUrl>
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        {authors.data.map((user) => (
+                        {authors.data.map((user, index) => (
                             <div key={user.id} className="overflow-hidden rounded-lg border p-6">
                                 <div className="flex items-start gap-4">
                                     <Avatar className="h-16 w-16">
