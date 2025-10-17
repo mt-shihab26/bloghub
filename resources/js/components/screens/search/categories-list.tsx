@@ -1,31 +1,15 @@
 import type { TSearchCategory, TSearchPaginated } from '@/types/search';
 
 import { categoryLink } from '@/lib/links';
-import { router } from '@inertiajs/react';
 
-import { Button } from '@/components/ui/button';
-import { Link } from '@inertiajs/react';
+import { InfiniteScroll, Link } from '@inertiajs/react';
 import { FolderIcon, SearchIcon } from 'lucide-react';
 
 export const CategoriesList = ({ categories }: { categories: TSearchPaginated<TSearchCategory> }) => {
-    const handleLoadMore = () => {
-        if (categories.next_page_url) {
-            router.get(
-                categories.next_page_url,
-                {},
-                {
-                    preserveState: true,
-                    preserveScroll: true,
-                    only: ['categories'],
-                },
-            );
-        }
-    };
-
     return (
         <>
             {categories.data.length > 0 ? (
-                <>
+                <InfiniteScroll data="categories" preserveUrl>
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                         {categories.data.map((category) => (
                             <Link
@@ -54,15 +38,7 @@ export const CategoriesList = ({ categories }: { categories: TSearchPaginated<TS
                             </Link>
                         ))}
                     </div>
-
-                    {categories.next_page_url && (
-                        <div className="mt-8 flex justify-center">
-                            <Button onClick={handleLoadMore} variant="outline" size="lg">
-                                Load More
-                            </Button>
-                        </div>
-                    )}
-                </>
+                </InfiniteScroll>
             ) : (
                 <div className="rounded-lg border border-dashed p-12 text-center">
                     <SearchIcon className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />

@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SearchController extends Controller
 {
@@ -40,7 +41,7 @@ class SearchController extends Controller
                 [$articles, $facets] = $this->searchArticles(params: $params, user: $request->user());
 
                 return [
-                    ['articles' => $articles ?? null],
+                    ['articles' => Inertia::scroll($articles)],
                     ['articles' => $facets ?? null],
                 ];
             })(),
@@ -48,7 +49,7 @@ class SearchController extends Controller
                 [$articles, $facets] = $this->searchArticles(params: $params, user: $request->user(), mine: true);
 
                 return [
-                    ['articles' => $articles ?? null],
+                    ['articles' => Inertia::scroll($articles)],
                     ['articles' => $facets ?? null],
                 ];
             })(),
@@ -56,7 +57,7 @@ class SearchController extends Controller
                 [$authors, $facets] = $this->searchAuthors(params: $params);
 
                 return [
-                    ['authors' => $authors ?? null],
+                    ['authors' => Inertia::scroll($authors)],
                     ['authors' => $facets ?? null],
                 ];
             })(),
@@ -64,7 +65,7 @@ class SearchController extends Controller
                 [$categories, $facets] = $this->searchCategories(params: $params);
 
                 return [
-                    ['categories' => $categories ?? null],
+                    ['categories' => Inertia::scroll($categories)],
                     ['categories' => $facets ?? null],
                 ];
             })(),
@@ -72,7 +73,7 @@ class SearchController extends Controller
                 [$tags, $facets] = $this->searchTags(params: $params);
 
                 return [
-                    ['tags' => $tags ?? null],
+                    ['tags' => Inertia::scroll($tags)],
                     ['tags' => $facets ?? null],
                 ];
             })(),
@@ -85,7 +86,10 @@ class SearchController extends Controller
         return inertia('site/search', [
             'params' => $params,
             'facets' => $facets,
-            'lists' => $lists,
+            'articles' => $lists['articles'] ?? null,
+            'authors' => $lists['authors'] ?? null,
+            'categories' => $lists['categories'] ?? null,
+            'tags' => $lists['tags'] ?? null,
         ]);
     }
 

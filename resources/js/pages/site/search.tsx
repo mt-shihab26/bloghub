@@ -28,7 +28,7 @@ const total = (lists: TSearchLists, type?: TSearchType) => {
     }
 };
 
-const Search = ({ params, facets, lists }: { params: TSearchParams; facets?: TSearchFacets; lists: TSearchLists }) => {
+const Search = ({ params, facets, ...lists }: { params: TSearchParams; facets?: TSearchFacets } & TSearchLists) => {
     const totalItems = total(lists, params.type);
 
     return (

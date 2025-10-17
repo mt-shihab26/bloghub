@@ -1,31 +1,15 @@
 import type { TSearchPaginated, TSearchTag } from '@/types/search';
 
 import { tagLink } from '@/lib/links';
-import { router } from '@inertiajs/react';
 
-import { Button } from '@/components/ui/button';
-import { Link } from '@inertiajs/react';
+import { InfiniteScroll, Link } from '@inertiajs/react';
 import { HashIcon, SearchIcon } from 'lucide-react';
 
 export const TagsList = ({ tags }: { tags: TSearchPaginated<TSearchTag> }) => {
-    const handleLoadMore = () => {
-        if (tags.next_page_url) {
-            router.get(
-                tags.next_page_url,
-                {},
-                {
-                    preserveState: true,
-                    preserveScroll: true,
-                    only: ['tags'],
-                },
-            );
-        }
-    };
-
     return (
         <>
             {tags.data.length > 0 ? (
-                <>
+                <InfiniteScroll data="tags" preserveUrl>
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                         {tags.data.map((tag) => (
                             <Link
@@ -47,15 +31,7 @@ export const TagsList = ({ tags }: { tags: TSearchPaginated<TSearchTag> }) => {
                             </Link>
                         ))}
                     </div>
-
-                    {tags.next_page_url && (
-                        <div className="mt-8 flex justify-center">
-                            <Button onClick={handleLoadMore} variant="outline" size="lg">
-                                Load More
-                            </Button>
-                        </div>
-                    )}
-                </>
+                </InfiniteScroll>
             ) : (
                 <div className="rounded-lg border border-dashed p-12 text-center">
                     <SearchIcon className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />

@@ -3,34 +3,20 @@ import type { TSearchPaginated, TSearchUser } from '@/types/search';
 
 import { formatInitials } from '@/lib/format';
 import { authorLink, imageLink, toggleFollowLink } from '@/lib/links';
-import { router, usePage } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Link } from '@inertiajs/react';
+import { InfiniteScroll, Link } from '@inertiajs/react';
 import { SearchIcon, UsersIcon } from 'lucide-react';
 
 export const AuthorsList = ({ authors }: { authors: TSearchPaginated<TSearchUser> }) => {
     const { auth } = usePage<TPublicPage>().props;
 
-    const handleLoadMore = () => {
-        if (authors.next_page_url) {
-            router.get(
-                authors.next_page_url,
-                {},
-                {
-                    preserveState: true,
-                    preserveScroll: true,
-                    only: ['authors'],
-                },
-            );
-        }
-    };
-
     return (
         <>
             {authors.data.length > 0 ? (
-                <>
+                <InfiniteScroll data="authors" preserveUrl>
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                         {authors.data.map((user) => (
                             <div key={user.id} className="overflow-hidden rounded-lg border p-6">
@@ -78,15 +64,7 @@ export const AuthorsList = ({ authors }: { authors: TSearchPaginated<TSearchUser
                             </div>
                         ))}
                     </div>
-
-                    {authors.next_page_url && (
-                        <div className="mt-8 flex justify-center">
-                            <Button onClick={handleLoadMore} variant="outline" size="lg">
-                                Load More
-                            </Button>
-                        </div>
-                    )}
-                </>
+                </InfiniteScroll>
             ) : (
                 <div className="rounded-lg border border-dashed p-12 text-center">
                     <SearchIcon className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
