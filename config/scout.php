@@ -261,7 +261,6 @@ return [
                         [
                             'name' => 'tags',
                             'type' => 'string[]',
-                            'optional' => true,
                         ],
                     ],
                     'default_sorting_field' => 'published_at',

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\PostStatus;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -47,14 +48,28 @@ class Post extends Model
     }
 
     /**
+     * Determine if the model should be searchable.
+     */
+    public function shouldBeSearchable(): bool
+    {
+        return $this->status === PostStatus::PUBLISHED;
+    }
+
+    /**
+     * Modify the collection before making it searchable.
+     */
+    public function makeSearchableUsing(Collection $models): Collection
+    {
+        return $models->load('tags');
+    }
+
+    /**
      * Get the indexable data array for the model.
      *
      * @return array<string, mixed>
      */
     public function toSearchableArray(): array
     {
-        $this->loadMissing('tags');
-
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
@@ -70,14 +85,6 @@ class Post extends Model
             'updated_at' => $this->updated_at->timestamp,
             'tags' => $this->tags->pluck('id')->toArray(),
         ];
-    }
-
-    /**
-     * Determine if the model should be searchable.
-     */
-    public function shouldBeSearchable(): bool
-    {
-        return $this->status === PostStatus::PUBLISHED;
     }
 
     /**
