@@ -1,26 +1,14 @@
 import type { TPostCard } from '@/components/composite/article-card';
 import type { TSearchPaginated } from '@/types/search';
 
-import { router } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 
 import { ArticleCard } from '@/components/composite/article-card';
 import { Button } from '@/components/ui/button';
 import { SearchIcon } from 'lucide-react';
 
 export const ArticlesList = ({ articles }: { articles: TSearchPaginated<TPostCard> }) => {
-    const handleLoadMore = () => {
-        if (articles.next_page_url) {
-            router.get(
-                articles.next_page_url,
-                {},
-                {
-                    preserveState: true,
-                    preserveScroll: true,
-                    only: ['articles'],
-                },
-            );
-        }
-    };
+    console.log(articles.next_page_url);
 
     return (
         <>
@@ -32,11 +20,17 @@ export const ArticlesList = ({ articles }: { articles: TSearchPaginated<TPostCar
                         ))}
                     </div>
                     {articles.next_page_url && (
-                        <div className="mt-8 flex justify-center">
-                            <Button onClick={handleLoadMore} variant="outline" size="lg">
+                        <Link
+                            href={articles.next_page_url}
+                            preserveState={true}
+                            preserveScroll={true}
+                            only={['articles']}
+                            className="mt-8 flex justify-center"
+                        >
+                            <Button variant="outline" size="lg">
                                 Load More
                             </Button>
-                        </div>
+                        </Link>
                     )}
                 </>
             ) : (

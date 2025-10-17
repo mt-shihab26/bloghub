@@ -13,12 +13,20 @@ export const SearchBar = () => {
 
     const [search, setSearch] = useState(params?.query || '');
 
-    const handler = () => {
-        const query = search?.trim();
-        if (query && params?.query !== query) {
+    const handler = (action: 'enter' | 'debounce' = 'debounce') => {
+        const performSearch = (query: string) =>
             router.visit(searchRoute({ ...params, query, author: null, category: null, tag: null }), {
                 preserveState: true,
             });
+
+        if (action === 'enter') {
+            performSearch(search);
+            return;
+        }
+
+        const query = search?.trim();
+        if (query && params?.query !== query) {
+            performSearch(query);
         }
     };
 
@@ -36,7 +44,7 @@ export const SearchBar = () => {
                 onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                         e.preventDefault();
-                        handler();
+                        handler('enter');
                     }
                 }}
             />
