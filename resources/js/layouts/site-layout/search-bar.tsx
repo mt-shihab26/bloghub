@@ -11,11 +11,11 @@ import { SearchIcon, XIcon } from 'lucide-react';
 export const SearchBar = () => {
     const { params } = usePage<{ params: TSearchParams }>().props;
 
-    const [search, setSearch] = useState(params?.q || '');
+    const [search, setSearch] = useState(params?.query || '');
 
     const handler = (action: 'enter' | 'debounce' = 'debounce') => {
         const performSearch = (query: string) =>
-            router.visit(searchRoute({ ...params, q: query, author: null, category: null, tag: null }), {
+            router.visit(searchRoute({ ...params, query: query, author: null, category: null, tag: null }), {
                 preserveState: true,
             });
 
@@ -25,7 +25,7 @@ export const SearchBar = () => {
         }
 
         const query = search?.trim();
-        if (query && params?.q !== query) {
+        if (query && params?.query !== query) {
             performSearch(query);
         }
     };

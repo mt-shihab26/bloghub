@@ -4,7 +4,7 @@ export type TSearchType = 'articles' | 'authors' | 'tags' | 'categories' | 'my-a
 export type TSearchSort = 'relevant' | 'newest' | 'oldest';
 
 export type TSearchParams = {
-    q?: string;
+    query?: string;
     type?: TSearchType;
     sort?: TSearchSort;
     author?: string[] | null;

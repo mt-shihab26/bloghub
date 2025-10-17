@@ -32,7 +32,7 @@ const Search = ({ params, facets, lists }: { params: TSearchParams; facets?: TSe
     const totalItems = total(lists, params.type);
 
     return (
-        <SiteLayout title={params.q ? `Search results for "${params.q}"` : 'Search'} footer={false}>
+        <SiteLayout title={params.query ? `Search results for "${params.query}"` : 'Search'} footer={false}>
             <div className="w-full space-y-6">
                 <FiltersType params={params} />
 
@@ -46,12 +46,12 @@ const Search = ({ params, facets, lists }: { params: TSearchParams; facets?: TSe
                                 : 'lg:col-span-4',
                         )}
                     >
-                        {params.q ? (
+                        {params.query ? (
                             <>
                                 <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                                     <div>
                                         <h1 className="text-2xl font-bold">
-                                            Search results for &quot;{params.q}&quot;
+                                            Search results for &quot;{params.query}&quot;
                                         </h1>
                                         <p className="mt-2 text-muted-foreground">
                                             Found {totalItems} {totalItems === 1 ? 'result' : 'results'}

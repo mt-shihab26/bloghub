@@ -20,14 +20,14 @@ class SearchController extends Controller
     {
         logSQL();
 
-        $q = $request->input('q', '');
+        $query = $request->input('query', '');
 
-        if (! $q) {
+        if (! $query) {
             return redirect()->route('home')->with('error', 'Please enter a search query.');
         }
 
         $params = [
-            'q' => $q,
+            'query' => $query,
             'type' => $request->input('type', 'articles'),
             'sort' => $request->input('sort', 'relevant'),
             'author' => $this->parseFilterArray($request->input('author')) ?: null,
@@ -105,7 +105,7 @@ class SearchController extends Controller
     /**
      * Search for posts with facets.
      *
-     * @param  array{q: string, sort: string, author: string[]|null, category: string[]|null, tag: string[]|null}  $params
+     * @param  array{query: string, sort: string, author: string[]|null, category: string[]|null, tag: string[]|null}  $params
      */
     private function searchArticles(array $params, ?User $user, bool $mine = false): array
     {
@@ -118,7 +118,7 @@ class SearchController extends Controller
             ->withExists(['comments as commented_by_user' => fn ($q) => $q->where('user_id', $userId)])
             ->withExists(['bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $userId)]);
 
-        $articles = Post::search($params['q'])
+        $articles = Post::search($params['query'])
             ->when($mine, fn ($builder) => $builder->where('user_id', $user->id))
             ->when($params['author'], fn ($builder) => $builder->whereIn('user_id', $params['author']))
             ->when($params['category'], fn ($builder) => $builder->whereIn('category_id', $params['category']))
@@ -147,7 +147,6 @@ class SearchController extends Controller
         $tags = [];
 
         foreach ($posts as $post) {
-            // Collect authors
             if ($post->user) {
                 $username = $post->user->username;
                 if (! isset($authors[$username])) {
@@ -161,7 +160,6 @@ class SearchController extends Controller
                 $authors[$username]['count']++;
             }
 
-            // Collect categories
             if ($post->category) {
                 $categorySlug = $post->category->slug;
                 if (! isset($categories[$categorySlug])) {
@@ -175,7 +173,6 @@ class SearchController extends Controller
                 $categories[$categorySlug]['count']++;
             }
 
-            // Collect tags
             if ($post->tags) {
                 foreach ($post->tags as $tag) {
                     $tagSlug = $tag->slug;
@@ -192,7 +189,6 @@ class SearchController extends Controller
             }
         }
 
-        // Sort by count and take top 10
         $sortByCount = fn ($a, $b) => $b['count'] <=> $a['count'];
 
         $authors = array_values($authors);
@@ -217,18 +213,18 @@ class SearchController extends Controller
     /**
      * Search for people/users.
      *
-     * @param  array{q: string, sort: string}  $params
+     * @param  array{query: string, sort: string}  $params
      */
     private function searchAuthors(array $params): array
     {
         $usersQuery = User::query()
             ->with(['image'])
             ->withCount(['posts', 'followers'])
-            ->when($params['q'], function ($q) use ($params) {
+            ->when($params['query'], function ($q) use ($params) {
                 $q->where(function ($q) use ($params) {
-                    $q->where('name', 'like', "%{$params['q']}%")
-                        ->orWhere('username', 'like', "%{$params['q']}%")
-                        ->orWhere('bio', 'like', "%{$params['q']}%");
+                    $q->where('name', 'like', "%{$params['query']}%")
+                        ->orWhere('username', 'like', "%{$params['query']}%")
+                        ->orWhere('bio', 'like', "%{$params['query']}%");
                 });
             });
 
@@ -250,11 +246,11 @@ class SearchController extends Controller
     /**
      * Search for categories.
      *
-     * @param  array{q: string, sort: string}  $params
+     * @param  array{query: string, sort: string}  $params
      */
     private function searchCategories(array $params): array
     {
-        $query = $params['q'];
+        $query = $params['query'];
         $sort = $params['sort'];
 
         $categoriesQuery = Category::query()
@@ -284,11 +280,11 @@ class SearchController extends Controller
     /**
      * Search for tags.
      *
-     * @param  array{q: string, sort: string}  $params
+     * @param  array{query: string, sort: string}  $params
      */
     private function searchTags(array $params): array
     {
-        $query = $params['q'];
+        $query = $params['query'];
         $sort = $params['sort'];
 
         $tagsQuery = Tag::query()

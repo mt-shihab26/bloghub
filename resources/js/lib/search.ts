@@ -1,7 +1,7 @@
 import type { TSearchParams } from '@/types/search';
 
 export const searchRoute = ({
-    q = '',
+    query = '',
     type = 'articles',
     sort = 'relevant',
     author = null,
@@ -9,7 +9,7 @@ export const searchRoute = ({
     tag = null,
 }: TSearchParams) => {
     return route('site.search.index', {
-        q,
+        query,
         type: type !== 'articles' ? type : undefined,
         sort: sort !== 'relevant' ? sort : undefined,
         author: author && author.length > 0 ? author.join(',') : undefined,
