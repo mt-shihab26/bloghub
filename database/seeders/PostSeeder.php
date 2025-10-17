@@ -18,6 +18,17 @@ class PostSeeder extends Seeder
      */
     public function run(): void
     {
+        // Disable Scout auto-indexing during seeding
+        Post::withoutSyncingToSearch(function () use (&$users, &$categories) {
+            $this->seedPosts($users, $categories);
+        });
+
+        // Now reindex all posts with their tags attached
+        Post::query()->searchable();
+    }
+
+    protected function seedPosts(): void
+    {
         $users = User::query()->get();
         $categories = Category::query()->whereNull('category_id')->get();
 

@@ -18,6 +18,8 @@ class SearchController extends Controller
      */
     public function index(Request $request)
     {
+        logSQL();
+
         $query = $request->input('q', '');
 
         if (! $query) {
