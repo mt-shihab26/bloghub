@@ -20,16 +20,14 @@ class SearchController extends Controller
     {
         logSQL();
 
-        $query = $request->input('q', '');
+        $q = $request->input('q', '');
 
-        if (! $query) {
-            return redirect()
-                ->route('home')
-                ->with('error', 'Please enter a search query.');
+        if (! $q) {
+            return redirect()->route('home')->with('error', 'Please enter a search query.');
         }
 
         $params = [
-            'query' => $query,
+            'q' => $q,
             'type' => $request->input('type', 'articles'),
             'sort' => $request->input('sort', 'relevant'),
             'author' => $this->parseFilterArray($request->input('author')) ?: null,
@@ -107,7 +105,7 @@ class SearchController extends Controller
     /**
      * Search for posts with facets.
      *
-     * @param  array{query: string, sort: string, author: string[]|null, category: string[]|null, tag: string[]|null}  $params
+     * @param  array{q: string, sort: string, author: string[]|null, category: string[]|null, tag: string[]|null}  $params
      */
     private function searchArticles(array $params, ?User $user, bool $mine = false): array
     {
@@ -120,7 +118,7 @@ class SearchController extends Controller
             ->withExists(['comments as commented_by_user' => fn ($q) => $q->where('user_id', $userId)])
             ->withExists(['bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $userId)]);
 
-        $articles = Post::search($params['query'])
+        $articles = Post::search($params['q'])
             ->when($mine, fn ($builder) => $builder->where('user_id', $user->id))
             ->when($params['author'], fn ($builder) => $builder->whereIn('user_id', $params['author']))
             ->when($params['category'], fn ($builder) => $builder->whereIn('category_id', $params['category']))
@@ -219,25 +217,22 @@ class SearchController extends Controller
     /**
      * Search for people/users.
      *
-     * @param  array{query: string, sort: string}  $params
+     * @param  array{q: string, sort: string}  $params
      */
     private function searchAuthors(array $params): array
     {
-        $query = $params['query'];
-        $sort = $params['sort'];
-
         $usersQuery = User::query()
             ->with(['image'])
             ->withCount(['posts', 'followers'])
-            ->when($query, function ($q) use ($query) {
-                $q->where(function ($q) use ($query) {
-                    $q->where('name', 'like', "%{$query}%")
-                        ->orWhere('username', 'like', "%{$query}%")
-                        ->orWhere('bio', 'like', "%{$query}%");
+            ->when($params['q'], function ($q) use ($params) {
+                $q->where(function ($q) use ($params) {
+                    $q->where('name', 'like', "%{$params['q']}%")
+                        ->orWhere('username', 'like', "%{$params['q']}%")
+                        ->orWhere('bio', 'like', "%{$params['q']}%");
                 });
             });
 
-        match ($sort) {
+        match ($params['sort']) {
             'newest' => $usersQuery->latest('created_at'),
             'oldest' => $usersQuery->oldest('created_at'),
             default => $usersQuery->orderByDesc('posts_count')->latest('created_at'),
@@ -255,11 +250,11 @@ class SearchController extends Controller
     /**
      * Search for categories.
      *
-     * @param  array{query: string, sort: string}  $params
+     * @param  array{q: string, sort: string}  $params
      */
     private function searchCategories(array $params): array
     {
-        $query = $params['query'];
+        $query = $params['q'];
         $sort = $params['sort'];
 
         $categoriesQuery = Category::query()
@@ -289,11 +284,11 @@ class SearchController extends Controller
     /**
      * Search for tags.
      *
-     * @param  array{query: string, sort: string}  $params
+     * @param  array{q: string, sort: string}  $params
      */
     private function searchTags(array $params): array
     {
-        $query = $params['query'];
+        $query = $params['q'];
         $sort = $params['sort'];
 
         $tagsQuery = Tag::query()
