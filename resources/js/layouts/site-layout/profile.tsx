@@ -14,7 +14,7 @@ import { imageLink } from '@/lib/links';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
-import { Theme } from './theme';
+import { ProfileTheme } from './profile-theme';
 
 export const Profile = ({ user, image }: { user: TUser; image?: TImage }) => {
     return (
@@ -54,7 +54,7 @@ export const Profile = ({ user, image }: { user: TUser; image?: TImage }) => {
                     </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <Theme />
+                <ProfileTheme />
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
                     <Link href={route('logout')} className="w-full" method="post" as="button">

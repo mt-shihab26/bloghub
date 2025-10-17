@@ -19,7 +19,10 @@ export const AuthorsList = ({ authors }: { authors: TSearchPaginated<TSearchUser
                 <InfiniteScroll data="authors" preserveUrl>
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                         {authors.data.map((user, index) => (
-                            <div key={user.id} className="overflow-hidden rounded-lg border p-6">
+                            <div key={user.id} className="relative overflow-hidden rounded-lg border p-6">
+                                <div className="absolute right-2 top-2 rounded-full bg-black/70 px-2.5 py-1 text-sm font-semibold text-white">
+                                    {index + 1}
+                                </div>
                                 <div className="flex items-start gap-4">
                                     <Avatar className="h-16 w-16">
                                         <AvatarImage src={imageLink(user.image)} />

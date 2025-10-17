@@ -6,6 +6,7 @@ import { usePage } from '@inertiajs/react';
 import { AppLogoIcon } from '@/components/icons/app-logo-icon';
 import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
+import { HeaderTheme } from './header-theme';
 import { Notification } from './notification';
 import { Profile } from './profile';
 import { SearchBar } from './search-bar';
@@ -58,6 +59,7 @@ export const Header = ({ className }: { className: string }) => {
                                 <Button asChild>
                                     <Link href={route('register')}>Sign Up</Link>
                                 </Button>
+                                <HeaderTheme />
                             </>
                         )}
                     </div>

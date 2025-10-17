@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 
 import { Monitor, Moon, Sun } from 'lucide-react';
 
-export const Theme = () => {
+export const ProfileTheme = () => {
     const { appearance, updateAppearance } = useAppearance();
 
     return (
