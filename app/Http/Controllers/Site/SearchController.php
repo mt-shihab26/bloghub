@@ -7,8 +7,9 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\User;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Inertia\Inertia;
 
 class SearchController extends Controller
@@ -128,9 +129,17 @@ class SearchController extends Controller
             $articles[] = Post::toSearchableObject($hit);
         }
 
+        $paginator = new LengthAwarePaginator(
+            items: $articles,
+            total: $posts['found'],
+            perPage: $posts['request_params']['per_page'] ?? 10,
+            currentPage: ($posts['request_params']['page'] ?? 1),
+            options: ['path' => Paginator::resolveCurrentPath(), 'query' => request()->query()]
+        );
+
         $facets = $this->generateFacetsFromArticles($articles);
 
-        return [$articles, $facets];
+        return [$paginator->withQueryString(), $facets];
     }
 
     /**
