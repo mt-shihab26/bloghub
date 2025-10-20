@@ -230,7 +230,7 @@ return [
                 ],
                 'search-parameters' => [
                     'query_by' => 'title,content,excerpt,user.name,category.name,tags.name',
-                    'facet_by' => 'user.id,user.username,user.name,user.image.id,user.image.name,category.id,category.slug,category.name,tags.id,tags.slug,tags.name',
+                    'facet_by' => 'user.id', // user.username,user.name,user.image.id,user.image.name,category.id,category.slug,category.name,tags.id,tags.slug,tags.name',
                 ],
             ],
         ],
