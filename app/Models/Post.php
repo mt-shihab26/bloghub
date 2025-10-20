@@ -95,6 +95,57 @@ class Post extends Model
         return $data;
     }
 
+    public static function toSearchableObject(array $hit): array
+    {
+        $document = $hit['document'];
+        $highlights = $hit['highlights'] ?? [];
+
+        $highlightFields = [];
+        foreach ($highlights as $highlight) {
+            $field = $highlight['field'];
+            $highlightFields[$field] = [
+                'snippet' => $highlight['snippet'],
+                'matched_tokens' => $highlight['matched_tokens'],
+            ];
+
+            if (isset($document[$field])) {
+                $document[$field] = $highlight['snippet'];
+            }
+        }
+
+        return [
+            'id' => $document['id'],
+            'slug' => $document['slug'],
+            'title' => $document['title'],
+            'excerpt' => $document['excerpt'],
+            'content' => $document['content'],
+            'status' => $document['status'],
+            'published_at' => $document['published_at'],
+            'user' => [
+                'id' => $document['user.id'],
+                'username' => $document['user.username'],
+                'name' => $document['user.name'],
+                'image' => isset($document['user.image.id']) ? [
+                    'id' => $document['user.image.id'],
+                    'name' => $document['user.image.name'],
+                ] : null,
+            ],
+            'category' => isset($document['category.id']) ? [
+                'id' => $document['category.id'],
+                'slug' => $document['category.slug'],
+                'name' => $document['category.name'],
+            ] : null,
+            'tags' => isset($document['tags.id']) ? collect($document['tags.id'])->map(function ($tagId, $index) use ($document) {
+                return [
+                    'id' => $tagId,
+                    'slug' => $document['tags.slug'][$index] ?? null,
+                    'name' => $document['tags.name'][$index] ?? null,
+                ];
+            })->toArray() : [],
+            // 'text_match_score' => $hit['text_match'] ?? null,
+        ];
+    }
+
     /**
      * Determine if the model should be searchable.
      */

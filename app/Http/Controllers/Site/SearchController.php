@@ -8,7 +8,6 @@ use App\Models\Post;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -113,9 +112,7 @@ class SearchController extends Controller
      */
     private function searchArticles(array $params, ?User $user, bool $mine = false): array
     {
-        $load = fn (Builder $query) => $query->with(['user.image', 'image', 'category', 'tags']);
-
-        $articles = Post::search($params['query'])
+        $posts = Post::search($params['query'])
             ->when($mine, fn ($builder) => $builder->where('user.id', $user->id))
             ->when($params['author'], fn ($builder) => $builder->whereIn('user.id', $params['author']))
             ->when($params['category'], fn ($builder) => $builder->whereIn('category.id', $params['category']))
@@ -123,9 +120,13 @@ class SearchController extends Controller
             ->when($params['sort'] === 'relevant', fn ($builder) => $builder->latest('published_at'))
             ->when($params['sort'] === 'newest', fn ($builder) => $builder->latest('published_at'))
             ->when($params['sort'] === 'oldest', fn ($builder) => $builder->oldest('published_at'))
-            ->query($load)
-            ->paginate(10)
-            ->withQueryString();
+            ->raw();
+
+        $articles = [];
+
+        foreach ($posts['hits'] as $hit) {
+            $articles[] = Post::toSearchableObject($hit);
+        }
 
         $facets = $this->generateFacetsFromArticles($articles);
 
@@ -139,6 +140,8 @@ class SearchController extends Controller
      */
     private function generateFacetsFromArticles($posts): array
     {
+        return [];
+
         $authors = [];
         $categories = [];
         $tags = [];
