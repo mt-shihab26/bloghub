@@ -13,7 +13,6 @@ import { Clock } from 'lucide-react';
 
 export const ArticleCard = ({ ith, post }: { ith: number; post: THit<TSearchPost> }) => {
     const doc = post.document;
-    const highlight = post.highlight;
 
     return (
         <div key={doc.id} className="flex space-x-2 overflow-hidden rounded-lg border p-4">
@@ -31,7 +30,7 @@ export const ArticleCard = ({ ith, post }: { ith: number; post: THit<TSearchPost
                                 href={authorLink({ username: doc['user.username'] })}
                                 className="text-sm font-medium hover:underline"
                             >
-                                <Highlight hit={post} key="user.username" />
+                                <Highlight hit={post} field="user.name" />
                             </Link>
                             <span className="text-sm text-muted-foreground">
                                 {formatHumanDate(doc['published_at'])} ({formatTimeAgo(doc['published_at'])})
@@ -49,11 +48,11 @@ export const ArticleCard = ({ ith, post }: { ith: number; post: THit<TSearchPost
                         href={postLink({ username: doc['user.username'] }, { slug: doc['slug'] })}
                         className="hover:underline"
                     >
-                        <Highlight html={highlight?.['title']?.snippet} fallback={doc['title']} />
+                        <Highlight hit={post} field="title" />
                     </Link>
                 </h2>
                 <p className="text-muted-foreground">
-                    <Highlight html={highlight?.['excerpt']?.snippet} fallback={doc.excerpt} />
+                    <Highlight hit={post} field="excerpt" />
                 </p>
                 <div className="flex items-center justify-between space-x-2">
                     <div className="flex flex-wrap items-center space-x-2">
@@ -64,8 +63,9 @@ export const ArticleCard = ({ ith, post }: { ith: number; post: THit<TSearchPost
                                     className="cursor-pointer hover:bg-primary hover:text-primary-foreground"
                                 >
                                     <Highlight
-                                        html={highlight?.['category.name'].snippet}
-                                        fallback={categoryName({ name: doc['category.name'] })}
+                                        hit={post}
+                                        field="category.name"
+                                        transformer={(name) => categoryName({ name })}
                                     />
                                 </Badge>
                             </Link>
@@ -73,11 +73,7 @@ export const ArticleCard = ({ ith, post }: { ith: number; post: THit<TSearchPost
                         {doc['tags.slug']?.map((slug, index) => (
                             <Link key={slug} href={tagLink({ slug })}>
                                 <Badge variant="secondary" className="cursor-pointer text-xs hover:underline">
-                                    #{/* <Highlight */}
-                                    {/*     html={highlight?.['category.name'].snippet} */}
-                                    {/*     fallback={categoryName({ name: doc['category.name'] })} */}
-                                    {/* /> */}
-                                    {doc['tags.name'][index]}
+                                    #{doc['tags.name'][index]}
                                 </Badge>
                             </Link>
                         ))}

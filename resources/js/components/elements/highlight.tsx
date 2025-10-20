@@ -1,13 +1,26 @@
 import type { THit } from '@/types/search';
+import type { ReactNode } from 'react';
 
 import { cn } from '@/lib/utils';
 
-export const Highlight = <T,>({ hit, key, className }: { hit: THit<T>; key: keyof T; className?: string }) => {
-    const html = hit?.highlight?.[key]?.snippet;
+export const Highlight = <T,>({
+    hit,
+    field,
+    transformer,
+    className,
+}: {
+    hit: THit<T>;
+    field: keyof T;
+    transformer?: (value: T[keyof T] | undefined) => ReactNode;
+    className?: string;
+}) => {
+    console.log(hit);
+
+    const html = hit?.highlight?.[field]?.snippet;
 
     if (!html) {
-        const text = hit?.document?.[key];
-        return <>{text}</>;
+        const text = hit?.document?.[field];
+        return <>{transformer ? transformer(text) : text}</>;
     }
 
     return (
