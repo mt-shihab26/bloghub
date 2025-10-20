@@ -6,20 +6,21 @@ import { cn } from '@/lib/utils';
 export const Highlight = <T,>({
     hit,
     field,
+    index,
     transformer,
     className,
 }: {
     hit: THit<T>;
     field: keyof T;
+    index?: number;
     transformer?: (value: T[keyof T] | undefined) => ReactNode;
     className?: string;
 }) => {
-    console.log(hit);
-
-    const html = hit?.highlight?.[field]?.snippet;
+    const html = index ? hit?.highlight?.[field]?.snippet?.[index] : hit?.highlight?.[field]?.snippet;
 
     if (!html) {
-        const text = hit?.document?.[field];
+        const value: T[keyof T] | undefined = hit?.document?.[field];
+        const text = index && Array.isArray(value) ? value?.[index] : value;
         return <>{transformer ? transformer(text) : text}</>;
     }
 

@@ -73,7 +73,7 @@ export const ArticleCard = ({ ith, post }: { ith: number; post: THit<TSearchPost
                         {doc['tags.slug']?.map((slug, index) => (
                             <Link key={slug} href={tagLink({ slug })}>
                                 <Badge variant="secondary" className="cursor-pointer text-xs hover:underline">
-                                    #{doc['tags.name'][index]}
+                                    #<Highlight hit={post} field="tags.name" index={index} />
                                 </Badge>
                             </Link>
                         ))}
