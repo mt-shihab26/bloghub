@@ -1,35 +1,41 @@
-import type { TSearchFacets, TSearchLists, TSearchParams, TSearchType } from '@/types/search';
+import type {
+    TSearchCategory,
+    TSearchFacets,
+    TSearchPaginated,
+    TSearchParams,
+    TSearchPost,
+    TSearchTag,
+    TSearchUser,
+} from '@/types/search';
 
 import { cn } from '@/lib/utils';
 
+import { ArticlesFacets } from '@/components/screens/search/articles-facets';
 import { ArticlesList } from '@/components/screens/search/articles-list';
 import { AuthorsList } from '@/components/screens/search/authors-list';
 import { CategoriesList } from '@/components/screens/search/categories-list';
-import { FiltersFacets } from '@/components/screens/search/filters-facets';
 import { FiltersType } from '@/components/screens/search/filters-type';
 import { SortTabs } from '@/components/screens/search/sort-tabs';
 import { TagsList } from '@/components/screens/search/tags-list';
 import { SiteLayout } from '@/layouts/site-layout';
 import { SearchIcon } from 'lucide-react';
 
-const total = (lists: TSearchLists, type?: TSearchType) => {
-    switch (type) {
-        case 'articles':
-        case 'my-articles':
-            return lists.articles?.total || 0;
-        case 'authors':
-            return lists.authors?.total || 0;
-        case 'categories':
-            return lists.categories?.total || 0;
-        case 'tags':
-            return lists.tags?.total || 0;
-        default:
-            return 0;
-    }
-};
-
-const Search = ({ params, facets, ...lists }: { params: TSearchParams; facets?: TSearchFacets } & TSearchLists) => {
-    const totalItems = total(lists, params.type);
+const Search = ({
+    params,
+    facets,
+    articles,
+    authors,
+    categories,
+    tags,
+}: {
+    params: TSearchParams;
+    facets?: TSearchFacets;
+    articles?: TSearchPaginated<TSearchPost>;
+    authors?: TSearchPaginated<TSearchUser>;
+    categories?: TSearchPaginated<TSearchCategory>;
+    tags?: TSearchPaginated<TSearchTag>;
+}) => {
+    const total = articles?.total || authors?.total || categories?.total || tags?.total || 0;
 
     return (
         <SiteLayout title={params.query ? `Search results for "${params.query}"` : 'Search'} footer={false}>
@@ -37,8 +43,11 @@ const Search = ({ params, facets, ...lists }: { params: TSearchParams; facets?: 
                 <FiltersType params={params} />
 
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
-                    <aside className="space-y-4">{facets && <FiltersFacets params={params} facets={facets} />}</aside>
-
+                    <aside className="space-y-4">
+                        {(params.type === 'articles' || params.type === 'my-articles') && facets && (
+                            <ArticlesFacets params={params} facets={facets} />
+                        )}
+                    </aside>
                     <div
                         className={cn(
                             params.type === 'articles' || params.type === 'my-articles'
@@ -54,21 +63,19 @@ const Search = ({ params, facets, ...lists }: { params: TSearchParams; facets?: 
                                             Search results for &quot;{params.query}&quot;
                                         </h1>
                                         <p className="mt-2 text-muted-foreground">
-                                            Found {totalItems} {totalItems === 1 ? 'result' : 'results'}
+                                            Found {total} {total === 1 ? 'result' : 'results'}
                                         </p>
                                     </div>
-
                                     <SortTabs params={params} />
                                 </div>
-
-                                {(params.type === 'articles' || params.type === 'my-articles') && lists.articles && (
-                                    <ArticlesList articles={lists.articles} />
+                                {(params.type === 'articles' || params.type === 'my-articles') && articles && (
+                                    <ArticlesList articles={articles} />
                                 )}
-                                {params.type === 'authors' && lists.authors && <AuthorsList authors={lists.authors} />}
-                                {params.type === 'categories' && lists.categories && (
-                                    <CategoriesList categories={lists.categories} />
+                                {params.type === 'authors' && authors && <AuthorsList authors={authors} />}
+                                {params.type === 'categories' && categories && (
+                                    <CategoriesList categories={categories} />
                                 )}
-                                {params.type === 'tags' && lists.tags && <TagsList tags={lists.tags} />}
+                                {params.type === 'tags' && tags && <TagsList tags={tags} />}
                             </>
                         ) : (
                             <div className="rounded-lg border border-dashed p-12 text-center">

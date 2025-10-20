@@ -68,10 +68,3 @@ export type TSearchCategory = Pick<TCategory, 'id' | 'name' | 'slug' | 'descript
 export type TSearchTag = Pick<TTag, 'id' | 'name' | 'slug'> & {
     posts_count?: number;
 };
-
-export type TSearchLists = {
-    articles?: TSearchPaginated<TPostCard>;
-    authors?: TSearchPaginated<TSearchUser>;
-    categories?: TSearchPaginated<TSearchCategory>;
-    tags?: TSearchPaginated<TSearchTag>;
-};

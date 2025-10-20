@@ -5,13 +5,13 @@ import { searchRoute } from '@/lib/search';
 import { Separator } from '@/components/ui/separator';
 import { Link } from '@inertiajs/react';
 import { FolderIcon, TagIcon, UserIcon } from 'lucide-react';
-import { FiltersFacetsItems } from './filters-facets-items';
+import { ArticlesFacetsItems } from './articles-facets-items';
 
-export const FiltersFacets = ({ params, facets }: { params: TSearchParams; facets: TSearchFacets }) => {
+export const ArticlesFacets = ({ params, facets }: { params: TSearchParams; facets: TSearchFacets }) => {
     return (
         <div className="space-y-4">
             {params.type !== 'my-articles' && facets?.articles?.authors && facets?.articles?.authors.length > 0 && (
-                <FiltersFacetsItems
+                <ArticlesFacetsItems
                     icon={UserIcon}
                     title="Authors"
                     field="author"
@@ -22,7 +22,7 @@ export const FiltersFacets = ({ params, facets }: { params: TSearchParams; facet
             )}
 
             {facets?.articles?.categories && facets?.articles?.categories.length > 0 && (
-                <FiltersFacetsItems
+                <ArticlesFacetsItems
                     icon={FolderIcon}
                     title="Categories"
                     field="category"
@@ -35,7 +35,7 @@ export const FiltersFacets = ({ params, facets }: { params: TSearchParams; facet
             )}
 
             {facets?.articles?.tags && facets.articles.tags.length > 0 && (
-                <FiltersFacetsItems
+                <ArticlesFacetsItems
                     icon={TagIcon}
                     title="Tags"
                     field="tag"
