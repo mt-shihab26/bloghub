@@ -5,13 +5,15 @@ import { SearchIcon } from 'lucide-react';
 import { ArticleCard } from './article-card';
 
 export const ArticlesList = ({ articles }: { articles: TSearchPaginated<TSearchPost> }) => {
+    console.log(articles);
+
     return (
         <>
-            {articles.data.length > 0 ? (
+            {articles.data.hits.length > 0 ? (
                 <InfiniteScroll data="articles" preserveUrl={false}>
                     <div className="space-y-6">
-                        {articles.data.map((post, index) => (
-                            <ArticleCard ith={index + 1} key={post.id} post={post} />
+                        {articles.data.hits.map((post, index) => (
+                            <ArticleCard ith={index + 1} key={post.document.id} post={post} />
                         ))}
                     </div>
                 </InfiniteScroll>

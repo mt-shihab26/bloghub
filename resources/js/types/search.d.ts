@@ -23,16 +23,32 @@ export type TSearchFacets = {
     tags?: null;
 };
 
+export type THit<T> = {
+    document: T;
+    highlights: { field: keyof T; snippet: string }[];
+};
+
 export type TSearchPaginated<T> = {
-    data: T[];
+    data: { hits: THit<T>[] };
     total: number;
     next_page_url: string | null;
 };
 
 export type TSearchPost = Pick<TPost, 'id' | 'slug' | 'title' | 'excerpt' | 'content' | 'status' | 'published_at'> & {
-    user: Pick<TUser, 'id', 'username' | 'name'> & { image?: Pick<TImage, 'id', 'name'> | null };
-    category?: Pick<TCategory, 'id' | 'slug' | 'name'> | null;
-    tags?: Pick<TTag, 'id' | 'slug' | 'name'>[] | null;
+    'user.id': TUser['id'];
+    'user.username': TUser['username'];
+    'user.name': TUser['name'];
+
+    'user.image.id': TUser['image'] extends TImage ? TImage['id'] : null;
+    'user.image.name': TUser['image'] extends TImage ? TImage['name'] : null;
+
+    'category.id': TCategory['id'];
+    'category.slug': TCategory['slug'];
+    'category.name': TCategory['name'];
+
+    'tags.id': TTag['id'][];
+    'tags.name': TTag['name'][];
+    'tags.slug': TTag['slug'][];
 };
 
 export type TSearchUser = Pick<TUser, 'id' | 'name' | 'username' | 'bio'> & {
