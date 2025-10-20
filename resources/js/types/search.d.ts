@@ -30,9 +30,9 @@ export type TSearchPaginated<T> = {
 };
 
 export type TSearchPost = Pick<TPost, 'id' | 'slug' | 'title' | 'published_at' | 'excerpt' | 'content'> & {
-    user: Pick<TUser, 'username' | 'name'> & { image?: Pick<TImage, 'name'> | null };
-    category?: Pick<TCategory, 'slug' | 'name'> | null;
-    tags?: Pick<TTag, 'slug' | 'name'>[] | null;
+    user: Pick<TUser, 'id', 'username' | 'name'> & { image?: Pick<TImage, 'id', 'name'> | null };
+    category?: Pick<TCategory, 'id' | 'slug' | 'name'> | null;
+    tags?: Pick<TTag, 'id' | 'slug' | 'name'>[] | null;
 };
 
 export type TSearchUser = Pick<TUser, 'id' | 'name' | 'username' | 'bio'> & {

@@ -213,29 +213,11 @@ return [
                             'type' => 'string',
                         ],
                         [
-                            'name' => 'user_id',
-                            'type' => 'string',
-                        ],
-                        [
-                            'name' => 'image_id',
-                            'type' => 'string',
-                            'optional' => true,
-                        ],
-                        [
-                            'name' => 'category_id',
-                            'type' => 'string',
-                            'optional' => true,
-                        ],
-                        [
                             'name' => 'slug',
                             'type' => 'string',
                         ],
                         [
                             'name' => 'title',
-                            'type' => 'string',
-                        ],
-                        [
-                            'name' => 'status',
                             'type' => 'string',
                         ],
                         [
@@ -251,22 +233,62 @@ return [
                             'type' => 'int64',
                         ],
                         [
-                            'name' => 'created_at',
-                            'type' => 'int64',
+                            'name' => 'user.id',
+                            'type' => 'string',
                         ],
                         [
-                            'name' => 'updated_at',
-                            'type' => 'int64',
+                            'name' => 'user.username',
+                            'type' => 'string',
                         ],
                         [
-                            'name' => 'tags',
+                            'name' => 'user.name',
+                            'type' => 'string',
+                        ],
+                        [
+                            'name' => 'user.image.id',
+                            'type' => 'string',
+                            'optional' => true,
+                        ],
+                        [
+                            'name' => 'user.image.name',
+                            'type' => 'string',
+                            'optional' => true,
+                        ],
+                        [
+                            'name' => 'category.id',
+                            'type' => 'string',
+                            'optional' => true,
+                        ],
+                        [
+                            'name' => 'category.slug',
+                            'type' => 'string',
+                            'optional' => true,
+                        ],
+                        [
+                            'name' => 'category.name',
+                            'type' => 'string',
+                            'optional' => true,
+                        ],
+                        [
+                            'name' => 'tags.id',
                             'type' => 'string[]',
+                            'optional' => true,
+                        ],
+                        [
+                            'name' => 'tags.slug',
+                            'type' => 'string[]',
+                            'optional' => true,
+                        ],
+                        [
+                            'name' => 'tags.name',
+                            'type' => 'string[]',
+                            'optional' => true,
                         ],
                     ],
                     'default_sorting_field' => 'published_at',
                 ],
                 'search-parameters' => [
-                    'query_by' => 'title,content,excerpt',
+                    'query_by' => 'title,content,excerpt,user.name,category.name,tags.name',
                 ],
             ],
         ],

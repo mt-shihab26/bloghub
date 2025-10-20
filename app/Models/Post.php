@@ -60,7 +60,7 @@ class Post extends Model
      */
     public function makeSearchableUsing(Collection $models): Collection
     {
-        return $models->load('tags');
+        return $models->load(['user.image', 'category', 'tags']);
     }
 
     /**
@@ -70,20 +70,23 @@ class Post extends Model
      */
     public function toSearchableArray(): array
     {
+        $user = [
+            'id' => $this->user->id,
+            'username' => $this->user->username,
+            'name' => $this->user->name,
+            'image' => $this->user->image ? ['id' => $this->user->image->id, 'name' => $this->user->image->name] : null,
+        ];
+
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
-            'image_id' => $this->image_id,
-            'category_id' => $this->category_id,
             'slug' => $this->slug,
             'title' => $this->title,
-            'status' => $this->status->value,
             'excerpt' => $this->excerpt,
             'content' => $this->content,
             'published_at' => $this->published_at->timestamp,
-            'created_at' => $this->created_at->timestamp,
-            'updated_at' => $this->updated_at->timestamp,
-            'tags' => $this->tags->pluck('id')->toArray(),
+            'user' => $user,
+            'category' => $this->category ? ['id' => $this->category->id, 'slug' => $this->category->slug, 'name' => $this->category->name] : null,
+            'tags' => $this->tags->map(fn ($tag) => ['id' => $tag->id, 'slug' => $tag->slug, 'name' => $tag->name])->toArray(),
         ];
     }
 
