@@ -9,7 +9,6 @@ use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
 use Inertia\Inertia;
 
 class SearchController extends Controller
@@ -113,7 +112,7 @@ class SearchController extends Controller
      */
     private function searchArticles(array $params, ?User $user, bool $mine = false): array
     {
-        $posts = Post::search($params['query'])
+        $articles = Post::search($params['query'])
             ->when($mine, fn ($builder) => $builder->where('user.id', $user->id))
             ->when($params['author'], fn ($builder) => $builder->whereIn('user.id', $params['author']))
             ->when($params['category'], fn ($builder) => $builder->whereIn('category.id', $params['category']))
@@ -121,25 +120,12 @@ class SearchController extends Controller
             ->when($params['sort'] === 'relevant', fn ($builder) => $builder->latest('published_at'))
             ->when($params['sort'] === 'newest', fn ($builder) => $builder->latest('published_at'))
             ->when($params['sort'] === 'oldest', fn ($builder) => $builder->oldest('published_at'))
-            ->paginateRaw();
-
-        $articles = [];
-
-        foreach ($posts['hits'] as $hit) {
-            $articles[] = Post::toSearchableObject($hit);
-        }
-
-        $paginator = new LengthAwarePaginator(
-            items: $articles,
-            total: $posts['found'],
-            perPage: $posts['request_params']['per_page'] ?? 10,
-            currentPage: ($posts['request_params']['page'] ?? 1),
-            options: ['path' => Paginator::resolveCurrentPath(), 'query' => request()->query()]
-        )->withQueryString();
+            ->paginateRaw(perPage: 10)
+            ->withQueryString();
 
         $facets = $this->generateFacetsFromArticles($articles);
 
-        return [$paginator, $facets];
+        return [$articles, $facets];
     }
 
     /**
