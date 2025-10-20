@@ -208,87 +208,29 @@ return [
             Post::class => [
                 'collection-schema' => [
                     'fields' => [
-                        [
-                            'name' => 'id',
-                            'type' => 'string',
-                        ],
-                        [
-                            'name' => 'slug',
-                            'type' => 'string',
-                        ],
-                        [
-                            'name' => 'title',
-                            'type' => 'string',
-                        ],
-                        [
-                            'name' => 'excerpt',
-                            'type' => 'string',
-                        ],
-                        [
-                            'name' => 'content',
-                            'type' => 'string',
-                        ],
-                        [
-                            'name' => 'published_at',
-                            'type' => 'int64',
-                        ],
-                        [
-                            'name' => 'user.id',
-                            'type' => 'string',
-                        ],
-                        [
-                            'name' => 'user.username',
-                            'type' => 'string',
-                        ],
-                        [
-                            'name' => 'user.name',
-                            'type' => 'string',
-                        ],
-                        [
-                            'name' => 'user.image.id',
-                            'type' => 'string',
-                            'optional' => true,
-                        ],
-                        [
-                            'name' => 'user.image.name',
-                            'type' => 'string',
-                            'optional' => true,
-                        ],
-                        [
-                            'name' => 'category.id',
-                            'type' => 'string',
-                            'optional' => true,
-                        ],
-                        [
-                            'name' => 'category.slug',
-                            'type' => 'string',
-                            'optional' => true,
-                        ],
-                        [
-                            'name' => 'category.name',
-                            'type' => 'string',
-                            'optional' => true,
-                        ],
-                        [
-                            'name' => 'tags.id',
-                            'type' => 'string[]',
-                            'optional' => true,
-                        ],
-                        [
-                            'name' => 'tags.slug',
-                            'type' => 'string[]',
-                            'optional' => true,
-                        ],
-                        [
-                            'name' => 'tags.name',
-                            'type' => 'string[]',
-                            'optional' => true,
-                        ],
+                        ['name' => 'id', 'type' => 'string'],
+                        ['name' => 'slug', 'type' => 'string'],
+                        ['name' => 'title', 'type' => 'string'],
+                        ['name' => 'excerpt', 'type' => 'string'],
+                        ['name' => 'content', 'type' => 'string'],
+                        ['name' => 'published_at', 'type' => 'int64'],
+                        ['name' => 'user.id', 'type' => 'string'],
+                        ['name' => 'user.username', 'type' => 'string'],
+                        ['name' => 'user.name', 'type' => 'string'],
+                        ['name' => 'user.image.id', 'type' => 'string', 'optional' => true],
+                        ['name' => 'user.image.name', 'type' => 'string', 'optional' => true],
+                        ['name' => 'category.id', 'type' => 'string', 'optional' => true],
+                        ['name' => 'category.slug', 'type' => 'string', 'optional' => true],
+                        ['name' => 'category.name', 'type' => 'string', 'optional' => true],
+                        ['name' => 'tags.id', 'type' => 'string[]', 'optional' => true],
+                        ['name' => 'tags.slug', 'type' => 'string[]', 'optional' => true],
+                        ['name' => 'tags.name', 'type' => 'string[]', 'optional' => true],
                     ],
                     'default_sorting_field' => 'published_at',
                 ],
                 'search-parameters' => [
                     'query_by' => 'title,content,excerpt,user.name,category.name,tags.name',
+                    'facet_by' => 'user.id,user.username,user.name,user.image.id,user.image.name,category.id,category.slug,category.name,tags.id,tags.slug,tags.name',
                 ],
             ],
         ],

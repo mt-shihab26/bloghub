@@ -35,6 +35,8 @@ const Search = ({
     categories?: TSearchPaginated<TSearchCategory>;
     tags?: TSearchPaginated<TSearchTag>;
 }) => {
+    console.log(articles);
+
     const total = articles?.total || authors?.total || categories?.total || tags?.total || 0;
 
     return (
