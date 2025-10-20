@@ -17,12 +17,11 @@ export const Highlight = <T,>({
     className?: string;
 }) => {
     const value = hit?.highlight?.[field];
-
-    const html = index !== undefined && Array.isArray(value) ? value?.[index]?.snippet : value?.snippet;
+    const html = Array.isArray(value) ? value?.[index || 0]?.snippet : value?.snippet;
 
     if (!html) {
         const value = hit?.document?.[field];
-        const text = index !== undefined && Array.isArray(value) ? value?.[index] : value;
+        const text = Array.isArray(value) ? value?.[index || 0] : value;
 
         return <>{transformer ? transformer(text) : text}</>;
     }
