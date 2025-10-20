@@ -121,7 +121,7 @@ class SearchController extends Controller
             ->when($params['sort'] === 'relevant', fn ($builder) => $builder->latest('published_at'))
             ->when($params['sort'] === 'newest', fn ($builder) => $builder->latest('published_at'))
             ->when($params['sort'] === 'oldest', fn ($builder) => $builder->oldest('published_at'))
-            ->raw();
+            ->paginateRaw();
 
         $articles = [];
 
@@ -135,11 +135,11 @@ class SearchController extends Controller
             perPage: $posts['request_params']['per_page'] ?? 10,
             currentPage: ($posts['request_params']['page'] ?? 1),
             options: ['path' => Paginator::resolveCurrentPath(), 'query' => request()->query()]
-        );
+        )->withQueryString();
 
         $facets = $this->generateFacetsFromArticles($articles);
 
-        return [$paginator->withQueryString(), $facets];
+        return [$paginator, $facets];
     }
 
     /**
