@@ -1,4 +1,4 @@
-import type { TCategory, TTag, TUser } from './models';
+import type { TCategory, TImage, TPost, TTag, TUser } from './models';
 
 export type TSearchType = 'articles' | 'authors' | 'tags' | 'categories' | 'my-articles';
 export type TSearchSort = 'relevant' | 'newest' | 'oldest';
@@ -31,14 +31,8 @@ export type TSearchPaginated<T> = {
 
 export type TSearchPost = Pick<TPost, 'id' | 'slug' | 'title' | 'published_at' | 'excerpt' | 'content'> & {
     user: Pick<TUser, 'username' | 'name'> & { image?: Pick<TImage, 'name'> | null };
-    image?: Pick<TImage, 'name'> | null;
     category?: Pick<TCategory, 'slug' | 'name'> | null;
     tags?: Pick<TTag, 'slug' | 'name'>[] | null;
-    likes_count: number;
-    comments_count: number;
-    liked_by_user: boolean;
-    commented_by_user: boolean;
-    bookmarked_by_user: boolean;
 };
 
 export type TSearchUser = Pick<TUser, 'id' | 'name' | 'username' | 'bio'> & {
