@@ -14,12 +14,12 @@ export const ArticleCard = ({ ith, post }: { ith: number; post: TSearchPost }) =
     return (
         <div key={post.id} className="flex space-x-2 overflow-hidden rounded-lg border p-4">
             <div>
-                <Avatar className="size-10">
+                <Avatar className="size-11">
                     <AvatarImage src={imageLink(post.user.image)} />
                     <AvatarFallback>{formatInitials(post.user.name)}</AvatarFallback>
                 </Avatar>
             </div>
-            <div>
+            <div className="w-full space-y-2">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                         <div className="flex flex-col">
@@ -31,9 +31,11 @@ export const ArticleCard = ({ ith, post }: { ith: number; post: TSearchPost }) =
                             </span>
                         </div>
                     </div>
-                    <Badge className="rounded-full" variant="outline">
-                        {ith}
-                    </Badge>
+                    <div className="p-2.5">
+                        <Badge className="rounded-full" variant="outline">
+                            {ith}
+                        </Badge>
+                    </div>
                 </div>
                 <h2 className="text-xl font-semibold">
                     <Link href={postLink(post.user, post)} className="hover:underline">

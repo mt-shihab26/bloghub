@@ -6,7 +6,7 @@ import { togglePostBookmark } from '@/lib/links';
 import { IconButton } from '@/components/elements/icon-button';
 import { BookmarkIcon } from 'lucide-react';
 
-export const BookmarkButton = ({ post }: { post: Pick<TPost, 'id'> }) => {
+export const BookmarkButton = ({ post, className }: { post: Pick<TPost, 'id'>; className?: string }) => {
     const { bookmarks } = useAuthUser();
 
     return (
@@ -15,6 +15,7 @@ export const BookmarkButton = ({ post }: { post: Pick<TPost, 'id'> }) => {
             icon={BookmarkIcon}
             activeColorClass="text-blue-500 hover:text-blue-500"
             onClick={() => togglePostBookmark(post)}
+            className={className}
         />
     );
 };
