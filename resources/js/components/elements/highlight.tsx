@@ -21,8 +21,7 @@ export const Highlight = <T,>({
     const html = index !== undefined && Array.isArray(value) ? value?.[index]?.snippet : value?.snippet;
 
     if (!html) {
-        const value: T[keyof T] | undefined = hit?.document?.[field];
-
+        const value = hit?.document?.[field];
         const text = index !== undefined && Array.isArray(value) ? value?.[index] : value;
 
         return <>{transformer ? transformer(text) : text}</>;

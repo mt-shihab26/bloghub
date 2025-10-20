@@ -23,9 +23,9 @@ export type TSearchFacets = {
     tags?: null;
 };
 
-type THighlightItem<T> = Record<keyof T, { snippet: string }>;
-
-export type THighlight<T> = THighlightItem<T> | THighlightItem<T>[];
+export type THighlight<T> = {
+    [K in keyof T]?: { snippet: string } | { snippet: string }[];
+};
 
 export type THit<T> = {
     document: T;
