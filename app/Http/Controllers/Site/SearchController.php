@@ -120,6 +120,7 @@ class SearchController extends Controller
             ->when($params['sort'] === 'relevant', fn ($builder) => $builder->latest('published_at'))
             ->when($params['sort'] === 'newest', fn ($builder) => $builder->latest('published_at'))
             ->when($params['sort'] === 'oldest', fn ($builder) => $builder->oldest('published_at'))
+            ->options(['facet_by' => 'user.id'])
             ->paginateRaw(perPage: 10)
             ->withQueryString();
 
