@@ -95,63 +95,6 @@ class Post extends Model
         return $data;
     }
 
-    public static function toSearchableObject(array $hit): array
-    {
-        $document = $hit['document'] ?? [];
-        $highlights = $hit['highlights'] ?? [];
-
-        $highlightFields = [];
-        foreach ($highlights as $highlight) {
-            $field = $highlight['field'] ?? null;
-            $snippet = $highlight['snippet'] ?? null;
-            $matchedTokens = $highlight['matched_tokens'] ?? [];
-
-            if ($field && $snippet) {
-                $highlightFields[$field] = [
-                    'snippet' => $snippet,
-                    'matched_tokens' => $matchedTokens,
-                ];
-
-                if (isset($document[$field])) {
-                    $document[$field] = $snippet;
-                }
-            }
-        }
-
-        return [
-            'id' => $document['id'] ?? null,
-            'slug' => $document['slug'] ?? null,
-            'title' => $document['title'] ?? '',
-            'excerpt' => $document['excerpt'] ?? '',
-            'content' => $document['content'] ?? '',
-            'status' => $document['status'] ?? null,
-            'published_at' => $document['published_at'] ?? null,
-            'user' => [
-                'id' => $document['user.id'] ?? null,
-                'username' => $document['user.username'] ?? null,
-                'name' => $document['user.name'] ?? '',
-                'image' => isset($document['user.image.id']) && isset($document['user.image.name']) ? [
-                    'id' => $document['user.image.id'],
-                    'name' => $document['user.image.name'],
-                ] : null,
-            ],
-            'category' => isset($document['category.id']) && isset($document['category.slug']) && isset($document['category.name']) ? [
-                'id' => $document['category.id'],
-                'slug' => $document['category.slug'],
-                'name' => $document['category.name'],
-            ] : null,
-            'tags' => isset($document['tags.id']) && is_array($document['tags.id']) ? collect($document['tags.id'])->map(function ($tagId, $index) use ($document) {
-                return [
-                    'id' => $tagId ?? null,
-                    'slug' => $document['tags.slug'][$index] ?? null,
-                    'name' => $document['tags.name'][$index] ?? null,
-                ];
-            })->toArray() : [],
-            // 'highlights' => $highlightFields,
-            // 'text_match_score' => $hit['text_match'] ?? null,
-        ];
-    }
-
     /**
      * Determine if the model should be searchable.
      */

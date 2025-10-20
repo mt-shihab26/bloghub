@@ -207,6 +207,8 @@ return [
             // ],
             Post::class => [
                 'collection-schema' => [
+                    'default_sorting_field' => 'published_at',
+                    'enable_nested_fields' => true,
                     'fields' => [
                         ['name' => 'id', 'type' => 'string'],
                         ['name' => 'slug', 'type' => 'string'],
@@ -226,10 +228,6 @@ return [
                         ['name' => 'tags.slug', 'type' => 'string[]', 'optional' => true, 'facet' => true],
                         ['name' => 'tags.name', 'type' => 'string[]', 'optional' => true, 'facet' => true],
                     ],
-                    'default_sorting_field' => 'published_at',
-                ],
-                'search-parameters' => [
-                    'query_by' => 'title,content,excerpt,user.name,category.name,tags.name',
                 ],
             ],
         ],

@@ -8,7 +8,6 @@ use App\Models\Post;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Inertia\Inertia;
 
 class SearchController extends Controller
@@ -112,6 +111,11 @@ class SearchController extends Controller
      */
     private function searchArticles(array $params, ?User $user, bool $mine = false): array
     {
+        $options = [
+            'query_by' => 'title,content,excerpt,user.name,category.name,tags.name',
+            'facet_by' => 'user',
+        ];
+
         $articles = Post::search($params['query'])
             ->when($mine, fn ($builder) => $builder->where('user.id', $user->id))
             ->when($params['author'], fn ($builder) => $builder->whereIn('user.id', $params['author']))
@@ -120,90 +124,11 @@ class SearchController extends Controller
             ->when($params['sort'] === 'relevant', fn ($builder) => $builder->latest('published_at'))
             ->when($params['sort'] === 'newest', fn ($builder) => $builder->latest('published_at'))
             ->when($params['sort'] === 'oldest', fn ($builder) => $builder->oldest('published_at'))
-            ->options(['facet_by' => 'user.id'])
+            ->options($options)
             ->paginateRaw(perPage: 10)
             ->withQueryString();
 
-        $facets = $this->generateFacetsFromArticles($articles);
-
-        return [$articles, $facets];
-    }
-
-    /**
-     * Generate facets from the paginated posts collection.
-     *
-     * @param  LengthAwarePaginator<int, Post>  $posts
-     */
-    private function generateFacetsFromArticles($posts): array
-    {
-        return [];
-
-        $authors = [];
-        $categories = [];
-        $tags = [];
-
-        foreach ($posts as $post) {
-            if ($post->user) {
-                $username = $post->user->username;
-                if (! isset($authors[$username])) {
-                    $authors[$username] = [
-                        'id' => $post->user->id,
-                        'name' => $post->user->name,
-                        'username' => $post->user->username,
-                        'count' => 0,
-                    ];
-                }
-                $authors[$username]['count']++;
-            }
-
-            if ($post->category) {
-                $categorySlug = $post->category->slug;
-                if (! isset($categories[$categorySlug])) {
-                    $categories[$categorySlug] = [
-                        'id' => $post->category->id,
-                        'name' => $post->category->name,
-                        'slug' => $post->category->slug,
-                        'count' => 0,
-                    ];
-                }
-                $categories[$categorySlug]['count']++;
-            }
-
-            if ($post->tags) {
-                foreach ($post->tags as $tag) {
-                    $tagSlug = $tag->slug;
-                    if (! isset($tags[$tagSlug])) {
-                        $tags[$tagSlug] = [
-                            'id' => $tag->id,
-                            'name' => $tag->name,
-                            'slug' => $tag->slug,
-                            'count' => 0,
-                        ];
-                    }
-                    $tags[$tagSlug]['count']++;
-                }
-            }
-        }
-
-        $sortByCount = fn ($a, $b) => $b['count'] <=> $a['count'];
-
-        $authors = array_values($authors);
-        usort($authors, $sortByCount);
-        $authors = array_slice($authors, 0, 10);
-
-        $categories = array_values($categories);
-        usort($categories, $sortByCount);
-        $categories = array_slice($categories, 0, 10);
-
-        $tags = array_values($tags);
-        usort($tags, $sortByCount);
-        $tags = array_slice($tags, 0, 10);
-
-        return [
-            'authors' => $authors,
-            'categories' => $categories,
-            'tags' => $tags,
-        ];
+        return [$articles, []];
     }
 
     /**
