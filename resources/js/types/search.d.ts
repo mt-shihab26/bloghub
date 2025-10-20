@@ -29,7 +29,7 @@ export type TSearchPaginated<T> = {
     next_page_url: string | null;
 };
 
-export type TSearchPost = Pick<TPost, 'id' | 'slug' | 'title' | 'published_at' | 'excerpt' | 'content'> & {
+export type TSearchPost = Pick<TPost, 'id' | 'slug' | 'title' | 'excerpt' | 'content' | 'status' | 'published_at'> & {
     user: Pick<TUser, 'id', 'username' | 'name'> & { image?: Pick<TImage, 'id', 'name'> | null };
     category?: Pick<TCategory, 'id' | 'slug' | 'name'> | null;
     tags?: Pick<TTag, 'id' | 'slug' | 'name'>[] | null;

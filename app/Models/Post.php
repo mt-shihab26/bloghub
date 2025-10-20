@@ -48,14 +48,6 @@ class Post extends Model
     }
 
     /**
-     * Determine if the model should be searchable.
-     */
-    public function shouldBeSearchable(): bool
-    {
-        return $this->status === PostStatus::PUBLISHED;
-    }
-
-    /**
      * Modify the collection before making it searchable.
      */
     public function makeSearchableUsing(Collection $models): Collection
@@ -70,24 +62,45 @@ class Post extends Model
      */
     public function toSearchableArray(): array
     {
-        $user = [
-            'id' => $this->user->id,
-            'username' => $this->user->username,
-            'name' => $this->user->name,
-            'image' => $this->user->image ? ['id' => $this->user->image->id, 'name' => $this->user->image->name] : null,
-        ];
-
-        return [
+        $data = [
             'id' => $this->id,
             'slug' => $this->slug,
             'title' => $this->title,
             'excerpt' => $this->excerpt,
             'content' => $this->content,
+            'status' => $this->status,
             'published_at' => $this->published_at->timestamp,
-            'user' => $user,
-            'category' => $this->category ? ['id' => $this->category->id, 'slug' => $this->category->slug, 'name' => $this->category->name] : null,
-            'tags' => $this->tags->map(fn ($tag) => ['id' => $tag->id, 'slug' => $tag->slug, 'name' => $tag->name])->toArray(),
+            'user.id' => $this->user->id,
+            'user.username' => $this->user->username,
+            'user.name' => $this->user->name,
         ];
+
+        if ($this->user->image) {
+            $data['user.image.id'] = $this->user->image->id;
+            $data['user.image.name'] = $this->user->image->name;
+        }
+
+        if ($this->category) {
+            $data['category.id'] = $this->category->id;
+            $data['category.slug'] = $this->category->slug;
+            $data['category.name'] = $this->category->name;
+        }
+
+        if ($this->tags->isNotEmpty()) {
+            $data['tags.id'] = $this->tags->pluck('id')->toArray();
+            $data['tags.slug'] = $this->tags->pluck('slug')->toArray();
+            $data['tags.name'] = $this->tags->pluck('name')->toArray();
+        }
+
+        return $data;
+    }
+
+    /**
+     * Determine if the model should be searchable.
+     */
+    public function shouldBeSearchable(): bool
+    {
+        return $this->status === PostStatus::PUBLISHED;
     }
 
     /**
