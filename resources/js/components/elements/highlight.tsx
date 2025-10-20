@@ -16,11 +16,15 @@ export const Highlight = <T,>({
     transformer?: (value: T[keyof T] | undefined) => ReactNode;
     className?: string;
 }) => {
-    const html = index ? hit?.highlight?.[field]?.snippet?.[index] : hit?.highlight?.[field]?.snippet;
+    const value = hit?.highlight?.[field];
+
+    const html = index !== undefined && Array.isArray(value) ? value?.[index]?.snippet : value?.snippet;
 
     if (!html) {
         const value: T[keyof T] | undefined = hit?.document?.[field];
-        const text = index && Array.isArray(value) ? value?.[index] : value;
+
+        const text = index !== undefined && Array.isArray(value) ? value?.[index] : value;
+
         return <>{transformer ? transformer(text) : text}</>;
     }
 

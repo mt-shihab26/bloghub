@@ -5,8 +5,6 @@ import { SearchIcon } from 'lucide-react';
 import { ArticleCard } from './article-card';
 
 export const ArticlesList = ({ articles }: { articles: TSearchPaginated<TSearchPost> }) => {
-    console.log(articles);
-
     return (
         <>
             {articles.data.hits.length > 0 ? (
