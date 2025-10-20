@@ -8,7 +8,7 @@ export const ArticlesList = ({ articles }: { articles: TSearchPaginated<TSearchP
     return (
         <>
             {articles.data.length > 0 ? (
-                <InfiniteScroll data="articles">
+                <InfiniteScroll data="articles" preserveUrl={false}>
                     <div className="space-y-6">
                         {articles.data.map((post, index) => (
                             <ArticleCard ith={index + 1} key={post.id} post={post} />

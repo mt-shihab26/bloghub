@@ -147,8 +147,8 @@ class Post extends Model
                     'name' => $document['tags.name'][$index] ?? null,
                 ];
             })->toArray() : [],
-            'highlights' => $highlightFields,
-            'text_match_score' => $hit['text_match'] ?? null,
+            // 'highlights' => $highlightFields,
+            // 'text_match_score' => $hit['text_match'] ?? null,
         ];
     }
 
