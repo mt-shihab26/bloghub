@@ -29,6 +29,18 @@ export type TSearchPaginated<T> = {
     next_page_url: string | null;
 };
 
+export type TSearchPost = Pick<TPost, 'id' | 'slug' | 'title' | 'published_at' | 'excerpt' | 'content'> & {
+    user: Pick<TUser, 'username' | 'name'> & { image?: Pick<TImage, 'name'> | null };
+    image?: Pick<TImage, 'name'> | null;
+    category?: Pick<TCategory, 'slug' | 'name'> | null;
+    tags?: Pick<TTag, 'slug' | 'name'>[] | null;
+    likes_count: number;
+    comments_count: number;
+    liked_by_user: boolean;
+    commented_by_user: boolean;
+    bookmarked_by_user: boolean;
+};
+
 export type TSearchUser = Pick<TUser, 'id' | 'name' | 'username' | 'bio'> & {
     image?: TUser['image'];
     posts_count?: number;

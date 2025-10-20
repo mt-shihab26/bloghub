@@ -1,11 +1,10 @@
-import type { TPostCard } from '@/components/composite/article-card';
-import type { TSearchPaginated } from '@/types/search';
+import type { TSearchPaginated, TSearchPost } from '@/types/search';
 
-import { ArticleCard } from '@/components/composite/article-card';
 import { InfiniteScroll } from '@inertiajs/react';
 import { SearchIcon } from 'lucide-react';
+import { ArticleCard } from './article-card';
 
-export const ArticlesList = ({ articles }: { articles: TSearchPaginated<TPostCard> }) => {
+export const ArticlesList = ({ articles }: { articles: TSearchPaginated<TSearchPost> }) => {
     return (
         <>
             {articles.data.length > 0 ? (

@@ -1,7 +1,7 @@
 import type { TIndexCategory, TIndexDiscussion, TIndexPost } from '@/types/home';
 import type { TTag } from '@/types/models';
 
-import { ArticleCard } from '@/components/composite/article-card';
+import { ArticleCard } from '@/components/screens/home/article-card';
 import { Categories } from '@/components/screens/home/categories';
 import { Discussions } from '@/components/screens/home/discussions';
 import { Filters } from '@/components/screens/home/filters';
