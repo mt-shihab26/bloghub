@@ -22,7 +22,8 @@ export const formatInitials = (fullName?: string | null): string => {
 /**
  * Formats a date string into a readable long format, e.g., "August 1, 2025".
  */
-export const formatHumanDate = (date: string | Date): string => {
+export const formatHumanDate = (date: string | Date | null): string => {
+    if (!date) return '';
     return format(new Date(date), 'MMMM d, yyyy');
 };
 

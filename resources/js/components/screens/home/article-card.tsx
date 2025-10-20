@@ -7,7 +7,6 @@ import {
     postLikes,
     postLink,
     tagLink,
-    togglePostBookmark,
     togglePostLike,
 } from '@/lib/links';
 
@@ -16,11 +15,12 @@ import type { TIndexPost } from '@/types/home';
 import { formatInitials, formatTimeAgo } from '@/lib/format';
 import { readingTime } from '@/lib/utils';
 
-import { IconButton } from '@/components/screens/home/icon-button';
+import { BookmarkButton } from '@/components/composite/bookmark-button';
+import { IconButton } from '@/components/elements/icon-button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Link } from '@inertiajs/react';
-import { BookmarkIcon, Clock, HeartIcon, MessageCircleIcon } from 'lucide-react';
+import { Clock, HeartIcon, MessageCircleIcon } from 'lucide-react';
 
 export const ArticleCard = ({ post }: { post: TIndexPost }) => {
     return (
@@ -88,12 +88,7 @@ export const ArticleCard = ({ post }: { post: TIndexPost }) => {
                             >
                                 {postComments(post)}
                             </IconButton>
-                            <IconButton
-                                active={post.bookmarked_by_user}
-                                icon={BookmarkIcon}
-                                activeColorClass="text-blue-500 hover:text-blue-500"
-                                onClick={() => togglePostBookmark(post)}
-                            />
+                            <BookmarkButton post={post} />
                         </div>
                         <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                             <Clock className="h-4 w-4" />
