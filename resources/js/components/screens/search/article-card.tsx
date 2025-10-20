@@ -5,6 +5,7 @@ import { authorLink, categoryLink, categoryName, imageLink, postLink, tagLink } 
 import { readingTime } from '@/lib/utils';
 
 import { BookmarkButton } from '@/components/composite/bookmark-button';
+import { Highlight } from '@/components/elements/highlight';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Link } from '@inertiajs/react';
@@ -12,35 +13,7 @@ import { Clock } from 'lucide-react';
 
 export const ArticleCard = ({ ith, post }: { ith: number; post: THit<TSearchPost> }) => {
     const doc = post.document;
-    const highlights = post.highlights || [];
-
-    const getHighlight = (field: string) => {
-        const highlight = highlights.find((h) => h.field === field);
-        return highlight?.snippet;
-    };
-
-    const titleHighlight = getHighlight('title');
-    const excerptHighlight = getHighlight('excerpt');
-    const contentHighlight = getHighlight('content');
-
-    const user = {
-        id: doc['user.id'],
-        username: doc['user.username'],
-        name: doc['user.name'],
-        image: doc['user.image.name'] ? { name: doc['user.image.name'] } : null,
-    };
-
-    const category = {
-        id: doc['category.id'],
-        slug: doc['category.slug'],
-        name: doc['category.name'],
-    };
-
-    const tags = doc['tags.id']?.map((_, index) => ({
-        id: doc['tags.id'][index],
-        slug: doc['tags.slug'][index],
-        name: doc['tags.name'][index],
-    }));
+    const highlight = post.highlight;
 
     return (
         <div key={doc.id} className="flex space-x-2 overflow-hidden rounded-lg border p-4">
@@ -54,11 +27,14 @@ export const ArticleCard = ({ ith, post }: { ith: number; post: THit<TSearchPost
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                         <div className="flex flex-col">
-                            <Link href={authorLink(user)} className="text-sm font-medium hover:underline">
-                                {user.name}
+                            <Link
+                                href={authorLink({ username: doc['user.username'] })}
+                                className="text-sm font-medium hover:underline"
+                            >
+                                <Highlight hit={post} key="user.username" />
                             </Link>
                             <span className="text-sm text-muted-foreground">
-                                {formatHumanDate(doc.published_at)} ({formatTimeAgo(doc.published_at)})
+                                {formatHumanDate(doc['published_at'])} ({formatTimeAgo(doc['published_at'])})
                             </span>
                         </div>
                     </div>
@@ -69,35 +45,39 @@ export const ArticleCard = ({ ith, post }: { ith: number; post: THit<TSearchPost
                     </div>
                 </div>
                 <h2 className="text-xl font-semibold">
-                    <Link href={postLink(user, { slug: doc.slug })} className="hover:underline">
-                        {titleHighlight ? <span dangerouslySetInnerHTML={{ __html: titleHighlight }} /> : doc.title}
+                    <Link
+                        href={postLink({ username: doc['user.username'] }, { slug: doc['slug'] })}
+                        className="hover:underline"
+                    >
+                        <Highlight html={highlight?.['title']?.snippet} fallback={doc['title']} />
                     </Link>
                 </h2>
                 <p className="text-muted-foreground">
-                    {excerptHighlight ? (
-                        <span dangerouslySetInnerHTML={{ __html: excerptHighlight }} />
-                    ) : contentHighlight ? (
-                        <span dangerouslySetInnerHTML={{ __html: contentHighlight }} />
-                    ) : (
-                        doc.excerpt
-                    )}
+                    <Highlight html={highlight?.['excerpt']?.snippet} fallback={doc.excerpt} />
                 </p>
                 <div className="flex items-center justify-between space-x-2">
                     <div className="flex flex-wrap items-center space-x-2">
-                        {category && (
-                            <Link href={categoryLink(category)}>
+                        {doc['category.slug'] && doc['category.name'] && (
+                            <Link href={categoryLink({ slug: doc['category.slug'] })}>
                                 <Badge
                                     variant="outline"
                                     className="cursor-pointer hover:bg-primary hover:text-primary-foreground"
                                 >
-                                    {categoryName(category)}
+                                    <Highlight
+                                        html={highlight?.['category.name'].snippet}
+                                        fallback={categoryName({ name: doc['category.name'] })}
+                                    />
                                 </Badge>
                             </Link>
                         )}
-                        {tags?.map((tag) => (
-                            <Link key={tag.slug} href={tagLink(tag)}>
+                        {doc['tags.slug']?.map((slug, index) => (
+                            <Link key={slug} href={tagLink({ slug })}>
                                 <Badge variant="secondary" className="cursor-pointer text-xs hover:underline">
-                                    #{tag.name}
+                                    #{/* <Highlight */}
+                                    {/*     html={highlight?.['category.name'].snippet} */}
+                                    {/*     fallback={categoryName({ name: doc['category.name'] })} */}
+                                    {/* /> */}
+                                    {doc['tags.name'][index]}
                                 </Badge>
                             </Link>
                         ))}

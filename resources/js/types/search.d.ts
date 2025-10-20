@@ -23,9 +23,11 @@ export type TSearchFacets = {
     tags?: null;
 };
 
+export type THighlight<T> = Record<keyof T, { snippet: string }>;
+
 export type THit<T> = {
     document: T;
-    highlights: { field: keyof T; snippet: string }[];
+    highlight: THighlight<T> | null;
 };
 
 export type TSearchPaginated<T> = {
