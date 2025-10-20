@@ -1,15 +1,19 @@
 import type { TSearchPost } from '@/types/search';
 
+import { useAuthUser } from '@/hooks/use-auth-user';
 import { formatInitials, formatTimeAgo } from '@/lib/format';
-import { authorLink, categoryLink, categoryName, imageLink, postLink, tagLink } from '@/lib/links';
+import { authorLink, categoryLink, categoryName, imageLink, postLink, tagLink, togglePostBookmark } from '@/lib/links';
 import { readingTime } from '@/lib/utils';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Link } from '@inertiajs/react';
-import { Clock } from 'lucide-react';
+import { BookmarkIcon, Clock } from 'lucide-react';
+import { IconButton } from '../home/icon-button';
 
 export const ArticleCard = ({ ith, post }: { ith: number; post: TSearchPost }) => {
+    const { bookmarks } = useAuthUser();
+
     return (
         <div key={post.id} className="overflow-hidden rounded-lg border">
             <div className="flex flex-col md:flex-row">
@@ -55,6 +59,13 @@ export const ArticleCard = ({ ith, post }: { ith: number; post: TSearchPost }) =
                             <span>{readingTime(post.content)} min read</span>
                         </div>
                     </div>
+
+                    <IconButton
+                        active={!!bookmarks?.find((p) => p.id === post.id)}
+                        icon={BookmarkIcon}
+                        activeColorClass="text-blue-500 hover:text-blue-500"
+                        onClick={() => togglePostBookmark(post)}
+                    />
 
                     {post.tags && (
                         <div className="mt-4 flex flex-wrap gap-2">

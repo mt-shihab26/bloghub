@@ -38,10 +38,15 @@ class HandleInertiaRequests extends Middleware
     {
         $user = $request->user();
 
+        $bookmarks = $user?->bookmarks()
+            ->select(['posts.id', 'posts.slug'])
+            ->get()
+            ->map(fn ($post) => $post->only(['id', 'slug']));
+
         return [
             ...parent::share($request),
             'name' => config('app.name'),
-            'auth' => ['user' => $user, 'image' => $user?->image],
+            'auth' => ['user' => $user, 'image' => $user?->image, 'bookmarks' => $bookmarks],
             'ziggy' => fn (): array => [...(new Ziggy)->toArray(), 'location' => $request->url()],
             'sidebar' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];
