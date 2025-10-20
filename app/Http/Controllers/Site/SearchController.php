@@ -113,20 +113,13 @@ class SearchController extends Controller
      */
     private function searchArticles(array $params, ?User $user, bool $mine = false): array
     {
-        $userId = $user?->id;
-
-        $load = fn (Builder $query) => $query
-            ->with(['user.image', 'image', 'category', 'tags'])
-            ->withCount(['likes', 'comments'])
-            ->withExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $userId)])
-            ->withExists(['comments as commented_by_user' => fn ($q) => $q->where('user_id', $userId)])
-            ->withExists(['bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $userId)]);
+        $load = fn (Builder $query) => $query->with(['user.image', 'image', 'category', 'tags']);
 
         $articles = Post::search($params['query'])
-            ->when($mine, fn ($builder) => $builder->where('user_id', $user->id))
-            ->when($params['author'], fn ($builder) => $builder->whereIn('user_id', $params['author']))
-            ->when($params['category'], fn ($builder) => $builder->whereIn('category_id', $params['category']))
-            ->when($params['tag'], fn ($builder) => $builder->whereIn('tags', $params['tag']))
+            ->when($mine, fn ($builder) => $builder->where('user.id', $user->id))
+            ->when($params['author'], fn ($builder) => $builder->whereIn('user.id', $params['author']))
+            ->when($params['category'], fn ($builder) => $builder->whereIn('category.id', $params['category']))
+            ->when($params['tag'], fn ($builder) => $builder->whereIn('tags.id', $params['tag']))
             ->when($params['sort'] === 'relevant', fn ($builder) => $builder->latest('published_at'))
             ->when($params['sort'] === 'newest', fn ($builder) => $builder->latest('published_at'))
             ->when($params['sort'] === 'oldest', fn ($builder) => $builder->oldest('published_at'))
