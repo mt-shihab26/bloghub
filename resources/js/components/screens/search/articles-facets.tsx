@@ -42,7 +42,7 @@ export const ArticlesFacets = ({
                     const user = usersList.find((u) => u.username === single.value);
                     return user ? { value: user.username, label: user.name, count: single.count } : null;
                 })
-                .filter((item): item is TItem => item !== null) || [];
+                .filter((item) => item !== null) || [];
 
         const categories: TItem[] =
             categoryFacet?.counts
@@ -50,7 +50,7 @@ export const ArticlesFacets = ({
                     const category = categoriesList.find((c) => c.slug === single.value);
                     return category ? { value: category.slug, label: category.name, count: single.count } : null;
                 })
-                .filter((item): item is TItem => item !== null) || [];
+                .filter((item) => item !== null) || [];
 
         const tags: TItem[] =
             tagFacet?.counts
@@ -58,7 +58,7 @@ export const ArticlesFacets = ({
                     const tag = tagsList.find((t) => t.slug === single.value);
                     return tag ? { value: tag.slug, label: tag.name, count: single.count } : null;
                 })
-                .filter((item): item is TItem => item !== null) || [];
+                .filter((item) => item !== null) || [];
 
         return { authors, categories, tags };
     }, [facets, hits]);
