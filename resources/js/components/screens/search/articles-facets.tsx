@@ -6,7 +6,7 @@ import { useMemo } from 'react';
 import { Separator } from '@/components/ui/separator';
 import { Link } from '@inertiajs/react';
 import { FolderIcon, TagIcon, UserIcon } from 'lucide-react';
-import { ArticlesFacetsItems } from './articles-facets-items';
+import { ArticlesFacetsItems, TItem } from './articles-facets-items';
 
 export const ArticlesFacets = ({
     params,
@@ -20,34 +20,22 @@ export const ArticlesFacets = ({
     const transformedFacets = useMemo(() => {
         if (!facets || !hits) return { authors: [], categories: [], tags: [] };
 
-        const userMap: Record<string, { username: string; name: string }> = {};
-        const categoryMap: Record<string, { slug: string; name: string }> = {};
-        const tagMap: Record<string, { slug: string; name: string }> = {};
+        const usersList: { username: string; name: string }[] = [];
+        const categoriesList: { slug: string; name: string }[] = [];
+        const tagsList: { slug: string; name: string }[] = [];
 
         for (const hit of hits) {
             const doc = hit.document;
-
             if (doc.user?.username) {
-                userMap[doc.user.username] = {
-                    username: doc.user.username,
-                    name: doc.user.name,
-                };
+                usersList.push({ username: doc.user.username, name: doc.user?.name });
             }
-
             if (doc.category?.slug) {
-                categoryMap[doc.category.slug] = {
-                    slug: doc.category.slug,
-                    name: doc.category.name,
-                };
+                categoriesList.push({ slug: doc.category.slug, name: doc.category.name });
             }
-
             if (doc.tags) {
                 for (const tag of doc.tags) {
-                    if (tag.slug) {
-                        tagMap[tag.slug] = {
-                            slug: tag.slug,
-                            name: tag.name,
-                        };
+                    if (tag?.slug) {
+                        tagsList.push({ slug: tag.slug, name: tag.name });
                     }
                 }
             }
@@ -57,44 +45,32 @@ export const ArticlesFacets = ({
         const categoryFacet = facets.find((f) => f.field_name === 'category.slug');
         const tagFacet = facets.find((f) => f.field_name === 'tags.slug');
 
-        const authors = [];
+        const authors: TItem[] = [];
         if (userFacet) {
-            for (const count of userFacet.counts) {
-                const user = userMap[count.value];
+            for (const single of userFacet.counts) {
+                const user = usersList.find((u) => u.username === single.value);
                 if (user) {
-                    authors.push({
-                        value: user.username,
-                        label: user.name,
-                        count: count.count,
-                    });
+                    authors.push({ value: user.username, label: user.name, count: single.count });
                 }
             }
         }
 
-        const categories = [];
+        const categories: TItem[] = [];
         if (categoryFacet) {
-            for (const count of categoryFacet.counts) {
-                const category = categoryMap[count.value];
+            for (const single of categoryFacet.counts) {
+                const category = categoriesList.find((c) => c.slug === single.value);
                 if (category) {
-                    categories.push({
-                        value: category.slug,
-                        label: category.name,
-                        count: count.count,
-                    });
+                    categories.push({ value: category.slug, label: category.name, count: single.count });
                 }
             }
         }
 
-        const tags = [];
+        const tags: TItem[] = [];
         if (tagFacet) {
-            for (const count of tagFacet.counts) {
-                const tag = tagMap[count.value];
+            for (const single of tagFacet.counts) {
+                const tag = tagsList.find((t) => t.slug === single.value);
                 if (tag) {
-                    tags.push({
-                        value: tag.slug,
-                        label: tag.name,
-                        count: count.count,
-                    });
+                    tags.push({ value: tag.slug, label: tag.name, count: single.count });
                 }
             }
         }

@@ -8,6 +8,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Link } from '@inertiajs/react';
 
+export type TItem = {
+    value: string;
+    label: string;
+    count: number;
+};
+
 export const ArticlesFacetsItems = ({
     icon: Icon,
     title,
@@ -19,7 +25,7 @@ export const ArticlesFacetsItems = ({
     icon: LucideIcon;
     title: string;
     field: string;
-    items: { value: string; label: string; count: number }[];
+    items: TItem[];
     selects: string[];
     params: TSearchParams;
 }) => {
