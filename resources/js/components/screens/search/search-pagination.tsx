@@ -12,11 +12,9 @@ import type { TSearchPaginated } from '@/types/search';
 
 import { cn } from '@/lib/utils';
 
-import { Link } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 
 export const SearchPagination = <T,>({ data, className }: { data: TSearchPaginated<T>; className?: string }) => {
-    console.log(data);
-
     if (data.total === 0) {
         return null;
     }
@@ -60,9 +58,17 @@ export const SearchPagination = <T,>({ data, className }: { data: TSearchPaginat
                             return (
                                 <PaginationItem key={`page-${link.page}-${index}`}>
                                     {link.url ? (
-                                        <Link href={link.url} preserveState preserveScroll>
-                                            <PaginationLink isActive={isActive}>{link.page}</PaginationLink>
-                                        </Link>
+                                        <PaginationLink
+                                            isActive={isActive}
+                                            onClick={() =>
+                                                router.visit(link.url || '', {
+                                                    preserveState: true,
+                                                    preserveScroll: true,
+                                                })
+                                            }
+                                        >
+                                            {link.page}
+                                        </PaginationLink>
                                     ) : (
                                         <PaginationLink isActive={isActive}>{link.page}</PaginationLink>
                                     )}
