@@ -12,13 +12,23 @@ export type TSearchParams = {
     tag?: string[] | null;
 };
 
+type THighlightSnippet = { snippet: string };
+
+type TDeepHighlight<T> = T extends (infer U)[]
+    ? TDeepHighlight<U>[]
+    : T extends object
+      ? {
+            [K in keyof T]?: TDeepHighlight<T[K]>;
+        } & Partial<THighlightSnippet>
+      : THighlightSnippet;
+
 export type THighlight<T> = {
-    [K in keyof T]?: { snippet: string } | { snippet: string }[];
+    [K in keyof T]?: TDeepHighlight<T[K]> | THighlightSnippet;
 };
 
 export type THit<T> = {
     document: T;
-    highlight: THighlight<T> | null;
+    highlight: THighlight<T> | Record<string, any> | null;
 };
 
 export type TSearchPaginated<T> = {
