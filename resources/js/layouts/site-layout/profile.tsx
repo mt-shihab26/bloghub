@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
 import { ProfileTheme } from './profile-theme';
 
-export const Profile = ({ user, image }: { user: TUser; image?: TImage }) => {
+export const Profile = ({ user, image }: { user: TUser; image?: TImage | null }) => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>

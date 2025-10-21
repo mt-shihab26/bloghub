@@ -1,6 +1,5 @@
 import type {
     TSearchCategory,
-    TSearchFacets,
     TSearchPaginated,
     TSearchParams,
     TSearchPost,
@@ -10,7 +9,6 @@ import type {
 
 import { cn } from '@/lib/utils';
 
-import { ArticlesFacets } from '@/components/screens/search/articles-facets';
 import { ArticlesList } from '@/components/screens/search/articles-list';
 import { AuthorsList } from '@/components/screens/search/authors-list';
 import { CategoriesList } from '@/components/screens/search/categories-list';
@@ -22,21 +20,17 @@ import { SearchIcon } from 'lucide-react';
 
 const Search = ({
     params,
-    facets,
     articles,
     authors,
     categories,
     tags,
 }: {
     params: TSearchParams;
-    facets?: TSearchFacets;
     articles?: TSearchPaginated<TSearchPost>;
     authors?: TSearchPaginated<TSearchUser>;
     categories?: TSearchPaginated<TSearchCategory>;
     tags?: TSearchPaginated<TSearchTag>;
 }) => {
-    console.log(articles);
-
     const total = articles?.total || authors?.total || categories?.total || tags?.total || 0;
 
     return (
@@ -46,9 +40,9 @@ const Search = ({
 
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
                     <aside className="space-y-4">
-                        {(params.type === 'articles' || params.type === 'my-articles') && facets && (
-                            <ArticlesFacets params={params} facets={facets} />
-                        )}
+                        {/* {(params.type === 'articles' || params.type === 'my-articles') && facets && ( */}
+                        {/*     <ArticlesFacets params={params} facets={facets} /> */}
+                        {/* )} */}
                     </aside>
                     <div
                         className={cn(

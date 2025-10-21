@@ -12,17 +12,6 @@ export type TSearchParams = {
     tag?: string[] | null;
 };
 
-export type TSearchFacets = {
-    articles?: {
-        authors?: (Pick<TUser, 'id' | 'name'> & { count: number })[];
-        categories?: (Pick<TCategory, 'id' | 'name'> & { count: number })[];
-        tags?: (Pick<TTag, 'id' | 'name'> & { count: number })[];
-    };
-    authors?: null;
-    categories?: null;
-    tags?: null;
-};
-
 export type THighlight<T> = {
     [K in keyof T]?: { snippet: string } | { snippet: string }[];
 };
@@ -39,20 +28,15 @@ export type TSearchPaginated<T> = {
 };
 
 export type TSearchPost = Pick<TPost, 'id' | 'slug' | 'title' | 'excerpt' | 'content' | 'status' | 'published_at'> & {
-    'user.id': TUser['id'];
-    'user.username': TUser['username'];
-    'user.name': TUser['name'];
+    user: (Pick<TUser, 'id' | 'username' | 'name'> & { image?: Pick<TImage, 'id', 'name'> | null }) | null;
+    category: Pick<TCategory, 'id' | 'slug' | 'name'> | null;
+    tags: Pick<TTag, 'id' | 'name' | 'slug'>[];
+};
 
-    'user.image.id': TUser['image'] extends TImage ? TImage['id'] : null;
-    'user.image.name': TUser['image'] extends TImage ? TImage['name'] : null;
-
-    'category.id': TCategory['id'];
-    'category.slug': TCategory['slug'];
-    'category.name': TCategory['name'];
-
-    'tags.id': TTag['id'][];
-    'tags.name': TTag['name'][];
-    'tags.slug': TTag['slug'][];
+export type TFacetsPost = {
+    authors: (TUser & { count: number })[];
+    categories: (TCategory & { count: number })[];
+    tags: (TTag & { count: number })[];
 };
 
 export type TSearchUser = Pick<TUser, 'id' | 'name' | 'username' | 'bio'> & {

@@ -12,25 +12,20 @@ import { Link } from '@inertiajs/react';
 import { Clock } from 'lucide-react';
 
 export const ArticleCard = ({ ith, post }: { ith: number; post: THit<TSearchPost> }) => {
-    const doc = post.document;
-
     return (
-        <div key={doc.id} className="flex space-x-2 overflow-hidden rounded-lg border p-4">
+        <div key={post.document.id} className="flex space-x-2 overflow-hidden rounded-lg border p-4">
             <div>
                 <Avatar className="size-11">
-                    <AvatarImage src={imageLink(doc['user.image.name'])} />
-                    <AvatarFallback>{formatInitials(doc['user.name'])}</AvatarFallback>
+                    <AvatarImage src={imageLink(post.document?.user?.image)} />
+                    <AvatarFallback>{formatInitials(post.document?.user?.name)}</AvatarFallback>
                 </Avatar>
             </div>
             <div className="w-full space-y-2">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                         <div className="flex flex-col">
-                            <Link
-                                href={authorLink({ username: doc['user.username'] })}
-                                className="text-sm font-medium hover:underline"
-                            >
-                                <Highlight hit={post} field="user.name" />
+                            <Link href={authorLink(post.document.user)} className="text-sm font-medium hover:underline">
+                                <Highlight hit={post} field={['user', 'name']} />
                             </Link>
                             <span className="text-sm text-muted-foreground">
                                 {formatHumanDate(doc['published_at'])} ({formatTimeAgo(doc['published_at'])})
