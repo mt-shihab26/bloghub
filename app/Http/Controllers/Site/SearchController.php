@@ -36,11 +36,28 @@ class SearchController extends Controller
 
         $type = $params['type'];
 
-        $articles = $type === 'articles' ? $this->searchArticles($params, $request->user()) : null;
-        $articles = $type === 'my-articles' ? $this->searchArticles($params, $request->user(), mine: true) : null;
-        $authors = $type === 'authors' ? $this->searchAuthors($params) : null;
-        $categories = $type === 'categories' ? $this->searchCategories($params) : null;
-        $tags = $type === 'tags' ? $this->searchTags($params) : null;
+        $articles = null;
+        $authors = null;
+        $categories = null;
+        $tags = null;
+
+        switch ($type) {
+            case 'articles':
+                $articles = $this->searchArticles($params);
+                break;
+            case 'my-articles':
+                $articles = $this->searchArticles($params, $request->user());
+                break;
+            case 'authors':
+                $authors = $this->searchAuthors($params);
+                break;
+            case 'categories':
+                $categories = $this->searchCategories($params);
+                break;
+            case 'tags':
+                $tags = $this->searchTags($params);
+                break;
+        }
 
         return inertia('site/search', [
             'params' => $params,
@@ -69,7 +86,7 @@ class SearchController extends Controller
      *
      * @param  array{query: string, sort: string, author: string[]|null, category: string[]|null, tag: string[]|null}  $params
      */
-    private function searchArticles(array $params, ?User $user, bool $mine = false): LengthAwarePaginator
+    private function searchArticles(array $params, ?User $user = null): LengthAwarePaginator
     {
         $options = [
             'query_by' => 'title,content,excerpt,user.name,category.name,tags.name',
@@ -77,7 +94,7 @@ class SearchController extends Controller
         ];
 
         $articles = Post::search($params['query'])
-            ->when($mine, fn ($builder) => $builder->where('user.id', $user->id))
+            ->when($user, fn ($builder) => $builder->where('user.id', $user->id))
             ->when($params['author'], fn ($builder) => $builder->whereIn('user.username', $params['author']))
             ->when($params['category'], fn ($builder) => $builder->whereIn('category.slug', $params['category']))
             ->when($params['tag'], fn ($builder) => $builder->whereIn('tags.slug', $params['tag']))
