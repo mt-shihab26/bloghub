@@ -3,17 +3,19 @@
 namespace App\Models;
 
 use App\Enums\PostStatus;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Laravel\Scout\Searchable;
 
 class Post extends Model
 {
     /** @use HasFactory<\Database\Factories\PostFactory> */
-    use HasFactory, HasUuids;
+    use HasFactory, HasUuids, Searchable;
 
     /**
      * The attributes that are mass assignable.
@@ -46,6 +48,73 @@ class Post extends Model
     }
 
     /**
+     * Modify the collection before making it searchable.
+     */
+    public function makeSearchableUsing(Collection $models): Collection
+    {
+        return $models->load(['user.image', 'category', 'tags']);
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array<string, mixed>
+     */
+    public function toSearchableArray(): array
+    {
+        $user = [
+            'id' => $this->user->id, // @phpstan-ignore-line
+            'username' => $this->user->username, // @phpstan-ignore-line
+            'name' => $this->user->name, // @phpstan-ignore-line
+            'image' => null,
+        ];
+
+        if ($this->user->image) { // @phpstan-ignore-line
+            $user['image'] = [
+                'id' => $this->user->image->id,
+                'name' => $this->user->image->name,
+            ];
+        }
+
+        $data = [
+            'id' => $this->id,
+            'slug' => $this->slug,
+            'title' => $this->title,
+            'excerpt' => $this->excerpt,
+            'content' => $this->content,
+            'status' => $this->status,
+            'published_at' => $this->published_at?->timestamp, // @phpstan-ignore-line
+            'user' => $user,
+            'category' => null,
+            'tags' => [],
+        ];
+
+        if ($this->category) {
+            $data['category'] = [
+                'id' => $this->category->id, // @phpstan-ignore-line
+                'slug' => $this->category->slug, // @phpstan-ignore-line
+                'name' => $this->category->name, // @phpstan-ignore-line
+            ];
+        }
+
+        if ($this->tags->isNotEmpty()) {
+            $data['tags'] = $this->tags
+                ->map(fn ($t) => ['id' => $t->id, 'slug' => $t->slug, 'name' => $t->name]) // @phpstan-ignore-line
+                ->toArray();
+        }
+
+        return $data;
+    }
+
+    /**
+     * Determine if the model should be searchable.
+     */
+    public function shouldBeSearchable(): bool
+    {
+        return $this->status === PostStatus::PUBLISHED; // @phpstan-ignore-line
+    }
+
+    /**
      * Get the image associated with the post.
      */
     public function image(): BelongsTo
@@ -74,7 +143,7 @@ class Post extends Model
      */
     public function tags(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class);
+        return $this->belongsToMany(Tag::class)->withTimestamps();
     }
 
     /**

@@ -2,7 +2,7 @@ import type { TPublicPage } from '@/types';
 import type { TShowPost } from '@/types/home';
 
 import { formatInitials, formatTimeAgo } from '@/lib/format';
-import { authorLink, imageLink, tagLink, toggleFollowLink } from '@/lib/links';
+import { authorLink, categoryLink, categoryName, imageLink, tagLink, toggleFollowLink } from '@/lib/links';
 import { readingTime } from '@/lib/utils';
 import { usePostStore } from '@/states/use-post-store';
 import { usePage } from '@inertiajs/react';
@@ -19,8 +19,23 @@ export const Header = ({ post }: { post: TShowPost }) => {
 
     return (
         <div className="mb-8">
+            {!isZenMode && post.category && (
+                <div className="mt-4 mb-2">
+                    <Link href={categoryLink(post.category)}>
+                        <Badge
+                            variant="outline"
+                            className="cursor-pointer hover:bg-primary hover:text-primary-foreground"
+                        >
+                            {categoryName(post.category)}
+                        </Badge>
+                    </Link>
+                </div>
+            )}
+            <div className="mb-2 flex items-center gap-4">
+                <h1 className="text-4xl font-bold">{post.title}</h1>
+            </div>
             {!isZenMode && post.tags && (
-                <div className="mt-4 mb-2 flex flex-wrap gap-2">
+                <div className="mb-2 flex flex-wrap gap-2">
                     {post.tags.map((tag) => (
                         <Link key={tag.slug} href={tagLink(tag)}>
                             <Badge variant="secondary" className="cursor-pointer hover:underline">
@@ -30,9 +45,6 @@ export const Header = ({ post }: { post: TShowPost }) => {
                     ))}
                 </div>
             )}
-            <div className="mb-6 flex items-center gap-4">
-                <h1 className="text-4xl font-bold">{post.title}</h1>
-            </div>
 
             {!isZenMode && (
                 <div className="mb-6 flex items-center justify-between">

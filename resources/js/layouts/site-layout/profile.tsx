@@ -9,35 +9,52 @@ import {
 import type { TImage, TUser } from '@/types/models';
 
 import { formatInitials } from '@/lib/format';
-import { imageLink, profileMeLink, profileSettingsLink } from '@/lib/links';
+import { imageLink } from '@/lib/links';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
+import { ProfileTheme } from './profile-theme';
 
-export const Profile = ({ user, image }: { user: TUser; image?: TImage }) => {
+export const Profile = ({ user, image }: { user: TUser; image?: TImage | null }) => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="h-8 w-8 rounded-full p-0">
+                <Button variant="ghost" size="icon" className="rounded-full">
                     <Avatar className="h-8 w-8">
                         <AvatarImage src={imageLink(image)} alt={user.name} />
                         <AvatarFallback>{formatInitials(user.name)}</AvatarFallback>
                     </Avatar>
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
-                <div className="flex flex-col px-4 py-3">
-                    <p className="text-xs text-muted-foreground">{user.username}</p>
-                    <p className="truncate text-xs text-muted-foreground">{user.email}</p>
-                </div>
+            <DropdownMenuContent align="end" className="w-60">
+                <Link href={route('site.profile.me')} className="flex flex-col px-4 py-2 text-start hover:underline">
+                    <div>{user.email}</div>
+                    <div>@{user.username}</div>
+                </Link>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                    <Link href={profileMeLink()}>Profile</Link>
+                    <Link href={route('site.dashboard.index')} className="hover:underline">
+                        Dashboard
+                    </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                    <Link href={profileSettingsLink()}>Settings</Link>
+                    <Link href={route('site.write.create')} className="hover:underline">
+                        Write
+                    </Link>
                 </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                    <Link href={route('site.reading-list.index')} className="hover:underline">
+                        Reading List
+                    </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                    <Link href={route('site.settings.index')} className="hover:underline">
+                        Settings
+                    </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <ProfileTheme />
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
                     <Link href={route('logout')} className="w-full" method="post" as="button">

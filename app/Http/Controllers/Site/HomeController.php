@@ -31,20 +31,23 @@ class HomeController extends Controller
             ->limit(10)
             ->get();
 
-        $users = User::query()
-            ->with('image')
+        $tags = Tag::query()
             ->limit(10)
             ->get();
 
-        $tags = Tag::query()
-            ->limit(10)
+        $discussions = Post::query()
+            ->select(['id', 'user_id', 'title', 'slug'])
+            ->with('user:id,username')
+            ->withCount('comments')
+            ->orderByDesc('comments_count')
+            ->limit(5)
             ->get();
 
         return inertia('site/home', [
             'posts' => $posts,
             'categories' => $categories,
-            'users' => $users,
             'tags' => $tags,
+            'discussions' => $discussions,
         ]);
     }
 
@@ -53,7 +56,7 @@ class HomeController extends Controller
      */
     public function show(Request $request, User $user, Post $post)
     {
-        $post->load(['image', 'tags'])
+        $post->load(['image', 'category', 'tags'])
             ->loadCount(['likes', 'comments'])
             ->loadExists(['likes as liked_by_user' => fn ($q) => $q->where('user_id', $request->user()?->id)])
             ->loadExists(['bookmarks as bookmarked_by_user' => fn ($q) => $q->where('user_id', $request->user()?->id)]);

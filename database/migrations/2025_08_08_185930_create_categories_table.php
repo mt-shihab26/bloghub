@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Category;
-use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,13 +13,10 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignIdFor(User::class)->nullable()->constrained()->onDelete('set null');
-            $table->foreignIdFor(Category::class)->nullable()->constrained()->onDelete('set null');
-
+            $table->foreignUuid('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->text('description')->nullable();
-
             $table->timestamps();
         });
     }

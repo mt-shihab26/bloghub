@@ -1,9 +1,6 @@
 <?php
 
 use App\Enums\CommentStatus;
-use App\Models\Comment;
-use App\Models\Post;
-use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,14 +14,20 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignIdFor(User::class)->nullable()->constrained()->onDelete('set null');
-            $table->foreignIdFor(Post::class)->nullable()->constrained()->onDelete('cascade');
-            $table->foreignIdFor(Comment::class)->nullable()->constrained()->onDelete('cascade');
-
+            $table->foreignUuid('user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignUuid('post_id')->nullable()->constrained('posts')->cascadeOnDelete();
+            $table->foreignUuid('comment_id')->nullable()->constrained('comments')->cascadeOnDelete();
             $table->text('content');
             $table->string('status')->default(CommentStatus::APPROVED->value);
-
             $table->timestamps();
+        });
+
+        Schema::create('comment_user_likes', function (Blueprint $table) {
+            $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignUuid('comment_id')->constrained('comments')->cascadeOnDelete();
+            $table->timestamps();
+
+            $table->primary(['user_id', 'comment_id']);
         });
     }
 
@@ -33,6 +36,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('comment_user_likes');
         Schema::dropIfExists('comments');
     }
 };

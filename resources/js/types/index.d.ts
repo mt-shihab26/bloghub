@@ -1,18 +1,16 @@
 import type { Config } from 'ziggy-js';
-import type { TImage, TUser } from './models';
+import type { TImage, TPost, TUser } from './models';
 
-export type TPublicPage = {
+export type TPublicPage<T extends object = object> = {
     name: string;
-    quote: { message: string; author: string };
-    auth: { user?: TUser; image?: TImage };
+    auth: { user?: TUser | null; image?: TImage | null; bookmarks?: Pick<TPost, 'id' | 'slug'>[] | null };
     ziggy: Config & { location: string };
-    sidebarOpen: boolean;
-};
+    sidebar: boolean;
+} & T;
 
-export type TAuthPage = {
+export type TAuthPage<T extends object = object> = {
     name: string;
-    quote: { message: string; author: string };
-    auth: { user: TUser; image?: TImage };
+    auth: { user: TUser; image?: TImage | null; bookmarks?: Pick<TPost, 'id' | 'slug'>[] | null };
     ziggy: Config & { location: string };
-    sidebarOpen: boolean;
-};
+    sidebar: boolean;
+} & T;

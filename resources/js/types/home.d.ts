@@ -33,6 +33,7 @@ export type TShowComment = TComment & {
 export type TShowPost = TPost & {
     user: TUser & { image?: TImage | null };
     image?: TImage | null;
+    category?: TCategory | null;
     tags?: TTag[];
     comments?: TShowComment[];
 
@@ -42,4 +43,9 @@ export type TShowPost = TPost & {
     liked_by_user: boolean;
     bookmarked_by_user: boolean;
     followed_by_user?: boolean;
+};
+
+export type TIndexDiscussion = Pick<TPost, 'id' | 'title' | 'slug' | 'user_id'> & {
+    user: Pick<TUser, 'id' | 'username'>;
+    comments_count: number;
 };

@@ -1,39 +1,41 @@
-import type { TIndexCategory, TIndexPost, TIndexUser } from '@/types/home';
+import type { TIndexCategory, TIndexDiscussion, TIndexPost } from '@/types/home';
 import type { TTag } from '@/types/models';
 
+import { ArticleCard } from '@/components/screens/home/article-card';
 import { Categories } from '@/components/screens/home/categories';
-import { FeaturedArticles } from '@/components/screens/home/featured-articles';
-import { NewsletterSignup } from '@/components/screens/home/newsletter-signup';
-import { PopularAuthors } from '@/components/screens/home/popular-authors';
-import { PopularTags } from '@/components/screens/home/popular-tags';
-import { RecommendedArticles } from '@/components/screens/home/recommended-articles';
+import { Discussions } from '@/components/screens/home/discussions';
+import { Filters } from '@/components/screens/home/filters';
+import { Tags } from '@/components/screens/home/tags';
 import { SiteLayout } from '@/layouts/site-layout';
 
 const Index = ({
     posts,
-    users,
     categories,
     tags,
+    discussions,
 }: {
     posts: TIndexPost[];
     categories: TIndexCategory[];
-    users: TIndexUser[];
     tags: TTag[];
+    discussions: TIndexDiscussion[];
 }) => {
     return (
-        <SiteLayout title="Home" footer={false}>
-            <div className="grid h-full grid-cols-1 gap-8 lg:grid-cols-5">
-                <aside className="scrollbar-hide h-full space-y-6 overflow-y-auto lg:col-span-1">
+        <SiteLayout title="Home">
+            <div className="grid h-full grid-cols-1 gap-8 lg:grid-cols-8">
+                <aside className="h-full space-y-6 lg:col-span-2">
                     <Categories categories={categories} />
-                    <PopularAuthors users={users} />
+                    <Tags tags={tags} />
                 </aside>
-                <main className="scrollbar-hide h-full overflow-y-auto lg:col-span-3">
-                    <FeaturedArticles posts={posts} />
-                    <RecommendedArticles posts={posts} />
+                <main className="h-full lg:col-span-4">
+                    <Filters />
+                    <div className="space-y-6">
+                        {posts.map((post) => (
+                            <ArticleCard key={post.id} post={post} />
+                        ))}
+                    </div>
                 </main>
-                <aside className="scrollbar-hide h-full space-y-6 overflow-y-auto lg:col-span-1">
-                    <PopularTags tags={tags} />
-                    <NewsletterSignup />
+                <aside className="h-full space-y-6 lg:col-span-2">
+                    <Discussions posts={discussions} />
                 </aside>
             </div>
         </SiteLayout>
