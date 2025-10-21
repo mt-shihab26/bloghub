@@ -2,34 +2,29 @@ import type { TSearchPaginated, TSearchTag } from '@/types/search';
 
 import { tagLink } from '@/lib/links';
 
+import { Badge } from '@/components/ui/badge';
 import { InfiniteScroll, Link } from '@inertiajs/react';
-import { HashIcon, SearchIcon } from 'lucide-react';
+import { SearchIcon } from 'lucide-react';
 
 export const TagsList = ({ tags }: { tags: TSearchPaginated<TSearchTag> }) => {
     return (
         <>
-            {tags.data.length > 0 ? (
+            {tags.data.hits.length > 0 ? (
                 <InfiniteScroll data="tags" preserveUrl>
-                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        {tags.data.map((tag, index) => (
+                    <div className="grid gap-4 md:grid-cols-4 lg:grid-cols-5">
+                        {tags.data.hits.map((hit, index) => (
                             <Link
-                                key={tag.id}
-                                href={tagLink(tag)}
-                                className="group relative overflow-hidden rounded-lg border p-6 transition-colors hover:border-primary"
+                                key={hit.document.id}
+                                href={tagLink(hit.document)}
+                                className="group flex justify-between space-x-3 overflow-hidden rounded-lg border p-4 transition-colors hover:border-primary"
                             >
-                                <div className="absolute right-2 top-2 rounded-full bg-black/70 px-2.5 py-1 text-sm font-semibold text-white">
-                                    {index + 1}
+                                <div>
+                                    <h3 className="font-semibold group-hover:text-primary">#{hit.document.name}</h3>
                                 </div>
-                                <div className="flex items-center gap-3">
-                                    <div className="rounded-lg bg-primary/10 p-2">
-                                        <HashIcon className="h-5 w-5 text-primary" />
-                                    </div>
-                                    <div className="flex-1">
-                                        <h3 className="font-semibold group-hover:text-primary">#{tag.name}</h3>
-                                        <p className="text-sm text-muted-foreground">
-                                            {tag.posts_count || 0} {tag.posts_count === 1 ? 'post' : 'posts'}
-                                        </p>
-                                    </div>
+                                <div>
+                                    <Badge variant="outline" className="rounded-full">
+                                        {index + 1}
+                                    </Badge>
                                 </div>
                             </Link>
                         ))}

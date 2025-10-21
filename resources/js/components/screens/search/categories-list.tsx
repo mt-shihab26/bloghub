@@ -33,7 +33,9 @@ export const CategoriesList = ({ categories }: { categories: TSearchPaginated<TS
                                         </div>
                                     </div>
                                     <div>
-                                        <Badge variant="outline">{index + 1}</Badge>
+                                        <Badge variant="outline" className="rounded-full">
+                                            {index + 1}
+                                        </Badge>
                                     </div>
                                 </div>
                                 {hit.document.description && (
