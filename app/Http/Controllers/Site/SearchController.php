@@ -88,9 +88,9 @@ class SearchController extends Controller
 
         $articles = Post::search($params['query'])
             ->when($mine, fn ($builder) => $builder->where('user.id', $user->id))
-            ->when($params['author'], fn ($builder) => $builder->whereIn('user.id', $params['author']))
-            ->when($params['category'], fn ($builder) => $builder->whereIn('category.id', $params['category']))
-            ->when($params['tag'], fn ($builder) => $builder->whereIn('tags.id', $params['tag']))
+            ->when($params['author'], fn ($builder) => $builder->whereIn('user.username', $params['author']))
+            ->when($params['category'], fn ($builder) => $builder->whereIn('category.slug', $params['category']))
+            ->when($params['tag'], fn ($builder) => $builder->whereIn('tags.slug', $params['tag']))
             ->when($params['sort'] === 'relevant', fn ($builder) => $builder->latest('published_at'))
             ->when($params['sort'] === 'newest', fn ($builder) => $builder->latest('published_at'))
             ->when($params['sort'] === 'oldest', fn ($builder) => $builder->oldest('published_at'))
