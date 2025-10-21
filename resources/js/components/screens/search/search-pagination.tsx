@@ -50,6 +50,7 @@ export const SearchPagination = <T,>({ data, className }: { data: TSearchPaginat
                                     <PaginationItem key={`page-${link.page}-${index}`}>
                                         {link.url ? (
                                             <PaginationLink
+                                                className="cursor-pointer"
                                                 isActive={link.active}
                                                 onClick={() =>
                                                     router.visit(link.url || '', {
