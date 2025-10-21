@@ -129,25 +129,17 @@ class SearchController extends Controller
      */
     private function searchCategories(array $params): LengthAwarePaginator
     {
-        $query = $params['query'];
-        $sort = $params['sort'];
+        $options = [
+            'query_by' => 'slug,name,description',
+        ];
 
-        $categoriesQuery = Category::query()
-            ->withCount(['posts'])
-            ->when($query, function ($q) use ($query) {
-                $q->where(function ($q) use ($query) {
-                    $q->where('name', 'like', "%{$query}%")
-                        ->orWhere('description', 'like', "%{$query}%");
-                });
-            });
-
-        match ($sort) {
-            'newest' => $categoriesQuery->latest('created_at'),
-            'oldest' => $categoriesQuery->oldest('created_at'),
-            default => $categoriesQuery->orderByDesc('posts_count')->latest('created_at'),
-        };
-
-        $categories = $categoriesQuery->paginate(10)->withQueryString();
+        $categories = Category::search($params['query'])
+            ->when($params['sort'] === 'relevant', fn ($builder) => $builder->latest('created_at'))
+            ->when($params['sort'] === 'newest', fn ($builder) => $builder->latest('created_at'))
+            ->when($params['sort'] === 'oldest', fn ($builder) => $builder->oldest('created_at'))
+            ->options($options)
+            ->paginateRaw(perPage: 10)
+            ->withQueryString();
 
         return $categories;
     }
@@ -159,22 +151,17 @@ class SearchController extends Controller
      */
     private function searchTags(array $params): LengthAwarePaginator
     {
-        $query = $params['query'];
-        $sort = $params['sort'];
+        $options = [
+            'query_by' => 'slug,name',
+        ];
 
-        $tagsQuery = Tag::query()
-            ->withCount(['posts'])
-            ->when($query, function ($q) use ($query) {
-                $q->where('name', 'like', "%{$query}%");
-            });
-
-        match ($sort) {
-            'newest' => $tagsQuery->latest('created_at'),
-            'oldest' => $tagsQuery->oldest('created_at'),
-            default => $tagsQuery->orderByDesc('posts_count')->latest('created_at'),
-        };
-
-        $tags = $tagsQuery->paginate(10)->withQueryString();
+        $tags = Tag::search($params['query'])
+            ->when($params['sort'] === 'relevant', fn ($builder) => $builder->latest('created_at'))
+            ->when($params['sort'] === 'newest', fn ($builder) => $builder->latest('created_at'))
+            ->when($params['sort'] === 'oldest', fn ($builder) => $builder->oldest('created_at'))
+            ->options($options)
+            ->paginateRaw(perPage: 10)
+            ->withQueryString();
 
         return $tags;
     }
