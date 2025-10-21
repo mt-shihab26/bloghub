@@ -83,7 +83,7 @@ class Post extends Model
             'excerpt' => $this->excerpt,
             'content' => $this->content,
             'status' => $this->status,
-            'published_at' => $this->published_at->timestamp,
+            'published_at' => $this->published_at?->timestamp,
             'user' => $user,
             'category' => null,
             'tags' => [],

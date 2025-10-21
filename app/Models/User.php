@@ -79,14 +79,14 @@ class User extends Authenticatable
             'name' => $this->name,
             'username' => $this->username,
             'bio' => $this->bio,
-            'created_at' => $this->created_at->timestamp,
+            'created_at' => $this->created_at?->timestamp,
             'image' => null,
         ];
 
         if ($this->image) {
             $data['image'] = [
-                'id' => $this->image->id,
-                'name' => $this->image->name,
+                'id' => $this->image?->id,
+                'name' => $this->image?->name,
             ];
         }
 

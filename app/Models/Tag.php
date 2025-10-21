@@ -36,7 +36,7 @@ class Tag extends Model
             'id' => $this->id,
             'slug' => $this->slug,
             'name' => $this->name,
-            'created_at' => $this->created_at->timestamp,
+            'created_at' => $this->created_at?->timestamp,
         ];
     }
 
