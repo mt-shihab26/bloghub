@@ -9,7 +9,6 @@ use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class SearchController extends Controller
 {
@@ -35,21 +34,12 @@ class SearchController extends Controller
             'tag' => $this->parseFilterArray($request->input('tag')) ?: null,
         ];
 
-        $articles = $params['type'] === 'articles' || $params['type'] === 'my-articles'
-            ? Inertia::scroll($this->searchArticles(params: $params, user: $request->user()))
-            : null;
+        $type = $params['type'];
 
-        $authors = $params['type'] === 'authors'
-            ? Inertia::scroll($this->searchAuthors(params: $params))
-            : null;
-
-        $categories = $params['type'] === 'categories'
-            ? Inertia::scroll($this->searchCategories(params: $params))
-            : null;
-
-        $tags = $params['type'] === 'tags'
-            ? Inertia::scroll($this->searchTags(params: $params))
-            : null;
+        $articles = $type === 'articles' || $type === 'my-articles' ? $this->searchArticles($params, $request->user()) : null;
+        $authors = $type === 'authors' ? $this->searchAuthors(params: $params) : null;
+        $categories = $type === 'categories' ? $this->searchCategories(params: $params) : null;
+        $tags = $type === 'tags' ? $this->searchTags(params: $params) : null;
 
         return inertia('site/search', [
             'params' => $params,
