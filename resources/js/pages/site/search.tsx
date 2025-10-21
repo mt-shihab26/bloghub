@@ -38,18 +38,18 @@ const Search = ({
         <SiteLayout title={params.query ? `Search results for "${params.query}"` : 'Search'} footer={false}>
             <div className="w-full space-y-6">
                 <FiltersType params={params} />
-
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
-                    <aside className="space-y-4">
-                        {(params.type === 'articles' || params.type === 'my-articles') &&
-                            articles?.data.facet_counts && (
+                    {(params.type === 'articles' || params.type === 'my-articles') && (
+                        <aside className="space-y-4">
+                            {articles?.data.facet_counts && (
                                 <ArticlesFacets
                                     params={params}
                                     facets={articles?.data.facet_counts}
                                     hits={articles.data.hits}
                                 />
                             )}
-                    </aside>
+                        </aside>
+                    )}
                     <div
                         className={cn(
                             params.type === 'articles' || params.type === 'my-articles'
