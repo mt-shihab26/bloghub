@@ -34,9 +34,9 @@ export const SearchPagination = <T,>({ data, className }: { data: TSearchPaginat
                             )}
                         </PaginationItem>
                         {data.links
-                            .filter((link) => link.page !== null)
-                            .filter((link) => !link.label.includes('Previous'))
-                            .filter((link) => !link.label.includes('Next'))
+                            .filter(
+                                (l) => l.page !== null && !l.label.includes('Previous') && !l.label.includes('Next'),
+                            )
                             .map((link, index) => {
                                 if (link.label === '...') {
                                     return (
