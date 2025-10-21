@@ -62,6 +62,20 @@ class Post extends Model
      */
     public function toSearchableArray(): array
     {
+        $user = [
+            'id' => $this->user->id,
+            'username' => $this->user->username,
+            'name' => $this->user->name,
+            'image' => null,
+        ];
+
+        if ($this->user->image) {
+            $user['image'] = [
+                'id' => $this->user->image->id,
+                'name' => $this->user->image->name,
+            ];
+        }
+
         $data = [
             'id' => $this->id,
             'slug' => $this->slug,
@@ -70,26 +84,21 @@ class Post extends Model
             'content' => $this->content,
             'status' => $this->status,
             'published_at' => $this->published_at->timestamp,
-            'user.id' => $this->user->id,
-            'user.username' => $this->user->username,
-            'user.name' => $this->user->name,
+            'user' => $user,
+            'category' => null,
+            'tags' => [],
         ];
 
-        if ($this->user->image) {
-            $data['user.image.id'] = $this->user->image->id;
-            $data['user.image.name'] = $this->user->image->name;
-        }
-
         if ($this->category) {
-            $data['category.id'] = $this->category->id;
-            $data['category.slug'] = $this->category->slug;
-            $data['category.name'] = $this->category->name;
+            $data['category'] = [
+                'id' => $this->category->id,
+                'slug' => $this->category->slug,
+                'name' => $this->category->name,
+            ];
         }
 
         if ($this->tags->isNotEmpty()) {
-            $data['tags.id'] = $this->tags->pluck('id')->toArray();
-            $data['tags.slug'] = $this->tags->pluck('slug')->toArray();
-            $data['tags.name'] = $this->tags->pluck('name')->toArray();
+            $data['tags'] = $this->tags->map(fn ($t) => ['id' => $t->id, 'slug' => $t->slug, 'name' => $t->name])->toArray();
         }
 
         return $data;

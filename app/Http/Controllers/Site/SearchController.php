@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\User;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -34,60 +35,28 @@ class SearchController extends Controller
             'tag' => $this->parseFilterArray($request->input('tag')) ?: null,
         ];
 
-        [$lists, $facets] = match ($params['type']) {
-            'articles' => (function () use ($params, $request) {
-                [$articles, $facets] = $this->searchArticles(params: $params, user: $request->user());
+        $articles = $params['type'] === 'articles' || $params['type'] === 'my-articles'
+            ? Inertia::scroll($this->searchArticles(params: $params, user: $request->user()))
+            : null;
 
-                return [
-                    ['articles' => Inertia::scroll($articles)],
-                    ['articles' => $facets ?? null],
-                ];
-            })(),
-            'my-articles' => (function () use ($params, $request) {
-                [$articles, $facets] = $this->searchArticles(params: $params, user: $request->user(), mine: true);
+        $authors = $params['type'] === 'authors'
+            ? Inertia::scroll($this->searchAuthors(params: $params))
+            : null;
 
-                return [
-                    ['articles' => Inertia::scroll($articles)],
-                    ['articles' => $facets ?? null],
-                ];
-            })(),
-            'authors' => (function () use ($params) {
-                [$authors, $facets] = $this->searchAuthors(params: $params);
+        $categories = $params['type'] === 'categories'
+            ? Inertia::scroll($this->searchCategories(params: $params))
+            : null;
 
-                return [
-                    ['authors' => Inertia::scroll($authors)],
-                    ['authors' => $facets ?? null],
-                ];
-            })(),
-            'categories' => (function () use ($params) {
-                [$categories, $facets] = $this->searchCategories(params: $params);
-
-                return [
-                    ['categories' => Inertia::scroll($categories)],
-                    ['categories' => $facets ?? null],
-                ];
-            })(),
-            'tags' => (function () use ($params) {
-                [$tags, $facets] = $this->searchTags(params: $params);
-
-                return [
-                    ['tags' => Inertia::scroll($tags)],
-                    ['tags' => $facets ?? null],
-                ];
-            })(),
-            default => [
-                [],
-                [],
-            ],
-        };
+        $tags = $params['type'] === 'tags'
+            ? Inertia::scroll($this->searchTags(params: $params))
+            : null;
 
         return inertia('site/search', [
             'params' => $params,
-            'facets' => $facets,
-            'articles' => $lists['articles'] ?? null,
-            'authors' => $lists['authors'] ?? null,
-            'categories' => $lists['categories'] ?? null,
-            'tags' => $lists['tags'] ?? null,
+            'articles' => $articles, ,
+            'authors' => $authors,
+            'categories' => $categories,
+            'tags' => $tags,
         ]);
     }
 
@@ -109,7 +78,7 @@ class SearchController extends Controller
      *
      * @param  array{query: string, sort: string, author: string[]|null, category: string[]|null, tag: string[]|null}  $params
      */
-    private function searchArticles(array $params, ?User $user, bool $mine = false): array
+    private function searchArticles(array $params, ?User $user, bool $mine = false): LengthAwarePaginator
     {
         $options = [
             'query_by' => 'title,content,excerpt,user.name,category.name,tags.name',
@@ -128,7 +97,7 @@ class SearchController extends Controller
             ->paginateRaw(perPage: 10)
             ->withQueryString();
 
-        return [$articles, []];
+        return $articles;
     }
 
     /**
@@ -136,7 +105,7 @@ class SearchController extends Controller
      *
      * @param  array{query: string, sort: string}  $params
      */
-    private function searchAuthors(array $params): array
+    private function searchAuthors(array $params): LengthAwarePaginator
     {
         $usersQuery = User::query()
             ->with(['image'])
@@ -156,12 +125,8 @@ class SearchController extends Controller
         };
 
         $authors = $usersQuery->paginate(10)->withQueryString();
-        $facets = null;
 
-        return [
-            $authors,
-            $facets,
-        ];
+        return $authors;
     }
 
     /**
@@ -169,7 +134,7 @@ class SearchController extends Controller
      *
      * @param  array{query: string, sort: string}  $params
      */
-    private function searchCategories(array $params): array
+    private function searchCategories(array $params): LengthAwarePaginator
     {
         $query = $params['query'];
         $sort = $params['sort'];
@@ -190,12 +155,8 @@ class SearchController extends Controller
         };
 
         $categories = $categoriesQuery->paginate(10)->withQueryString();
-        $facets = null;
 
-        return [
-            $categories,
-            $facets,
-        ];
+        return $categories;
     }
 
     /**
@@ -203,7 +164,7 @@ class SearchController extends Controller
      *
      * @param  array{query: string, sort: string}  $params
      */
-    private function searchTags(array $params): array
+    private function searchTags(array $params): LengthAwarePaginator
     {
         $query = $params['query'];
         $sort = $params['sort'];
@@ -221,11 +182,7 @@ class SearchController extends Controller
         };
 
         $tags = $tagsQuery->paginate(10)->withQueryString();
-        $facets = null;
 
-        return [
-            $tags,
-            $facets,
-        ];
+        return $tags;
     }
 }
