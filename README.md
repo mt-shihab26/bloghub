@@ -61,13 +61,7 @@ php artisan migrate --seed
 composer dev
 ```
 
-8. **Start assets development server**
-
-```shellscript
-bun dev
-```
-
-9. **Open your browser**
+8. **Open your browser**
    Navigate to [http://localhost:8000](http://localhost:8000) to see the application.
 
 ## License
