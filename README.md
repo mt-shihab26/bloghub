@@ -2,64 +2,6 @@
 
 A comprehensive blogging platform built with Laravel. Bloghub empowers developers, designers, and tech enthusiasts to share knowledge, discover content, and build meaningful connections through writing.
 
-## Features
-
-### [ ] / - Home page
-
-- [ ] **Advanced search** with filters for categories, tags, authors, and dates
-- [ ] **AI-powered recommendations** based on user interests and reading history and **Personalized feed** tailored to followed categories and tags
-- [ ] **Trending categories** on the home page
-- [ ] **Trending tags** and featured articles on the homepage
-
-### [x] /{username}/{post:slug} - Blog post show page
-
-- [x] zen mode post reading implemented
-- [x] showing tags, authors info, featured image on top
-- [x] rendering markdown content of post with `streamdown` response package
-- [x] love, comments, bookmark and share actions toolbar.
-- [x] showing authors details
-- [x] implement recursive comments of post.
-
-### [ ] /profile/write - Rich Writing Experience
-
-- [ ] **Markdown editor** with live preview and syntax highlighting
-      placeholder="Tell your story... Supports: GitHub Flavored Markdown • LaTeX Math Equations • Mermaid Diagrams • Code Syntax Highlighting"
-- [ ] **Drag-and-drop image uploads** for featured images and content, and AI-powered featured image generation
-- [ ] **AI-powered tag management system** for better content organization
-- [ ] **AI-powered category selection** for better post organization
-- [ ] **Draft/publish workflow** with auto-save functionality
-- [ ] **Writing tips and markdown guide** integrated into the editor
-
-### ️ **Advanced Organization**
-
-- **Categories system** with dedicated pages and statistics
-- **Tags system** with trending indicators and follow functionality
-- **Content filtering** by category, tag, popularity, and date
-- **Related content suggestions** based on tags and categories
-
-### **Social Features**
-
-- **Author profiles** with bio, stats, and activity feeds
-- **Follow system** for authors, categories, and tags
-- **Interactive comments** with nested replies and reactions
-- **Like and bookmark** functionality for content curation
-- **Social sharing** integration across platforms
-
-### **Modern UI/UX**
-
-- **Responsive design** that works seamlessly on all devices
-- **Clean, accessible interface** built with shadcn/ui components
-- **Dark/light mode support** (ready for implementation)
-- **Smooth animations** and micro-interactions
-- **Optimized performance** with Laravel's built-in optimizations
-
-## ️ Tech Stack
-
-- **Language**: PHP, TypeScript
-- **Framework**: Laravel, React, Inertia.js
-- **Database**: SQLite, Redis
-- **Styling**: Tailwind CSS, shadcn/ui
-
 ## Getting Started
 
 ### Prerequisites
@@ -69,7 +11,7 @@ A comprehensive blogging platform built with Laravel. Bloghub empowers developer
 - SQLite
 - Node.js
 - Bun
-- Redis
+- Typesense
 
 ### Installation
 
