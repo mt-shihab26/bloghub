@@ -98,7 +98,9 @@ class Post extends Model
         }
 
         if ($this->tags->isNotEmpty()) {
-            $data['tags'] = $this->tags->map(fn ($t) => ['id' => $t->id, 'slug' => $t->slug, 'name' => $t->name])->toArray();
+            $data['tags'] = $this->tags
+                ->map(fn ($t) => ['id' => $t->id, 'slug' => $t->slug, 'name' => $t->name])
+                ->toArray();
         }
 
         return $data;

@@ -216,7 +216,7 @@ return [
                         ['name' => 'excerpt', 'type' => 'string'],
                         ['name' => 'content', 'type' => 'string'],
                         ['name' => 'published_at', 'type' => 'int64'],
-                        ['name' => 'user', 'type' => 'object', 'facet' => true, 'fields' => ['name' => 'id', 'type' => 'string']],
+                        ['name' => 'user', 'type' => 'object', 'facet' => true],
                         ['name' => 'category', 'type' => 'object', 'facet' => true],
                         ['name' => 'tags', 'type' => 'object[]', 'facet' => true],
                     ],
