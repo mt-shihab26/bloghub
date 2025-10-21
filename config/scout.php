@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Category;
 use App\Models\Post;
+use App\Models\Tag;
 use App\Models\User;
 
 return [
@@ -226,6 +228,29 @@ return [
                         ['name' => 'tags.id', 'type' => 'string[]', 'optional' => true],
                         ['name' => 'tags.slug', 'type' => 'string[]', 'facet' => true, 'optional' => true],
                         ['name' => 'tags.name', 'type' => 'string[]', 'optional' => true],
+                    ],
+                ],
+            ],
+            Category::class => [
+                'collection-schema' => [
+                    'default_sorting_field' => 'created_at',
+                    'fields' => [
+                        ['name' => 'id', 'type' => 'string'],
+                        ['name' => 'slug', 'type' => 'string'],
+                        ['name' => 'name', 'type' => 'string'],
+                        ['name' => 'description', 'type' => 'string', 'optional' => true],
+                        ['name' => 'created_at', 'type' => 'int64'],
+                    ],
+                ],
+            ],
+            Tag::class => [
+                'collection-schema' => [
+                    'default_sorting_field' => 'created_at',
+                    'fields' => [
+                        ['name' => 'id', 'type' => 'string'],
+                        ['name' => 'slug', 'type' => 'string'],
+                        ['name' => 'name', 'type' => 'string'],
+                        ['name' => 'created_at', 'type' => 'int64'],
                     ],
                 ],
             ],

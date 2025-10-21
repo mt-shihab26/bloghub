@@ -20,7 +20,6 @@ class Category extends Model
      */
     protected $fillable = [
         'user_id',
-        'category_id',
         'name',
         'slug',
         'description',
@@ -32,22 +31,6 @@ class Category extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    /**
-     * Get the parent category.
-     */
-    public function category(): BelongsTo
-    {
-        return $this->belongsTo(Category::class);
-    }
-
-    /**
-     * Get the child categories.
-     */
-    public function categories(): HasMany
-    {
-        return $this->hasMany(Category::class);
     }
 
     /**
