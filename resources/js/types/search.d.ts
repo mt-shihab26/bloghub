@@ -43,8 +43,22 @@ export type TSearchPaginated<T> = {
         facet_counts: TFacetCount[];
         hits: THit<T>[];
     };
+    from: number;
+    to: number;
+    current_page: number;
     total: number;
+    per_page: number;
+    last_page: number;
+    first_page_url: string | null;
+    last_page_url: string | null;
+    prev_page_url: string | null;
     next_page_url: string | null;
+    links: {
+        url: string | null;
+        label: string;
+        page: number | null;
+        active: boolean;
+    }[];
 };
 
 export type TSearchPost = Pick<TPost, 'id' | 'slug' | 'title' | 'excerpt' | 'content' | 'status' | 'published_at'> & {
