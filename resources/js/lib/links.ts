@@ -9,7 +9,11 @@ export const authorLink = (user?: Pick<TUser, 'username'> | null): string => {
     return route('site.profile.show', { user });
 };
 
-export const postLink = (user: Pick<TUser, 'username'>, post: Pick<TPost, 'slug'>, extra?: string): string => {
+export const postLink = (
+    user: Pick<TUser, 'username'> | undefined | null,
+    post: Pick<TPost, 'slug'> | undefined | null,
+    extra?: string,
+): string => {
     const link = route('site.post', { user, post });
     if (!extra) {
         return link;

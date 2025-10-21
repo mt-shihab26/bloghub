@@ -3,6 +3,20 @@ import type { ReactNode } from 'react';
 
 import { cn } from '@/lib/utils';
 
+type FieldPath<T> = keyof T | string[] | string;
+
+const getNestedValue = <T,>(obj: any, path: FieldPath<T>): any => {
+    if (typeof path === 'string') {
+        return obj?.[path];
+    }
+
+    if (Array.isArray(path)) {
+        return path.reduce((current, key) => current?.[key], obj);
+    }
+
+    return obj?.[path as keyof typeof obj];
+};
+
 export const Highlight = <T,>({
     hit,
     field,
@@ -11,17 +25,19 @@ export const Highlight = <T,>({
     className,
 }: {
     hit: THit<T>;
-    field: keyof T;
+    field: FieldPath<T>;
     index?: number;
-    transformer?: (value: T[keyof T] | undefined) => ReactNode;
+    transformer?: (value: any) => ReactNode;
     className?: string;
 }) => {
-    const value = hit?.highlight?.[field];
-    const html = Array.isArray(value) ? value?.[index || 0]?.snippet : value?.snippet;
+    const fieldKey = Array.isArray(field) ? field.join('.') : field;
+    const highlightValue = getNestedValue(hit?.highlight, fieldKey);
+
+    const html = Array.isArray(highlightValue) ? highlightValue?.[index || 0]?.snippet : highlightValue?.snippet;
 
     if (!html) {
-        const value = hit?.document?.[field];
-        const text = Array.isArray(value) ? value?.[index || 0] : value;
+        const documentValue = getNestedValue(hit?.document, field);
+        const text = Array.isArray(documentValue) ? documentValue?.[index || 0] : documentValue;
 
         return <>{transformer ? transformer(text) : text}</>;
     }

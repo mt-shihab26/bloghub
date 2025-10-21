@@ -28,7 +28,8 @@ export const ArticleCard = ({ ith, post }: { ith: number; post: THit<TSearchPost
                                 <Highlight hit={post} field={['user', 'name']} />
                             </Link>
                             <span className="text-sm text-muted-foreground">
-                                {formatHumanDate(doc['published_at'])} ({formatTimeAgo(doc['published_at'])})
+                                {formatHumanDate(post.document.published_at)} (
+                                {formatTimeAgo(post.document.published_at)})
                             </span>
                         </div>
                     </div>
@@ -39,10 +40,7 @@ export const ArticleCard = ({ ith, post }: { ith: number; post: THit<TSearchPost
                     </div>
                 </div>
                 <h2 className="text-xl font-semibold">
-                    <Link
-                        href={postLink({ username: doc['user.username'] }, { slug: doc['slug'] })}
-                        className="hover:underline"
-                    >
+                    <Link href={postLink(post.document.user, post.document)} className="hover:underline">
                         <Highlight hit={post} field="title" />
                     </Link>
                 </h2>
