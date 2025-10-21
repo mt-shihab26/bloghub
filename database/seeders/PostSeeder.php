@@ -30,7 +30,7 @@ class PostSeeder extends Seeder
     protected function seedPosts(): void
     {
         $users = User::query()->get();
-        $categories = Category::query()->whereNull('category_id')->get();
+        $categories = Category::query()->get();
 
         $posts = [
             [

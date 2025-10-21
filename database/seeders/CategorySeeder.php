@@ -81,38 +81,5 @@ class CategorySeeder extends Seeder
         foreach ($categories as $categoryData) {
             Category::query()->create($categoryData);
         }
-
-        // Create some subcategories
-        Category::query()->where('slug', 'web-development')->first();
-        $backend = Category::query()->where('slug', 'backend-engineering')->first();
-        $frontend = Category::query()->where('slug', 'frontend-development')->first();
-
-        $subcategories = [
-            [
-                'name' => 'PHP & Laravel',
-                'slug' => 'php-laravel',
-                'description' => 'Articles focused on PHP programming and the Laravel framework.',
-                'user_id' => $admin->id,
-                'category_id' => $backend->id,
-            ],
-            [
-                'name' => 'React & Next.js',
-                'slug' => 'react-nextjs',
-                'description' => 'Building modern web applications with React and Next.js.',
-                'user_id' => $admin->id,
-                'category_id' => $frontend->id,
-            ],
-            [
-                'name' => 'Vue.js',
-                'slug' => 'vuejs',
-                'description' => 'The progressive JavaScript framework for building user interfaces.',
-                'user_id' => $admin->id,
-                'category_id' => $frontend->id,
-            ],
-        ];
-
-        foreach ($subcategories as $subcategoryData) {
-            Category::query()->create($subcategoryData);
-        }
     }
 }
