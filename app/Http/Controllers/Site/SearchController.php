@@ -36,10 +36,11 @@ class SearchController extends Controller
 
         $type = $params['type'];
 
-        $articles = $type === 'articles' || $type === 'my-articles' ? $this->searchArticles($params, $request->user()) : null;
-        $authors = $type === 'authors' ? $this->searchAuthors(params: $params) : null;
-        $categories = $type === 'categories' ? $this->searchCategories(params: $params) : null;
-        $tags = $type === 'tags' ? $this->searchTags(params: $params) : null;
+        $articles = $type === 'articles' ? $this->searchArticles($params, $request->user()) : null;
+        $articles = $type === 'my-articles' ? $this->searchArticles($params, $request->user(), mine: true) : null;
+        $authors = $type === 'authors' ? $this->searchAuthors($params) : null;
+        $categories = $type === 'categories' ? $this->searchCategories($params) : null;
+        $tags = $type === 'tags' ? $this->searchTags($params) : null;
 
         return inertia('site/search', [
             'params' => $params,
