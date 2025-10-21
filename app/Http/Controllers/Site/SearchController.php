@@ -83,7 +83,6 @@ class SearchController extends Controller
         $options = [
             'query_by' => 'title,content,excerpt,user.name,category.name,tags.name',
             'facet_by' => 'user.username,category.slug,tags.slug',
-            'facet_return_parent' => 'user.username,category.slug,tags.slug',
         ];
 
         $articles = Post::search($params['query'])
@@ -108,24 +107,17 @@ class SearchController extends Controller
      */
     private function searchAuthors(array $params): LengthAwarePaginator
     {
-        $usersQuery = User::query()
-            ->with(['image'])
-            ->withCount(['posts', 'followers'])
-            ->when($params['query'], function ($q) use ($params) {
-                $q->where(function ($q) use ($params) {
-                    $q->where('name', 'like', "%{$params['query']}%")
-                        ->orWhere('username', 'like', "%{$params['query']}%")
-                        ->orWhere('bio', 'like', "%{$params['query']}%");
-                });
-            });
+        $options = [
+            'query_by' => 'name,username,bio',
+        ];
 
-        match ($params['sort']) {
-            'newest' => $usersQuery->latest('created_at'),
-            'oldest' => $usersQuery->oldest('created_at'),
-            default => $usersQuery->orderByDesc('posts_count')->latest('created_at'),
-        };
-
-        $authors = $usersQuery->paginate(10)->withQueryString();
+        $authors = User::search($params['query'])
+            ->when($params['sort'] === 'relevant', fn ($builder) => $builder->latest('created_at'))
+            ->when($params['sort'] === 'newest', fn ($builder) => $builder->latest('created_at'))
+            ->when($params['sort'] === 'oldest', fn ($builder) => $builder->oldest('created_at'))
+            ->options($options)
+            ->paginateRaw(perPage: 10)
+            ->withQueryString();
 
         return $authors;
     }
