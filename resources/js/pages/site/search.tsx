@@ -9,6 +9,7 @@ import type {
 
 import { cn } from '@/lib/utils';
 
+import { ArticlesFacets } from '@/components/screens/search/articles-facets';
 import { ArticlesList } from '@/components/screens/search/articles-list';
 import { AuthorsList } from '@/components/screens/search/authors-list';
 import { CategoriesList } from '@/components/screens/search/categories-list';
@@ -40,9 +41,10 @@ const Search = ({
 
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
                     <aside className="space-y-4">
-                        {/* {(params.type === 'articles' || params.type === 'my-articles') && facets && ( */}
-                        {/*     <ArticlesFacets params={params} facets={facets} /> */}
-                        {/* )} */}
+                        {(params.type === 'articles' || params.type === 'my-articles') &&
+                            articles?.data.facet_counts && (
+                                <ArticlesFacets params={params} facets={articles?.data.facet_counts} />
+                            )}
                     </aside>
                     <div
                         className={cn(

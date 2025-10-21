@@ -26,13 +26,23 @@ export type THighlight<T> = {
     [K in keyof T]?: TDeepHighlight<T[K]>;
 };
 
+export type TFacetCount = {
+    counts: { count: number; highlighted: string; value: string }[];
+    field_name: string;
+    sampled: boolean;
+    stats: { total_values: number };
+};
+
 export type THit<T> = {
     document: T;
     highlight: THighlight<T> | Record<string, any> | null;
 };
 
 export type TSearchPaginated<T> = {
-    data: { hits: THit<T>[] };
+    data: {
+        facet_counts: TFacetCount[];
+        hits: THit<T>[];
+    };
     total: number;
     next_page_url: string | null;
 };

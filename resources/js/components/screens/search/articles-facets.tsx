@@ -1,4 +1,4 @@
-import type { TFacetsPost, TSearchParams } from '@/types/search';
+import type { TFacetCount, TSearchParams } from '@/types/search';
 
 import { searchRoute } from '@/lib/search';
 
@@ -7,7 +7,7 @@ import { Link } from '@inertiajs/react';
 import { FolderIcon, TagIcon, UserIcon } from 'lucide-react';
 import { ArticlesFacetsItems } from './articles-facets-items';
 
-export const ArticlesFacets = ({ params, facets }: { params: TSearchParams; facets: TFacetsPost }) => {
+export const ArticlesFacets = ({ params, facets }: { params: TSearchParams; facets: TFacetCount[] }) => {
     return (
         <div className="space-y-4">
             {params.type !== 'my-articles' && facets?.authors && facets?.authors.length > 0 && (
