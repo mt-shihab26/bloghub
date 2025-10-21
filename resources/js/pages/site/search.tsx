@@ -43,7 +43,11 @@ const Search = ({
                     <aside className="space-y-4">
                         {(params.type === 'articles' || params.type === 'my-articles') &&
                             articles?.data.facet_counts && (
-                                <ArticlesFacets params={params} facets={articles?.data.facet_counts} />
+                                <ArticlesFacets
+                                    params={params}
+                                    facets={articles?.data.facet_counts}
+                                    hits={articles.data.hits}
+                                />
                             )}
                     </aside>
                     <div

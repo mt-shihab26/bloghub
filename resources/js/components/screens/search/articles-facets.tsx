@@ -1,45 +1,139 @@
-import type { TFacetCount, TSearchParams } from '@/types/search';
+import type { TFacetCount, THit, TSearchParams, TSearchPost } from '@/types/search';
 
 import { searchRoute } from '@/lib/search';
+import { useMemo } from 'react';
 
 import { Separator } from '@/components/ui/separator';
 import { Link } from '@inertiajs/react';
 import { FolderIcon, TagIcon, UserIcon } from 'lucide-react';
 import { ArticlesFacetsItems } from './articles-facets-items';
 
-export const ArticlesFacets = ({ params, facets }: { params: TSearchParams; facets: TFacetCount[] }) => {
+export const ArticlesFacets = ({
+    params,
+    facets,
+    hits,
+}: {
+    params: TSearchParams;
+    facets: TFacetCount[];
+    hits: THit<TSearchPost>[];
+}) => {
+    const transformedFacets = useMemo(() => {
+        if (!facets || !hits) return { authors: [], categories: [], tags: [] };
+
+        const userMap: Record<string, { username: string; name: string }> = {};
+        const categoryMap: Record<string, { slug: string; name: string }> = {};
+        const tagMap: Record<string, { slug: string; name: string }> = {};
+
+        for (const hit of hits) {
+            const doc = hit.document;
+
+            if (doc.user?.username) {
+                userMap[doc.user.username] = {
+                    username: doc.user.username,
+                    name: doc.user.name,
+                };
+            }
+
+            if (doc.category?.slug) {
+                categoryMap[doc.category.slug] = {
+                    slug: doc.category.slug,
+                    name: doc.category.name,
+                };
+            }
+
+            if (doc.tags) {
+                for (const tag of doc.tags) {
+                    if (tag.slug) {
+                        tagMap[tag.slug] = {
+                            slug: tag.slug,
+                            name: tag.name,
+                        };
+                    }
+                }
+            }
+        }
+
+        const userFacet = facets.find((f) => f.field_name === 'user.username');
+        const categoryFacet = facets.find((f) => f.field_name === 'category.slug');
+        const tagFacet = facets.find((f) => f.field_name === 'tags.slug');
+
+        const authors = [];
+        if (userFacet) {
+            for (const count of userFacet.counts) {
+                const user = userMap[count.value];
+                if (user) {
+                    authors.push({
+                        value: user.username,
+                        label: user.name,
+                        count: count.count,
+                    });
+                }
+            }
+        }
+
+        const categories = [];
+        if (categoryFacet) {
+            for (const count of categoryFacet.counts) {
+                const category = categoryMap[count.value];
+                if (category) {
+                    categories.push({
+                        value: category.slug,
+                        label: category.name,
+                        count: count.count,
+                    });
+                }
+            }
+        }
+
+        const tags = [];
+        if (tagFacet) {
+            for (const count of tagFacet.counts) {
+                const tag = tagMap[count.value];
+                if (tag) {
+                    tags.push({
+                        value: tag.slug,
+                        label: tag.name,
+                        count: count.count,
+                    });
+                }
+            }
+        }
+
+        return { authors, categories, tags };
+    }, [facets, hits]);
+
     return (
         <div className="space-y-4">
-            {params.type !== 'my-articles' && facets?.authors && facets?.authors.length > 0 && (
+            {params.type !== 'my-articles' && transformedFacets.authors.length > 0 && (
                 <ArticlesFacetsItems
                     icon={UserIcon}
                     title="Authors"
                     field="author"
                     params={params}
                     selects={params.author || []}
-                    items={facets.authors.map((a) => ({ value: a.id, label: a.name, count: a.count })) || []}
+                    items={transformedFacets.authors}
                 />
             )}
 
-            {facets?.categories && facets?.categories.length > 0 && (
+            {transformedFacets.categories.length > 0 && (
                 <ArticlesFacetsItems
                     icon={FolderIcon}
                     title="Categories"
                     field="category"
                     params={params}
                     selects={params.category || []}
-                    items={facets.categories.map((c) => ({ value: c.id, label: c.name, count: c.count })) || []}
+                    items={transformedFacets.categories}
                 />
             )}
 
-            {facets?.tags && facets?.tags.length > 0 && (
+            {transformedFacets.tags.length > 0 && (
                 <ArticlesFacetsItems
                     icon={TagIcon}
                     title="Tags"
                     field="tag"
                     params={params}
                     selects={params.tag || []}
-                    items={facets.tags.map((t) => ({ value: t.id, label: t.name, count: t.count })) || []}
+                    items={transformedFacets.tags}
                 />
             )}
 
