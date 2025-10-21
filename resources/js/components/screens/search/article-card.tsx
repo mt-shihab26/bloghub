@@ -1,7 +1,7 @@
 import type { THit, TSearchPost } from '@/types/search';
 
 import { formatHumanDate, formatInitials, formatTimeAgo } from '@/lib/format';
-import { authorLink, categoryLink, categoryName, imageLink, postLink, tagLink } from '@/lib/links';
+import { authorLink, categoryLink, imageLink, postLink, tagLink } from '@/lib/links';
 import { readingTime } from '@/lib/utils';
 
 import { BookmarkButton } from '@/components/composite/bookmark-button';
@@ -49,24 +49,20 @@ export const ArticleCard = ({ ith, post }: { ith: number; post: THit<TSearchPost
                 </p>
                 <div className="flex items-center justify-between space-x-2">
                     <div className="flex flex-wrap items-center space-x-2">
-                        {doc['category.slug'] && doc['category.name'] && (
-                            <Link href={categoryLink({ slug: doc['category.slug'] })}>
+                        {post.document.category && (
+                            <Link href={categoryLink(post.document.category)}>
                                 <Badge
                                     variant="outline"
                                     className="cursor-pointer hover:bg-primary hover:text-primary-foreground"
                                 >
-                                    <Highlight
-                                        hit={post}
-                                        field="category.name"
-                                        transformer={(name) => categoryName({ name })}
-                                    />
+                                    <Highlight hit={post} field={['category', 'name']} />
                                 </Badge>
                             </Link>
                         )}
-                        {doc['tags.slug']?.map((slug, index) => (
-                            <Link key={slug} href={tagLink({ slug })}>
+                        {post.document.tags?.map((tag, index) => (
+                            <Link key={tag.id} href={tagLink(tag)}>
                                 <Badge variant="secondary" className="cursor-pointer text-xs hover:underline">
-                                    #<Highlight hit={post} field="tags.name" index={index} />
+                                    #<Highlight hit={post} field={['tags', 'name']} index={index} />
                                 </Badge>
                             </Link>
                         ))}
@@ -74,9 +70,9 @@ export const ArticleCard = ({ ith, post }: { ith: number; post: THit<TSearchPost
                     <div className="flex flex-wrap items-center space-x-2">
                         <div className="flex items-center space-x-1 text-sm text-muted-foreground">
                             <Clock className="size-3" />
-                            <span>{readingTime(doc.content)} min read</span>
+                            <span>{readingTime(post.document.content)} min read</span>
                         </div>
-                        <BookmarkButton post={doc} />
+                        <BookmarkButton post={post.document} />
                     </div>
                 </div>
             </div>

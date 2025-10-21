@@ -53,7 +53,7 @@ class SearchController extends Controller
 
         return inertia('site/search', [
             'params' => $params,
-            'articles' => $articles, ,
+            'articles' => $articles,
             'authors' => $authors,
             'categories' => $categories,
             'tags' => $tags,

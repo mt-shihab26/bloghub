@@ -3,7 +3,13 @@ import type { ReactNode } from 'react';
 
 import { cn } from '@/lib/utils';
 
-type FieldPath<T> = keyof T | string[] | string;
+type NestedKeyOf<ObjectType extends object> = {
+    [Key in keyof ObjectType & (string | number)]: ObjectType[Key] extends object
+        ? [Key] | [Key, ...NestedKeyOf<ObjectType[Key]>]
+        : [Key];
+}[keyof ObjectType & (string | number)];
+
+type FieldPath<T> = keyof T | string | (T extends object ? NestedKeyOf<T> : never);
 
 const getNestedValue = <T,>(obj: any, path: FieldPath<T>): any => {
     if (typeof path === 'string') {
