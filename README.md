@@ -22,26 +22,34 @@ git clone https://github.com/mt-shihab26/bloghub.git
 cd bloghub
 ```
 
-2. **Install PHP dependencies**
+2. **Create a new branch for your team**
+
+```shellscript
+git checkout -b your-branch-name
+```
+
+Replace `your-branch-name` with a descriptive name for your team's work (e.g., `team-alpha`, `feature/new-editor`, etc.)
+
+3. **Install PHP dependencies**
 
 ```shellscript
 composer install
 ```
 
-3. **Install TypeScript dependencies**
+4. **Install TypeScript dependencies**
 
 ```shellscript
 bun install
 ```
 
-4. **Environment setup**
+5. **Environment setup**
 
 ```shellscript
 cp .env.example .env
 php artisan key:generate
 ```
 
-5. **Database setup**
+6. **Database setup**
 
 ```shellscript
 php artisan migrate --seed
@@ -53,13 +61,13 @@ php artisan migrate --seed
 composer dev
 ```
 
-6. **Start assets development server**
+8. **Start assets development server**
 
 ```shellscript
 bun dev
 ```
 
-8. **Open your browser**
+9. **Open your browser**
    Navigate to [http://localhost:8000](http://localhost:8000) to see the application.
 
 ## License
