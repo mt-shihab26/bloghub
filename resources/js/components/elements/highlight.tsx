@@ -11,7 +11,7 @@ type NestedKeyOf<ObjectType extends object> = {
 
 type FieldPath<T> = keyof T | string | (T extends object ? NestedKeyOf<T> : never);
 
-const getNestedValue = <T,>(obj: any, path: FieldPath<T>): any => {
+const getNestedValue = (obj: any, path: string | string[]): any => {
     if (typeof path === 'string') {
         return obj?.[path];
     }
@@ -20,7 +20,7 @@ const getNestedValue = <T,>(obj: any, path: FieldPath<T>): any => {
         return path.reduce((current, key) => current?.[key], obj);
     }
 
-    return obj?.[path as keyof typeof obj];
+    return undefined;
 };
 
 export const Highlight = <T,>({
@@ -36,9 +36,7 @@ export const Highlight = <T,>({
     transformer?: (value: any) => ReactNode;
     className?: string;
 }) => {
-    const fieldKey = Array.isArray(field) ? field.join('.') : field;
-    const highlightValue = getNestedValue(hit?.highlight, fieldKey);
-
+    const highlightValue = getNestedValue(hit?.highlight, field);
     const html = Array.isArray(highlightValue) ? highlightValue?.[index || 0]?.snippet : highlightValue?.snippet;
 
     if (!html) {
