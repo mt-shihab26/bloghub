@@ -82,7 +82,8 @@ class SearchController extends Controller
     {
         $options = [
             'query_by' => 'title,content,excerpt,user.name,category.name,tags.name',
-            'facet_by' => 'user,category,tags',
+            'facet_by' => 'user.username,category.slug,tags.slug',
+            'facet_return_parent' => 'user.username,category.slug,tags.slug',
         ];
 
         $articles = Post::search($params['query'])
