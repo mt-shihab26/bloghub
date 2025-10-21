@@ -6,6 +6,7 @@ import { readingTime } from '@/lib/utils';
 
 import { BookmarkButton } from '@/components/composite/bookmark-button';
 import { Highlight } from '@/components/elements/highlight';
+import { SearchPagination } from '@/components/screens/search/search-pagination';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Link } from '@inertiajs/react';
@@ -15,7 +16,7 @@ export const ArticlesList = ({ articles }: { articles: TSearchPaginated<TSearchP
     return (
         <>
             {articles.data.hits.length > 0 ? (
-                <div className="space-y-6">
+                <div className="space-y-4">
                     {articles.data.hits.map((post, index) => (
                         <div key={post.document.id} className="flex space-x-2 overflow-hidden rounded-lg border p-4">
                             <div>
@@ -91,6 +92,7 @@ export const ArticlesList = ({ articles }: { articles: TSearchPaginated<TSearchP
                             </div>
                         </div>
                     ))}
+                    <SearchPagination data={articles} className="mt-4" />
                 </div>
             ) : (
                 <div className="rounded-lg border border-dashed p-12 text-center">
