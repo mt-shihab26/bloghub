@@ -12,18 +12,18 @@ export type TSearchParams = {
     tag?: string[] | null;
 };
 
-type THighlightSnippet = { snippet: string };
+type THighlightSnippet = {
+    snippet: string;
+};
 
 type TDeepHighlight<T> = T extends (infer U)[]
     ? TDeepHighlight<U>[]
     : T extends object
-      ? {
-            [K in keyof T]?: TDeepHighlight<T[K]>;
-        } & Partial<THighlightSnippet>
+      ? { [K in keyof T]?: TDeepHighlight<T[K]> }
       : THighlightSnippet;
 
 export type THighlight<T> = {
-    [K in keyof T]?: TDeepHighlight<T[K]> | THighlightSnippet;
+    [K in keyof T]?: TDeepHighlight<T[K]>;
 };
 
 export type THit<T> = {

@@ -3,20 +3,20 @@ import type { ReactNode } from 'react';
 
 import { cn } from '@/lib/utils';
 
-type FieldPath<T> = keyof T | string | string[];
+type TFieldPath<T> = keyof T | string | string[];
 
-type GetFieldValue<T, Path> = Path extends keyof T
+type TGetFieldValue<T, Path> = Path extends keyof T
     ? T[Path]
     : Path extends [infer First, ...infer Rest]
       ? First extends keyof T
           ? Rest extends []
               ? T[First]
-              : GetFieldValue<T[First], Rest>
+              : TGetFieldValue<T[First], Rest>
           : unknown
       : Path extends string
         ? Path extends `${infer First}.${infer Rest}`
             ? First extends keyof T
-                ? GetFieldValue<T[First], Rest>
+                ? TGetFieldValue<T[First], Rest>
                 : unknown
             : Path extends keyof T
               ? T[Path]
@@ -35,7 +35,42 @@ const getNestedValue = (obj: any, path: string | string[] | number | symbol): an
     return undefined;
 };
 
-export const Highlight = <T, F extends FieldPath<T>>({
+const getHighlightSnippet = (
+    highlight: any,
+    field: string | string[] | number | symbol,
+    index?: number,
+): string | undefined => {
+    if (!highlight) {
+        return undefined;
+    }
+
+    // Get the nested highlight value
+    const highlightValue = getNestedValue(highlight, field);
+
+    // If we have an index, we're dealing with array fields
+    if (index !== undefined) {
+        // Check if the highlightValue is directly an array (e.g., highlight.tags[index])
+        if (Array.isArray(highlightValue)) {
+            return highlightValue[index]?.snippet;
+        }
+
+        // For nested paths like ['tags', 'name'], the parent might be an array
+        if (Array.isArray(field) && field.length > 1) {
+            const parentField = field.slice(0, -1);
+            const lastKey = field[field.length - 1];
+            const parentValue = getNestedValue(highlight, parentField);
+
+            if (Array.isArray(parentValue)) {
+                return parentValue[index]?.[lastKey]?.snippet;
+            }
+        }
+    }
+
+    // No index or single field - just get the snippet
+    return highlightValue?.snippet;
+};
+
+export const Highlight = <T, F extends TFieldPath<T>>({
     hit,
     field,
     index,
@@ -45,38 +80,10 @@ export const Highlight = <T, F extends FieldPath<T>>({
     hit: THit<T>;
     field: F;
     index?: number;
-    transformer?: (value: GetFieldValue<T, F> | undefined) => ReactNode;
+    transformer?: (value: TGetFieldValue<T, F> | undefined) => ReactNode;
     className?: string;
 }) => {
-    // Handle nested field access for highlights
-    // For array fields with index (e.g., tags[0].name), the structure is:
-    // highlight.tags[0].name.snippet (not highlight.tags.name[0].snippet)
-    let highlightValue = getNestedValue(hit?.highlight, field);
-    let html: string | undefined;
-
-    if (index !== undefined && Array.isArray(highlightValue)) {
-        // Case 1: highlight.field is an array - get the indexed item
-        // e.g., highlight.tags[0].snippet
-        html = highlightValue?.[index]?.snippet;
-    } else if (index !== undefined && highlightValue && typeof highlightValue === 'object') {
-        // Case 2: When field is array path like ['tags', 'name'], check if parent is array
-        // Get parent field to check if it's an array
-        const parentField = Array.isArray(field) ? field.slice(0, -1) : null;
-        if (parentField && parentField.length > 0) {
-            const parentValue = getNestedValue(hit?.highlight, parentField);
-            if (Array.isArray(parentValue)) {
-                // Access the indexed item from parent array, then get the nested field
-                const lastKey = Array.isArray(field) ? field[field.length - 1] : null;
-                if (lastKey) {
-                    const indexedValue = parentValue[index]?.[lastKey];
-                    html = indexedValue?.snippet;
-                }
-            }
-        }
-    } else {
-        // Case 3: Simple field or no index - just get the snippet
-        html = highlightValue?.snippet;
-    }
+    const html = getHighlightSnippet(hit?.highlight, field, index);
 
     if (!html) {
         const documentValue = getNestedValue(hit?.document, field);
