@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Post;
+use App\Models\User;
 
 return [
 
@@ -183,28 +184,22 @@ return [
         ],
         // 'max_total_results' => env('TYPESENSE_MAX_TOTAL_RESULTS', 1000),
         'model-settings' => [
-            // User::class => [
-            //     'collection-schema' => [
-            //         'fields' => [
-            //             [
-            //                 'name' => 'id',
-            //                 'type' => 'string',
-            //             ],
-            //             [
-            //                 'name' => 'name',
-            //                 'type' => 'string',
-            //             ],
-            //             [
-            //                 'name' => 'created_at',
-            //                 'type' => 'int64',
-            //             ],
-            //         ],
-            //         'default_sorting_field' => 'created_at',
-            //     ],
-            //     'search-parameters' => [
-            //         'query_by' => 'name'
-            //     ],
-            // ],
+            User::class => [
+                'collection-schema' => [
+                    'default_sorting_field' => 'created_at',
+                    'enable_nested_fields' => true,
+                    'fields' => [
+                        ['name' => 'id', 'type' => 'string'],
+                        ['name' => 'name', 'type' => 'string'],
+                        ['name' => 'username', 'type' => 'string'],
+                        ['name' => 'bio', 'type' => 'string', 'optional' => true],
+                        ['name' => 'created_at', 'type' => 'int64'],
+                        ['name' => 'image', 'type' => 'object',  'optional' => true],
+                        ['name' => 'image.id', 'type' => 'string',  'optional' => true],
+                        ['name' => 'image.name', 'type' => 'string',  'optional' => true],
+                    ],
+                ],
+            ],
             Post::class => [
                 'collection-schema' => [
                     'default_sorting_field' => 'published_at',
@@ -220,6 +215,9 @@ return [
                         ['name' => 'user.id', 'type' => 'string'],
                         ['name' => 'user.username', 'type' => 'string', 'facet' => true],
                         ['name' => 'user.name', 'type' => 'string'],
+                        ['name' => 'user.image', 'type' => 'object',  'optional' => true],
+                        ['name' => 'user.image.id', 'type' => 'string',  'optional' => true],
+                        ['name' => 'user.image.name', 'type' => 'string',  'optional' => true],
                         ['name' => 'category', 'type' => 'object', 'optional' => true],
                         ['name' => 'category.id', 'type' => 'string', 'optional' => true],
                         ['name' => 'category.slug', 'type' => 'string', 'facet' => true, 'optional' => true],

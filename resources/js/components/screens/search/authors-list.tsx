@@ -15,12 +15,12 @@ export const AuthorsList = ({ authors }: { authors: TSearchPaginated<TSearchUser
 
     return (
         <>
-            {authors.data.length > 0 ? (
+            {authors.data.hits.length > 0 ? (
                 <InfiniteScroll data="authors" preserveUrl>
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        {authors.data.map((user, index) => (
+                        {authors.data.hits.map(({ document: user }, index) => (
                             <div key={user.id} className="relative overflow-hidden rounded-lg border p-6">
-                                <div className="absolute right-2 top-2 rounded-full bg-black/70 px-2.5 py-1 text-sm font-semibold text-white">
+                                <div className="absolute top-2 right-2 rounded-full bg-black/70 px-2.5 py-1 text-sm font-semibold text-white">
                                     {index + 1}
                                 </div>
                                 <div className="flex items-start gap-4">
@@ -39,21 +39,6 @@ export const AuthorsList = ({ authors }: { authors: TSearchPaginated<TSearchUser
                                 {user.bio && (
                                     <p className="mt-3 line-clamp-2 text-sm text-muted-foreground">{user.bio}</p>
                                 )}
-
-                                <div className="mt-4 flex items-center gap-4 text-sm text-muted-foreground">
-                                    <span>
-                                        <strong className="font-semibold text-foreground">
-                                            {user.posts_count || 0}
-                                        </strong>{' '}
-                                        posts
-                                    </span>
-                                    <span>
-                                        <strong className="font-semibold text-foreground">
-                                            {user.followers_count || 0}
-                                        </strong>{' '}
-                                        followers
-                                    </span>
-                                </div>
 
                                 <Button
                                     variant="outline"
