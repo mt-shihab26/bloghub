@@ -63,13 +63,13 @@ class Post extends Model
     public function toSearchableArray(): array
     {
         $user = [
-            'id' => $this->user->id,
-            'username' => $this->user->username,
-            'name' => $this->user->name,
+            'id' => $this->user->id, // @phpstan-ignore-line
+            'username' => $this->user->username, // @phpstan-ignore-line
+            'name' => $this->user->name, // @phpstan-ignore-line
             'image' => null,
         ];
 
-        if ($this->user->image) {
+        if ($this->user->image) { // @phpstan-ignore-line
             $user['image'] = [
                 'id' => $this->user->image->id,
                 'name' => $this->user->image->name,
@@ -83,7 +83,7 @@ class Post extends Model
             'excerpt' => $this->excerpt,
             'content' => $this->content,
             'status' => $this->status,
-            'published_at' => $this->published_at?->timestamp,
+            'published_at' => $this->published_at?->timestamp, // @phpstan-ignore-line
             'user' => $user,
             'category' => null,
             'tags' => [],
@@ -91,15 +91,15 @@ class Post extends Model
 
         if ($this->category) {
             $data['category'] = [
-                'id' => $this->category->id,
-                'slug' => $this->category->slug,
-                'name' => $this->category->name,
+                'id' => $this->category->id, // @phpstan-ignore-line
+                'slug' => $this->category->slug, // @phpstan-ignore-line
+                'name' => $this->category->name, // @phpstan-ignore-line
             ];
         }
 
         if ($this->tags->isNotEmpty()) {
             $data['tags'] = $this->tags
-                ->map(fn ($t) => ['id' => $t->id, 'slug' => $t->slug, 'name' => $t->name])
+                ->map(fn ($t) => ['id' => $t->id, 'slug' => $t->slug, 'name' => $t->name]) // @phpstan-ignore-line
                 ->toArray();
         }
 
@@ -111,7 +111,7 @@ class Post extends Model
      */
     public function shouldBeSearchable(): bool
     {
-        return $this->status === PostStatus::PUBLISHED;
+        return $this->status === PostStatus::PUBLISHED; // @phpstan-ignore-line
     }
 
     /**

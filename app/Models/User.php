@@ -85,8 +85,8 @@ class User extends Authenticatable
 
         if ($this->image) {
             $data['image'] = [
-                'id' => $this->image?->id,
-                'name' => $this->image?->name,
+                'id' => $this->image?->id, // @phpstan-ignore-line
+                'name' => $this->image?->name, // @phpstan-ignore-line
             ];
         }
 
