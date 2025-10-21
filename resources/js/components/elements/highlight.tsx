@@ -70,6 +70,27 @@ const getHighlightSnippet = (
     return highlightValue?.snippet;
 };
 
+const getDocumentValue = (document: any, field: string | string[] | number | symbol, index?: number): any => {
+    // Handle indexed array access for nested paths like ['tags', 'name'] with index
+    if (index !== undefined && Array.isArray(field) && field.length > 1) {
+        // Get the parent array first (e.g., document.tags)
+        const parentField = field.slice(0, -1);
+        const lastKey = field[field.length - 1];
+        const parentValue = getNestedValue(document, parentField);
+
+        // Then access the indexed element and get the nested property
+        if (Array.isArray(parentValue)) {
+            return parentValue[index]?.[lastKey];
+        }
+
+        return undefined;
+    }
+
+    // Simple field access or direct array access
+    const documentValue = getNestedValue(document, field);
+    return Array.isArray(documentValue) ? documentValue?.[index || 0] : documentValue;
+};
+
 export const Highlight = <T, F extends TFieldPath<T>>({
     hit,
     field,
@@ -86,8 +107,7 @@ export const Highlight = <T, F extends TFieldPath<T>>({
     const html = getHighlightSnippet(hit?.highlight, field, index);
 
     if (!html) {
-        const documentValue = getNestedValue(hit?.document, field);
-        const text = Array.isArray(documentValue) ? documentValue?.[index || 0] : documentValue;
+        const text = getDocumentValue(hit?.document, field, index);
 
         return <>{transformer ? transformer(text) : text}</>;
     }
