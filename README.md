@@ -1,6 +1,6 @@
 # Bloghub
 
-A comprehensive blogging platform built with Laravel. Bloghub empowers developers, designers, and tech enthusiasts to share knowledge, discover content, and build meaningful connections through writing.
+A comprehensive blogging platform built with Laravel, React, and TailwindCSS
 
 ## Getting Started
 
@@ -17,47 +17,55 @@ A comprehensive blogging platform built with Laravel. Bloghub empowers developer
 
 1. **Clone the repository**
 
-```shellscript
+```sh
 git clone https://github.com/mt-shihab26/bloghub.git
+```
+
+2. **Go to project directory**
+
+```sh
 cd bloghub
 ```
 
 2. **Create a new branch for your team**
 
-```shellscript
-git checkout -b your-branch-name
+```sh
+git checkout -b <your-branch-name> # git checkout dev
 ```
-
-Replace `your-branch-name` with a descriptive name for your team's work (e.g., `team-alpha`, `feature/new-editor`, etc.)
 
 3. **Install PHP dependencies**
 
-```shellscript
+```sh
 composer install
 ```
 
-4. **Install TypeScript dependencies**
+4. **Install JavaScript dependencies**
 
-```shellscript
+```sh
 bun install
 ```
 
 5. **Environment setup**
 
-```shellscript
+```sh
 cp .env.example .env
+```
+
+6. **Generate app key on .env file**
+
+```sh
 php artisan key:generate
 ```
 
 6. **Database setup**
 
-```shellscript
+```sh
 php artisan migrate --seed
 ```
 
 7. **Start the development server**
 
-```shellscript
+```sh
 composer dev
 ```
 
