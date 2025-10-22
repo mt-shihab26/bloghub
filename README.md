@@ -27,50 +27,56 @@ git clone https://github.com/mt-shihab26/bloghub.git
 cd bloghub
 ```
 
-2. **Create a new branch for your team**
+3. **Create a new branch for your team**
 
 ```sh
 git checkout -b <your-branch-name> # git checkout dev
 ```
 
-3. **Install PHP dependencies**
+4. **Install PHP dependencies**
 
 ```sh
 composer install
 ```
 
-4. **Install JavaScript dependencies**
+5. **Install JavaScript dependencies**
 
 ```sh
 bun install
 ```
 
-5. **Environment setup**
+6. **Environment setup**
 
 ```sh
 cp .env.example .env
 ```
 
-6. **Generate app key on .env file**
+7. **Generate app key in .env file**
 
 ```sh
 php artisan key:generate
 ```
 
-6. **Database setup**
+8. **Database setup**
 
 ```sh
-php artisan migrate --seed
+php artisan migrate
 ```
 
-7. **Start the development server**
+9. **Seed Database (optional)**
+
+```sh
+php artisan db:seed 
+```
+
+9. **Start the development server**
 
 ```sh
 composer dev
 ```
 
-8. **Open your browser**
-   Navigate to [http://localhost:8000](http://localhost:8000) to see the application.
+10. **Open your browser**
+    Navigate to [http://localhost:8000](http://localhost:8000) to see the application.
 
 ## License
 
