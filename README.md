@@ -21,7 +21,7 @@ A comprehensive blogging platform built with Laravel, React, and TailwindCSS
 git clone https://github.com/mt-shihab26/bloghub.git
 ```
 
-2. **Go to project directory**
+2. **Go to the project directory**
 
 ```sh
 cd bloghub
@@ -63,19 +63,19 @@ php artisan key:generate
 php artisan migrate
 ```
 
-9. **Seed Database (optional)**
+9. **Seed the database (optional)**
 
 ```sh
-php artisan db:seed 
+php artisan db:seed
 ```
 
-9. **Start the development server**
+10. **Start the development server**
 
 ```sh
 composer dev
 ```
 
-10. **Open your browser**
+11. **Open your browser**
     Navigate to [http://localhost:8000](http://localhost:8000) to see the application.
 
 ## License
