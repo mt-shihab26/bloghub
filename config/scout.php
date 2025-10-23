@@ -228,6 +228,16 @@ return [
                         ['name' => 'tags.id', 'type' => 'string[]', 'optional' => true],
                         ['name' => 'tags.slug', 'type' => 'string[]', 'facet' => true, 'optional' => true],
                         ['name' => 'tags.name', 'type' => 'string[]', 'optional' => true],
+                        [
+                            'name' => 'embedding',
+                            'type' => 'float[]',
+                            'embed' => [
+                                'from' => ['title', 'excerpt', 'content'],
+                                'model_config' => [
+                                    'model_name' => 'ts/all-MiniLM-L12-v2',
+                                ],
+                            ],
+                        ],
                     ],
                 ],
             ],

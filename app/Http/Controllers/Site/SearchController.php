@@ -89,8 +89,10 @@ class SearchController extends Controller
     private function searchArticles(array $params, ?User $user = null): LengthAwarePaginator
     {
         $options = [
-            'query_by' => 'title,content,excerpt,user.name,category.name,tags.name',
+            'query_by' => 'embedding,title,content,excerpt,user.name,category.name,tags.name',
             'facet_by' => 'user.username,category.slug,tags.slug',
+            'vector_query' => 'embedding:([], distance_threshold:0.8)',
+            'exclude_fields' => 'embedding',
         ];
 
         $articles = Post::search($params['query'])
