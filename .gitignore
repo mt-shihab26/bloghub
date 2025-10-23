@@ -22,4 +22,7 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+/public/js
+/public/css
+/public/fonts
 
