@@ -6,7 +6,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import type { TImage, TUser } from '@/types/models';
+import type { TFile, TUser } from '@/types/models';
 
 import { formatInitials } from '@/lib/format';
 import { imageLink } from '@/lib/links';
@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
 import { ProfileTheme } from './profile-theme';
 
-export const Profile = ({ user, image }: { user: TUser; image?: TImage | null }) => {
+export const Profile = ({ user, image }: { user: TUser; image?: TFile | null }) => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Laravel\Scout\Searchable;
 
 class Post extends Model
@@ -24,7 +25,6 @@ class Post extends Model
      */
     protected $fillable = [
         'user_id',
-        'image_id',
         'category_id',
         'title',
         'slug',
@@ -52,7 +52,7 @@ class Post extends Model
      */
     public function makeSearchableUsing(Collection $models): Collection
     {
-        return $models->load(['user.image', 'category', 'tags']);
+        return $models->load(['user.avatar', 'category', 'tags']);
     }
 
     /**
@@ -69,10 +69,10 @@ class Post extends Model
             'image' => null,
         ];
 
-        if ($this->user->image) { // @phpstan-ignore-line
+        if ($this->user->avatar) { // @phpstan-ignore-line
             $user['image'] = [
-                'id' => $this->user->image->id,
-                'name' => $this->user->image->name,
+                'id' => $this->user->avatar->id,
+                'name' => $this->user->avatar->name,
             ];
         }
 
@@ -115,11 +115,11 @@ class Post extends Model
     }
 
     /**
-     * Get the image associated with the post.
+     * Get the featured image associated with the post.
      */
-    public function image(): BelongsTo
+    public function image(): MorphOne
     {
-        return $this->belongsTo(Image::class);
+        return $this->morphOne(File::class, 'model')->where('memtype', 'featured');
     }
 
     /**

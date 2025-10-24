@@ -1,9 +1,11 @@
 import type { TCommentStatus, TPostStatus, TUserRole } from './enums';
 import type { TId } from './utils';
 
-export type TImage = {
+export type TFile = {
     id: TId;
     user_id?: TId | null;
+    model_type: string;
+    model_id: TId;
 
     name: string;
     alt?: string | null;
@@ -15,7 +17,6 @@ export type TImage = {
 
 export type TUser = {
     id: TId;
-    image_id?: TId | null;
 
     name: string;
     email: string;
@@ -59,7 +60,6 @@ export type TTag = {
 export type TPost = {
     id: TId;
     user_id: TId;
-    image_id?: TId | null;
     category_id?: TId | null;
 
     title: string;

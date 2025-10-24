@@ -1,8 +1,8 @@
-import type { TCategory, TComment, TImage, TPost, TTag, TUser } from './models';
+import type { TCategory, TComment, TFile, TPost, TTag, TUser } from './models';
 
 export type TIndexPost = TPost & {
-    user: TUser & { image?: TImage | null };
-    image?: TImage | null;
+    user: TUser & { image?: TFile | null };
+    image?: TFile | null;
     category?: TCategory | null;
     tags?: TTag[] | null;
 
@@ -19,11 +19,11 @@ export type TIndexCategory = TCategory & {
 };
 
 export type TIndexUser = TUser & {
-    image?: TImage | null;
+    image?: TFile | null;
 };
 
 export type TShowComment = TComment & {
-    user?: (TUser & { image?: TImage | null }) | null;
+    user?: (TUser & { image?: TFile | null }) | null;
     comments?: TShowComment[];
 
     likes_count: number;
@@ -31,8 +31,8 @@ export type TShowComment = TComment & {
 };
 
 export type TShowPost = TPost & {
-    user: TUser & { image?: TImage | null };
-    image?: TImage | null;
+    user: TUser & { image?: TFile | null };
+    image?: TFile | null;
     category?: TCategory | null;
     tags?: TTag[];
     comments?: TShowComment[];

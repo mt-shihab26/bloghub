@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Image;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -25,7 +24,6 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'image_id' => Image::factory(),
             'username' => fake()->userName(),
             'name' => fake()->name(),
             'bio' => fake()->optional()->sentence(),

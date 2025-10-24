@@ -40,7 +40,7 @@ class ProfileController extends Controller
 
         $user = [
             ...$user->toArray(),
-            'image' => $user->image,
+            'image' => $user->avatar,
             'posts' => $posts,
             'following_count' => $user->following()->count(),
             'followers_count' => $user->followers()->count(),

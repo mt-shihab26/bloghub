@@ -1,4 +1,4 @@
-import type { TCategory, TComment, TImage, TPost, TTag, TUser } from '@/types/models';
+import type { TCategory, TComment, TFile, TPost, TTag, TUser } from '@/types/models';
 
 import { router } from '@inertiajs/react';
 
@@ -21,7 +21,7 @@ export const postLink = (
     return `${link}${extra}`;
 };
 
-export const imageLink = (image: Pick<TImage, 'name'> | null | undefined): string => {
+export const imageLink = (image: Pick<TFile, 'name'> | null | undefined): string => {
     if (!image) {
         return '';
     }

@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Enums\PostStatus;
 use App\Models\Category;
-use App\Models\Image;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -24,7 +23,6 @@ class PostFactory extends Factory
 
         return [
             'user_id' => User::inRandomOrder()->first()?->id,
-            'image_id' => Image::factory(),
             'category_id' => fake()->optional() ? Category::inRandomOrder()->first()?->id : null,
             'title' => $title,
             'slug' => str()->slug($title),

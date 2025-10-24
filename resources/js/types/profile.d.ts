@@ -1,7 +1,7 @@
-import type { TImage, TPost, TTag, TUser } from './models';
+import type { TFile, TPost, TTag, TUser } from './models';
 
 export type TShowPost = TPost & {
-    image?: TImage | null;
+    image?: TFile | null;
     tags?: TTag[] | null;
 
     likes_count: number;
@@ -13,7 +13,7 @@ export type TShowPost = TPost & {
 };
 
 export type TShowUser = TUser & {
-    image?: TImage | null;
+    image?: TFile | null;
     posts: TShowPost[];
     tags?: TTag[] | null;
 

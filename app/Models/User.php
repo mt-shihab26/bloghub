@@ -8,15 +8,18 @@ use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Scout\Searchable;
 
+/**
+ * @property-read File|null $avatar
+ */
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -28,7 +31,6 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'image_id',
         'username',
         'role',
         'name',
@@ -66,7 +68,7 @@ class User extends Authenticatable
      */
     public function makeSearchableUsing(Collection $models): Collection
     {
-        return $models->load('image');
+        return $models->load('avatar');
     }
 
     /**
@@ -85,10 +87,10 @@ class User extends Authenticatable
             'image' => null,
         ];
 
-        if ($this->image) {
+        if ($this->avatar) {
             $data['image'] = [
-                'id' => $this->image?->id, // @phpstan-ignore-line
-                'name' => $this->image?->name, // @phpstan-ignore-line
+                'id' => $this->avatar?->id, // @phpstan-ignore-line
+                'name' => $this->avatar?->name, // @phpstan-ignore-line
             ];
         }
 
@@ -96,19 +98,11 @@ class User extends Authenticatable
     }
 
     /**
-     * Get all images uploaded by the user.
+     * Get the user's avatar file.
      */
-    public function image(): BelongsTo
+    public function avatar(): MorphOne
     {
-        return $this->belongsTo(Image::class);
-    }
-
-    /**
-     * Get all images uploaded by the user.
-     */
-    public function images(): HasMany
-    {
-        return $this->hasMany(Image::class);
+        return $this->morphOne(File::class, 'model')->where('memtype', 'avatar');
     }
 
     /**
@@ -195,16 +189,23 @@ class User extends Authenticatable
 
         $path = $file->storeAs('avatars', $filename, ['disk' => 'public']);
 
-        // Delete old image if exists
-        if ($this->image) {
-            Storage::disk('public')->delete($this->image->name);
-            $this->image->delete();
+        // Delete old avatar if exists
+        if ($this->avatar) {
+            Storage::disk('public')->delete($this->avatar->name);
+            $this->avatar->delete();
         }
 
-        // Create or update image record
-        Image::updateOrCreate(
-            ['user_id' => $this->id],
-            ['name' => $path]
+        // Create or update file record
+        File::updateOrCreate(
+            [
+                'model_type' => self::class,
+                'model_id' => $this->id,
+                'memtype' => 'avatar',
+            ],
+            [
+                'name' => $path,
+                'user_id' => $this->id,
+            ]
         );
     }
 }

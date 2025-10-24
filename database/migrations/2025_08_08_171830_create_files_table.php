@@ -11,17 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('images', function (Blueprint $table) {
+        Schema::create('files', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->uuidMorphs('model');
             $table->foreignUuid('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('name');
             $table->string('alt')->nullable();
             $table->string('memtype');
             $table->timestamps();
-        });
-
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreign('image_id')->references('id')->on('images')->nullOnDelete();
         });
     }
 
@@ -30,10 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign(['image_id']);
-        });
-
-        Schema::dropIfExists('images');
+        Schema::dropIfExists('files');
     }
 };

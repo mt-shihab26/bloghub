@@ -6,14 +6,13 @@ import { create } from 'zustand';
 const defaultPost: TPost = {
     id: '',
     user_id: '',
-    image_id: null,
     category_id: null,
     title: '',
     slug: '',
     content: '',
     excerpt: '',
     status: 'draft',
-    published_at: '',
+    published_at: null,
     created_at: '',
     updated_at: '',
 };
