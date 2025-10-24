@@ -43,9 +43,9 @@ export const Header = ({ className }: { className: string }) => {
                                 </Button>
                                 {user.role === 'admin' && (
                                     <Button variant="secondary" asChild>
-                                        <Link href={route('admin')} className="text-sm font-medium hover:underline">
+                                        <a href="/admin" className="text-sm font-medium hover:underline">
                                             Admin
-                                        </Link>
+                                        </a>
                                     </Button>
                                 )}
                                 <Notification />
