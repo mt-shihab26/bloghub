@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Carbon;
 use Laravel\Scout\Searchable;
 
 class User extends Authenticatable
@@ -80,7 +79,7 @@ class User extends Authenticatable
             'name' => $this->name,
             'username' => $this->username,
             'bio' => $this->bio,
-            'created_at' => $this->created_at ?? Carbon::parse($this->created_at)?->timestamp,
+            'created_at' => $this->created_at?->timestamp,
             'image' => null,
         ];
 

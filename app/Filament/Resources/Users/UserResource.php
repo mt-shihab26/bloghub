@@ -35,26 +35,13 @@ class UserResource extends Resource
     {
         return $schema
             ->components([
-                Select::make('image_id')
-                    ->relationship('image', 'name'),
-                TextInput::make('username')
-                    ->required(),
-                Select::make('role')
-                    ->options(UserRole::class)
-                    ->default('author')
-                    ->required(),
-                TextInput::make('name')
-                    ->required(),
-                Textarea::make('bio')
-                    ->columnSpanFull(),
-                TextInput::make('email')
-                    ->label('Email address')
-                    ->email()
-                    ->required(),
+                Select::make('image_id')->relationship('image', 'name'),
+                TextInput::make('username')->required(),
+                Select::make('role')->options(UserRole::class)->required(),
+                TextInput::make('name')->required(),
+                Textarea::make('bio')->columnSpanFull(),
+                TextInput::make('email')->label('Email address')->email()->required(),
                 DateTimePicker::make('email_verified_at'),
-                TextInput::make('password')
-                    ->password()
-                    ->required(),
             ]);
     }
 
@@ -112,8 +99,7 @@ class UserResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
