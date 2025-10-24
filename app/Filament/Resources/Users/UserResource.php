@@ -12,6 +12,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -27,7 +28,7 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::UserGroup;
 
     protected static ?string $recordTitleAttribute = 'User';
 
@@ -35,12 +36,26 @@ class UserResource extends Resource
     {
         return $schema
             ->components([
-                Select::make('image_id')->relationship('image', 'name'),
-                TextInput::make('username')->required(),
-                Select::make('role')->options(UserRole::class)->required(),
-                TextInput::make('name')->required(),
-                Textarea::make('bio')->columnSpanFull(),
-                TextInput::make('email')->label('Email address')->email()->required(),
+                FileUpload::make('avatar')
+                    ->image()
+                    ->avatar()
+                    ->imageEditor()
+                    ->circleCropper()
+                    ->storeFiles(false)
+                    ->columnSpanFull(),
+                TextInput::make('username')
+                    ->required(),
+                Select::make('role')
+                    ->options(UserRole::class)
+                    ->required(),
+                TextInput::make('name')
+                    ->required(),
+                Textarea::make('bio')
+                    ->columnSpanFull(),
+                TextInput::make('email')
+                    ->label('Email address')
+                    ->email()
+                    ->required(),
                 DateTimePicker::make('email_verified_at'),
             ]);
     }

@@ -12,7 +12,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Scout\Searchable;
 
 class User extends Authenticatable
@@ -179,5 +181,30 @@ class User extends Authenticatable
     public function followers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'followers', 'following_id', 'user_id')->withTimestamps();
+    }
+
+    /**
+     * Upload avatar for the user.
+     */
+    public function uploadAvatar(UploadedFile $file): void
+    {
+        $filename = str($this->username)
+            ->append('.')
+            ->append($file->getClientOriginalExtension())
+            ->toString();
+
+        $path = $file->storeAs('avatars', $filename, ['disk' => 'public']);
+
+        // Delete old image if exists
+        if ($this->image) {
+            Storage::disk('public')->delete($this->image->name);
+            $this->image->delete();
+        }
+
+        // Create or update image record
+        Image::updateOrCreate(
+            ['user_id' => $this->id],
+            ['name' => $path]
+        );
     }
 }

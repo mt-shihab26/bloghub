@@ -57,6 +57,12 @@ cp .env.example .env
 php artisan key:generate
 ```
 
+7. **Generate storage link**
+
+```sh
+php artisan storage:link
+```
+
 8. **Database setup**
 
 ```sh
